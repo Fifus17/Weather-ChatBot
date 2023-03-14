@@ -1,0 +1,39 @@
+.message-input-textarea {
+    background: #e4e9f0;
+    border-radius: 20px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #585858;
+    font-size: 13px;
+    line-height: 18px;
+    outline: none;
+    padding: 6px 14px 8px;
+    resize: none;
+    width: 100%;
+    overflow: hidden;
+    height: 32px;
+    font-family: Open Sans, sans-serif;
+}
+
+.message-input-send-button {
+    background: transparent;
+    /* border-radius: 5px; */
+    border: none;
+    color: #999999;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0 0 0 18px;
+    padding: 0;
+}
+
+.message-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.message-input-container {
+    background: #f0f3f7;
+    padding: 10px 18px;
+}
