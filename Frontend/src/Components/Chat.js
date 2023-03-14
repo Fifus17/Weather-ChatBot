@@ -1,12 +1,15 @@
 import React, { useState, useRef } from "react";
 
 import MessageInput from "./MessageInput";
-import "./Chat.css"
 import Message from "./Message";
+import AwaitingMessage from "./AwaitingMessage";
+import "./Chat.css"
 
 const Chat = () => {
 
     const toScroll = useRef();
+
+    const [awaitingMessage, setAwaitingMessage] = useState('hidden');
 
     // states lifted up from MessageInput
     const [message, setMessage] = useState('');
@@ -14,8 +17,14 @@ const Chat = () => {
 
     const textareaHandler = (event) => {
         setMessage(event.target.value);
-        if (event.target.value.length > 0) setButtonColor('#2563eb');
-        else setButtonColor('#999999');
+        if (event.target.value.length > 0) {
+            setButtonColor('#2563eb');
+            setAwaitingMessage('visible');
+        }
+        else {
+            setButtonColor('#999999');
+            setAwaitingMessage('hidden');
+        }
     }
 
     const enterPress = (e) => {
@@ -52,8 +61,9 @@ const Chat = () => {
         <div className="chat-container">
             <div className="chat-message-container">
                 {messages.map((message, index) => {
-                return <Message key={index} text={message.text} isUser={message.isUser}/>
+                    return <Message key={index} text={message.text} isUser={message.isUser}/>
                 })}
+                <AwaitingMessage isUser={false} visible={awaitingMessage}/>
                 <span ref={toScroll}></span>
             </div>
             <div className="chat-wrapper">
