@@ -19,3 +19,9 @@
     padding: 2px;
     /* margin-left: 100px; */
 }
+
+.message-wrapper-is-user {
+    padding: 2px;
+    display: flex;
+    flex-direction: row-reverse;
+}

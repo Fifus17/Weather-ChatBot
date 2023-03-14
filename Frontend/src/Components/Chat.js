@@ -38,10 +38,12 @@ const Chat = () => {
         setMessages([...messages, {text: message, isUser: true}]);
         setMessage('');
         setButtonColor('#999999');
+        setAwaitingMessage('hidden');
         toScroll.current.scrollIntoView({ behavior: 'smooth' });
     }
     // end of states lifted up from MessageInput
 
+    // local array of messages for testing purposes, later gonna be fetched from the server
     let [messages, setMessages] = useState([
         {
             text: "bagno bagno",
@@ -60,11 +62,15 @@ const Chat = () => {
     return (
         <div className="chat-container">
             <div className="chat-message-container">
+                {/* indexes will be replaced by id from database */}
                 {messages.map((message, index) => {
                     return <Message key={index} text={message.text} isUser={message.isUser}/>
                 })}
-                <AwaitingMessage isUser={false} visible={awaitingMessage}/>
-                <span ref={toScroll}></span>
+                <AwaitingMessage 
+                    isUser={false} 
+                    visible={awaitingMessage}
+                />
+                <span ref={toScroll}></span> {/* this is for scrolling to the bottom of the chat, needs some tweaking TODO*/}
             </div>
             <div className="chat-wrapper">
                 <MessageInput 

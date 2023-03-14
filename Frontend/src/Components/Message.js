@@ -16,7 +16,7 @@ const Message = (props) => {
     
     return(
         
-        <div className="message-wrapper">
+        <div className={props.isUser ? "message-wrapper-is-user" : "message-wrapper"}>
             <div className="message-text-wrapper" style={{backgroundColor: colorBackground}}>
                 <p className="message-text" style={{color: colorText}}>{props.text}</p>
             </div>
