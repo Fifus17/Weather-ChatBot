@@ -1,0 +1,27 @@
+
+import "./Message.css";
+
+const Message = (props) => {
+
+    // need some state to keep track of message alignment (user right, bot left)
+    // need some variable to keep track who sent the message that implies the alignment and colors
+
+    let colorText = "black";
+    let colorBackground = "white";
+
+    if(props.isUser){
+        colorText = "white";
+        colorBackground = "#2563eb";
+    }
+    
+    return(
+        
+        <div className="message-wrapper">
+            <div className="message-text-wrapper" style={{backgroundColor: colorBackground}}>
+                <p className="message-text" style={{color: colorText}}>{props.text}</p>
+            </div>
+        </div>
+    );
+}
+
+export default Message;
