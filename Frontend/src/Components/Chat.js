@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import MessageInput from "./MessageInput";
 import "./Chat.css"
@@ -6,6 +6,9 @@ import Message from "./Message";
 
 const Chat = () => {
 
+    const toScroll = useRef();
+
+    // states lifted up from MessageInput
     const [message, setMessage] = useState('');
     const [buttonColor, setButtonColor] = useState('#999999');
 
@@ -22,10 +25,13 @@ const Chat = () => {
         }}
 
     const sendMessage = () => {
+        if (message.length === 0) return;
         setMessages([...messages, {text: message, isUser: true}]);
         setMessage('');
-        setButtonColor('#999999')
+        setButtonColor('#999999');
+        toScroll.current.scrollIntoView({ behavior: 'smooth' });
     }
+    // end of states lifted up from MessageInput
 
     let [messages, setMessages] = useState([
         {
@@ -48,9 +54,16 @@ const Chat = () => {
                 {messages.map((message, index) => {
                 return <Message key={index} text={message.text} isUser={message.isUser}/>
                 })}
+                <span ref={toScroll}></span>
             </div>
             <div className="chat-wrapper">
-                <MessageInput className="chat-message-input" message={message} textareaHandler={textareaHandler} sendMessage={sendMessage} buttonColor={buttonColor} enterPress={enterPress}/>
+                <MessageInput 
+                    className="chat-message-input" 
+                    message={message} 
+                    textareaHandler={textareaHandler} 
+                    sendMessage={sendMessage} 
+                    buttonColor={buttonColor} 
+                    enterPress={enterPress}/>
             </div>
         </div>
     )
