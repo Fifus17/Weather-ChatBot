@@ -36,6 +36,15 @@
 .message-input-container {
     background: #f0f3f7;
     padding: 10px 18px;
+    width: 80%;
+    left: 10%;
+    position: relative;
+}
+
+.message-input-container-background {
+    background: #f0f3f7;
+    width: 100%;
+    position: relative;
     -webkit-box-shadow: 0px -2px 3px rgba(50, 50, 50, 0.15);
     -moz-box-shadow: 0px -2px 3px rgba(50, 50, 50, 0.15);
     box-shadow: 0px -2px 3px rgba(50, 50, 50, 0.15);

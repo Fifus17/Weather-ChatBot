@@ -1,9 +1,7 @@
 .chat-container {
     background-color: #eee;
-    height: 100vh;
-    width: 60vw;
+    height: 100%;
     position: relative;
-    left: 20vw;
 }
 
 .chat-wrapper {
@@ -18,4 +16,10 @@
     position: relative;
     max-height: 92.7%; /* to do properly */
     overflow: scroll;
+}
+
+.chat-message-container-padding {
+    position: relative;
+    width: 80%;
+    left: 10%;
 }
