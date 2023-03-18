@@ -1,4 +1,4 @@
-
+import { PALETTE } from "@zendeskgarden/react-theming"
 import "./Message.css";
 
 const Message = (props) => {
@@ -11,7 +11,8 @@ const Message = (props) => {
 
     if(props.isUser){
         colorText = "white";
-        colorBackground = "#2563eb";
+        colorBackground = props.appliedColor;
+        // "#2563eb"
     }
     
     return(

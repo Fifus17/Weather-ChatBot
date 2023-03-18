@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
+import { PALETTE } from "@zendeskgarden/react-theming"
 
 import MessageInput from "./MessageInput";
 import Message from "./Message";
 import AwaitingMessage from "./AwaitingMessage";
 import "./Chat.css";
 
-const Chat = () => {
+const Chat = (props) => {
   const toScroll = useRef();
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
@@ -17,7 +18,7 @@ const Chat = () => {
   const textareaHandler = (event) => {
     setMessage(event.target.value);
     if (event.target.value.length > 0) {
-      setButtonColor("#2563eb");
+      setButtonColor(props.appliedColor);
       setAwaitingMessage("visible");
     } else {
       setButtonColor("#999999");
@@ -73,6 +74,7 @@ const Chat = () => {
                 key={index}
                 text={message.text}
                 isUser={message.isUser}
+                appliedColor={props.appliedColor}
               />
             );
           })}
@@ -89,6 +91,7 @@ const Chat = () => {
           sendMessage={sendMessage}
           buttonColor={buttonColor}
           enterPress={enterPress}
+          appliedColor={props.appliedColor}
         />
       </div>
     </div>

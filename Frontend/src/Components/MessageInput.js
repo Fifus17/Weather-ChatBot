@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { PALETTE } from "@zendeskgarden/react-theming"
 
 import "./MessageInput.css";
 
@@ -6,7 +7,7 @@ const MessageInput = (props) => {
   const [borderColor, setBorderColor] = useState("1px solid transparent");
 
   const textareaBorderOn = (event) => {
-    setBorderColor("1px solid #2563eb");
+    setBorderColor(`1px solid ${props.appliedColor}`);
   };
 
   const textareaBorderOff = (event) => {
