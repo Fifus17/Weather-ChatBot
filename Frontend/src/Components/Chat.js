@@ -68,7 +68,7 @@ const Chat = (props) => {
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
           {/* indexes will be replaced by id from database */}
-          {messages.map((message, index) => {
+          {props.messages.map((message, index) => {
             return (
               <Message
                 key={index}

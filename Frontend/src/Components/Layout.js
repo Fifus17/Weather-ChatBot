@@ -32,6 +32,37 @@ const Layout = () => {
   const [nav, setNav] = useState("nav-1");
   const [appliedColor, setAppliedColor] = useState(PALETTE.green[400]);
 
+  const [currentChat, setCurrentChat] = useState(1);
+
+  let [chats, setChats] = useState([
+    [{
+      text: "bagno bagno",
+      isUser: false,
+    },
+    {
+      text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
+      isUser: true,
+    },
+    {
+      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
+      isUser: false,
+    },
+    {
+      text: "bagno bagno",
+      isUser: false,
+    },],
+    [{
+      text: "bagno bagno",
+      isUser: false,
+    },
+    {
+      text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
+      isUser: true,
+    },],
+    []
+  ]);
+  // I might need to pull the state of the messages to the layout component, and then pass them to the chat components
+
   return (
     <Chrome isFluid hue={PALETTE.blue[800]}>
       <Nav isExpanded={true} aria-label="chrome navigation example nav">
@@ -41,19 +72,21 @@ const Layout = () => {
             <ProductIcon style={{color: PALETTE.green[400]}}/>
           </NavItemIcon>
         </NavItem>
-        <NavItem isCurrent={nav === "nav-1"} onClick={() => setNav("nav-1")}>
+        {chats.map( (chat, index) =>
+        <NavItem isCurrent={nav === `nav-${index+1}`} onClick={() => {setNav(`nav-${index+1}`); setCurrentChat(index)}}>
           <NavItemIcon>
             <ChatIcon />
           </NavItemIcon>
-          <NavItemText>Chat</NavItemText>
+          <NavItemText>Chat {index+1}</NavItemText>
         </NavItem>
-        <NavItem isCurrent={nav === "nav-2"} onClick={() => setNav("nav-2")}>
+        )}
+        <NavItem isCurrent={nav === `nav-${chats.length+1}`} onClick={() => setNav(`nav-${chats.length+1}`)}>
           <NavItemIcon>
             <EmailIcon />
           </NavItemIcon>
           <NavItemText>Contact</NavItemText>
         </NavItem>
-        <NavItem isCurrent={nav === "nav-3"} onClick={() => setNav("nav-3")}>
+        <NavItem isCurrent={nav === `nav-${chats.length+2}`} onClick={() => setNav(`nav-${chats.length+2}`)}>
           <NavItemIcon>
             <SettingsIcon />
           </NavItemIcon>
@@ -68,7 +101,7 @@ const Layout = () => {
       <Body>
         <Header style={{ backgroundColor: "#f0f3f7" }} />
         <Content id="example-navigation-main-content">
-          <Chat appliedColor={appliedColor} />
+          <Chat appliedColor={appliedColor} messages={chats[currentChat]}/>
         </Content>
       </Body>
     </Chrome>
