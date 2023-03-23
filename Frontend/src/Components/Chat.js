@@ -33,9 +33,16 @@ const Chat = (props) => {
     }
   };
 
-  const sendMessage = () => {
+
+  const sendMessage = () => { // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    setMessages([...messages, { text: message, isUser: true }]);
+    // setMessages([...messages, { text: message, isUser: true }]);
+    props.setChats((prevState) => (
+          prevState.map( (chat, index) => ( index == props.id ?  [...chat, {text: message, isUser: true}] : chat
+          ))
+      )
+    );
+    console.log(props.chats);
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");

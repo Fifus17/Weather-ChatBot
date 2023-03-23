@@ -27,41 +27,62 @@ import {
 } from "@zendeskgarden/react-chrome";
 import Chat from "./Chat";
 import MyColorSwatch from "./MyColorSwatch";
+import ContactView from "./ContactView";
 
 const Layout = () => {
   const [nav, setNav] = useState("nav-1");
   const [appliedColor, setAppliedColor] = useState(PALETTE.green[400]);
 
-  const [currentChat, setCurrentChat] = useState(1);
+  const [currentChat, setCurrentChat] = useState(0);
 
+  // before I add communication with backend, for testing purposes I'll hold messages in this array
   let [chats, setChats] = useState([
-    [{
-      text: "bagno bagno",
-      isUser: false,
-    },
-    {
-      text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-      isUser: true,
-    },
-    {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
-      isUser: false,
-    },
-    {
-      text: "bagno bagno",
-      isUser: false,
-    },],
-    [{
-      text: "bagno bagno",
-      isUser: false,
-    },
-    {
-      text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-      isUser: true,
-    },],
-    []
+    [
+      {
+        text: "bagno bagno",
+        isUser: false,
+      },
+      {
+        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
+        isUser: true,
+      },
+      {
+        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
+        isUser: false,
+      },
+      {
+        text: "bagno bagno",
+        isUser: false,
+      },
+    ],
+    [
+      {
+        text: "bagno bagno",
+        isUser: false,
+      },
+      {
+        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
+        isUser: true,
+      },
+    ],
+    [],
   ]);
-  // I might need to pull the state of the messages to the layout component, and then pass them to the chat components
+
+  const render = (id) => {
+    if (id == (chats.length+1)) {
+      return <ContactView />;
+    } else {
+      return (
+        <Chat
+          appliedColor={appliedColor}
+          messages={chats[currentChat]}
+          setChats={setChats}
+          id={currentChat}
+          chats={chats}
+        />
+      );
+    }
+  };
 
   return (
     <Chrome isFluid hue={PALETTE.blue[800]}>
@@ -69,24 +90,37 @@ const Layout = () => {
         <NavItem hasLogo>
           <NavItemIcon>
             {/* TODO add name / name and logo of our chatbot */}
-            <ProductIcon style={{color: PALETTE.green[400]}}/>
+            <ProductIcon style={{ color: PALETTE.green[400] }} />
           </NavItemIcon>
         </NavItem>
-        {chats.map( (chat, index) =>
-        <NavItem isCurrent={nav === `nav-${index+1}`} onClick={() => {setNav(`nav-${index+1}`); setCurrentChat(index)}}>
-          <NavItemIcon>
-            <ChatIcon />
-          </NavItemIcon>
-          <NavItemText>Chat {index+1}</NavItemText>
-        </NavItem>
-        )}
-        <NavItem isCurrent={nav === `nav-${chats.length+1}`} onClick={() => setNav(`nav-${chats.length+1}`)}>
+        {chats.map((chat, index) => (
+          <NavItem
+            isCurrent={nav === `nav-${index + 1}`}
+            onClick={() => {
+              setNav(`nav-${index + 1}`);
+              setCurrentChat(index);
+            }}
+            key={index}
+          >
+            <NavItemIcon>
+              <ChatIcon />
+            </NavItemIcon>
+            <NavItemText>Chat {index + 1}</NavItemText>
+          </NavItem>
+        ))}
+        <NavItem
+          isCurrent={nav === `nav-${chats.length + 1}`}
+          onClick={() => {setNav(`nav-${chats.length + 1}`); setNav(chats.length+1)}}
+        >
           <NavItemIcon>
             <EmailIcon />
           </NavItemIcon>
           <NavItemText>Contact</NavItemText>
         </NavItem>
-        <NavItem isCurrent={nav === `nav-${chats.length+2}`} onClick={() => setNav(`nav-${chats.length+2}`)}>
+        <NavItem
+          isCurrent={nav === `nav-${chats.length + 2}`}
+          onClick={() => setNav(`nav-${chats.length + 2}`)}
+        >
           <NavItemIcon>
             <SettingsIcon />
           </NavItemIcon>
@@ -101,7 +135,7 @@ const Layout = () => {
       <Body>
         <Header style={{ backgroundColor: "#f0f3f7" }} />
         <Content id="example-navigation-main-content">
-          <Chat appliedColor={appliedColor} messages={chats[currentChat]}/>
+          {render(nav)}
         </Content>
       </Body>
     </Chrome>
