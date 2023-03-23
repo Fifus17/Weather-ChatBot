@@ -28,6 +28,7 @@ import {
 import Chat from "./Chat";
 import MyColorSwatch from "./MyColorSwatch";
 import ContactView from "./ContactView";
+import SettingsView from "./SettingsView";
 
 const Layout = () => {
   const [nav, setNav] = useState("nav-1");
@@ -69,8 +70,10 @@ const Layout = () => {
   ]);
 
   const render = (id) => {
-    if (id == (chats.length+1)) {
+    if (id === chats.length + 1) {
       return <ContactView />;
+    } else if (id === chats.length + 2) {
+      return <SettingsView />;
     } else {
       return (
         <Chat
@@ -95,9 +98,9 @@ const Layout = () => {
         </NavItem>
         {chats.map((chat, index) => (
           <NavItem
-            isCurrent={nav === `nav-${index + 1}`}
+            isCurrent={nav === index + 1}
             onClick={() => {
-              setNav(`nav-${index + 1}`);
+              setNav(index + 1);
               setCurrentChat(index);
             }}
             key={index}
@@ -109,8 +112,8 @@ const Layout = () => {
           </NavItem>
         ))}
         <NavItem
-          isCurrent={nav === `nav-${chats.length + 1}`}
-          onClick={() => {setNav(`nav-${chats.length + 1}`); setNav(chats.length+1)}}
+          isCurrent={nav === chats.length + 1}
+          onClick={() => setNav(chats.length + 1)}
         >
           <NavItemIcon>
             <EmailIcon />
@@ -118,8 +121,8 @@ const Layout = () => {
           <NavItemText>Contact</NavItemText>
         </NavItem>
         <NavItem
-          isCurrent={nav === `nav-${chats.length + 2}`}
-          onClick={() => setNav(`nav-${chats.length + 2}`)}
+          isCurrent={nav === chats.length + 2}
+          onClick={() => setNav(chats.length + 2)}
         >
           <NavItemIcon>
             <SettingsIcon />
@@ -134,9 +137,7 @@ const Layout = () => {
       </Nav>
       <Body>
         <Header style={{ backgroundColor: "#f0f3f7" }} />
-        <Content id="example-navigation-main-content">
-          {render(nav)}
-        </Content>
+        <Content id="example-navigation-main-content">{render(nav)}</Content>
       </Body>
     </Chrome>
   );

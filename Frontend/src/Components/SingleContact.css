@@ -1,0 +1,35 @@
+.single-contact-container {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: 100px 150px; */
+    width: 100%;
+    height: 100%;
+}
+
+.single-contact-main-info-container, .single-contact-photo-container, .single-contact-description, .single-contact-work-done {
+    margin: 0px;
+}
+
+.single-contact-photo {
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+}
+
+.single-contact-name {
+    font-size: 2.5rem;
+    margin: 0px
+}
+
+.single-contact-links {
+    height: 100px;
+}
+
+.single-contact-links img {
+    height: 30px;
+    width: 30px;
+    color: rgb(47, 57, 65);
+    margin: 15px 5px;
+}

@@ -1,0 +1,9 @@
+.contact-view-container {
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+    /* padding: 100px; */
+    margin: 0px;
+    display: flex;
+    justify-content: space-around;
+}

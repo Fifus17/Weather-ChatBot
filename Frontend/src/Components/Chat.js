@@ -36,16 +36,15 @@ const Chat = (props) => {
 
   const sendMessage = () => { // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    // setMessages([...messages, { text: message, isUser: true }]);
     props.setChats((prevState) => (
           prevState.map( (chat, index) => ( index == props.id ?  [...chat, {text: message, isUser: true}] : chat
           ))
       )
     );
-    console.log(props.chats);
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");
+    console.log("before scroll");
     toScroll.current.scrollIntoView({ behavior: "smooth" });
   };
   // end of states lifted up from MessageInput

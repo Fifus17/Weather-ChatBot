@@ -15,7 +15,7 @@
     margin: 0px;
     padding: 10px;
     position: relative;
-    max-height: 92.7%; /* to do properly */
+    max-height: 88vh; /* to do properly */
     overflow: scroll;
 }
 
