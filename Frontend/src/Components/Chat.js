@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { PALETTE } from "@zendeskgarden/react-theming"
 
 import MessageInput from "./MessageInput";
 import Message from "./Message";

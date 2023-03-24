@@ -1,6 +1,7 @@
 import SingleContact from "./SingleContact";
 import "./ContactView.css";
 import photoFilip from "../Resources/FilipPlaceholder.png";
+import React from "react";
 
 const ContactView = (props) => {
   return (

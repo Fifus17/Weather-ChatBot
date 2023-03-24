@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { PALETTE } from "@zendeskgarden/react-theming"
 
 import "./MessageInput.css";
 

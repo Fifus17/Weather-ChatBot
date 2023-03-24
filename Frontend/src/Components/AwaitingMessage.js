@@ -1,4 +1,5 @@
 import { Dots } from '@zendeskgarden/react-loaders';
+import React from 'react';
 
 import './AwaitingMessage.css';
 

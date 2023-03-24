@@ -1,5 +1,6 @@
 import { PALETTE } from "@zendeskgarden/react-theming"
 import "./Message.css";
+import React from "react";
 
 const Message = (props) => {
 

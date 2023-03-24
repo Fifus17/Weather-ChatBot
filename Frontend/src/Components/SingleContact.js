@@ -1,8 +1,6 @@
+import React from "react";
 import "./SingleContact.css";
-import github from "../Resources/github.svg"
-import linkedin from "../Resources/linkedin.svg"
-import mail from "../Resources/mail.svg"
-import portfolio from "../Resources/portfolio.svg"
+import { Paragraph, Title, Tooltip } from '@zendeskgarden/react-tooltips'
 
 const SingleContact = (props) => {
   return (
@@ -17,16 +15,18 @@ const SingleContact = (props) => {
         {/* <h6 className="single-contact-email">{props.email}</h6> */}
       </div>
       <div className="single-contact-links">
-        <a href={props.github} target="blank">
-            <img src={github} alt="github-logo"/>
+        {/* <Tooltip type="light" size="small" content="My profile on Github"> */}
+        <a href={props.github} target="blank1">
+            <div className="github-logo"></div>
         </a>
-        <a href={props.linkedin} target="blank">
-            <img src={linkedin} alt="linkedin-logo"/>
+        {/* </Tooltip> */}
+        <a href={props.linkedin} target="blank2">
+            <div className="linkedin-logo"></div>
         </a>
         {props.portfolio ? <a href="https://github.com/Fifus17" target="blank">
-            <img src={portfolio} alt="portfolio-logo"/>
+            <div className="portfolio-logo"></div>
         </a> : null}
-            <img src={mail} alt="mail-logo"/>
+        <div className="mail-logo"></div>
       </div>
     </div>
   );

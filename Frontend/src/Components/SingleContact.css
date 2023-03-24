@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* margin: 100px 150px; */
+    margin-top: 18%;
     width: 100%;
     height: 100%;
 }
@@ -25,11 +25,32 @@
 
 .single-contact-links {
     height: 100px;
+    display: flex;
 }
 
-.single-contact-links img {
+.single-contact-links div {
     height: 30px;
     width: 30px;
-    color: rgb(47, 57, 65);
-    margin: 15px 5px;
+    margin: 15px 6px;
+    background-color: rgb(47, 57, 65);
+}
+
+.github-logo {
+    -webkit-mask: url(../Resources/github.svg) no-repeat center;
+    mask: url(../Resources/github.svg) no-repeat center;
+}
+
+.linkedin-logo {
+    -webkit-mask: url(../Resources/linkedin.svg) no-repeat center;
+    mask: url(../Resources/linkedin.svg) no-repeat center;
+}
+
+.portfolio-logo {
+    -webkit-mask: url(../Resources/portfolio.svg) no-repeat center;
+    mask: url(../Resources/portfolio.svg) no-repeat center;
+}
+
+.mail-logo {
+    -webkit-mask: url(../Resources/mail.svg) no-repeat center;
+    mask: url(../Resources/mail.svg) no-repeat center;
 }

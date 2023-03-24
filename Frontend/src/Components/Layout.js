@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Row, Col } from "@zendeskgarden/react-grid";
-import { Toggle, Label, Field } from "@zendeskgarden/react-forms";
 import { ReactComponent as ProductIcon } from "@zendeskgarden/svg-icons/src/26/garden.svg";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
 import { ReactComponent as ZendeskIcon } from "@zendeskgarden/svg-icons/src/26/zendesk.svg";
 import { PALETTE } from "@zendeskgarden/react-theming";
-import { convertToMatrix } from "@zendeskgarden/container-utilities";
+
 
 import {
   Body,
@@ -26,7 +24,6 @@ import {
   SkipNav,
 } from "@zendeskgarden/react-chrome";
 import Chat from "./Chat";
-import MyColorSwatch from "./MyColorSwatch";
 import ContactView from "./ContactView";
 import SettingsView from "./SettingsView";
 
