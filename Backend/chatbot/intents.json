@@ -1,0 +1,71 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hello",
+        "hi",
+        "How are you",
+        "Hey",
+        "It's good to see you",
+        "What's up?"
+      ],
+      "responses": [
+        "Hi!",
+        "Hello, how can I help you?",
+        "Hi, what can I do for you?",
+        "Hi, nice to see you! What do you need?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "see you later!",
+        "goodbye",
+        "I need to go"
+      ],
+      "responses": [
+        "Bye!",
+        "Have a nice day",
+        "Bye, see you around!"
+      ]
+    },
+    {
+      "tag": "weather",
+      "patterns": [
+        "What is the current weather?"
+
+      ],
+      "responses": [
+        "I do not how to answer those types of questions yet"
+      ]
+    },
+
+    {
+      "tag": "creators",
+      "patterns": [
+        "Who's you creator?",
+        "Who made you?"
+
+      ],
+      "responses": [
+        "My creators are Natalia Adamiak and Filip Dziurdzia"
+      ]
+    },
+    {
+      "tag": "purpose",
+      "patterns": [
+        "What do you do?",
+        "What can you do for me?",
+        "How can you help me?",
+        "What is your purpose?",
+        "Who are you?"
+      ],
+      "responses": [
+        "My name is Stormy, I'm a weather ChatBot. I can tell you what is the weather like in your city or other place. Just tell me the name of city and optionally date"
+
+      ]
+    }
+  ]
+}
