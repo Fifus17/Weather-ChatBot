@@ -3,9 +3,10 @@ import datetime
 import time
 
 import requests
+import config
 import json
+api_key = config.api_key
 
-api_key = "1b311ee45be9d517454cab7c6dc3b9f5"
 base_url = "https://api.openweathermap.org/data/2.5/weather?"
 base_url_geo = "http://api.openweathermap.org/geo/1.0/direct?"
 base_url_onecall = "https://api.openweathermap.org/data/2.5/onecall?"
