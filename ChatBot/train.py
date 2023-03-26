@@ -1,5 +1,4 @@
 import numpy as np
-from random import choice
 import json
 import torch
 import torch.nn as nn
@@ -123,7 +122,7 @@ data = {
 "tags": tags
 }
 
-FILE = "./data.pth"
+FILE = "ChatBot/data.pth"
 torch.save(data, FILE)
 
 print(f'training complete. file saved to {FILE}')
