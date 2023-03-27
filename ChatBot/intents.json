@@ -46,8 +46,9 @@
         "tag": "creators",
         "patterns": [
           "Who's you creator?",
-          "Who made you?"
- 
+          "Who made you?",
+          "Who created you?",
+          "How were you made?"
         ],
         "responses": [
           "My creators are Natalia Adamiak and Filip Dziurdzia"
@@ -65,6 +66,19 @@
         "responses": [
           "My name is Stormy, I'm a weather ChatBot. I can tell you what is the weather like in your city or other place. Just tell me the name of city and optionally date"
  
+        ]
+      },
+      {
+        "tag": "thanks",
+        "patterns": [
+          "thank you",
+          "thanks",
+          "thank you for helping me",
+          "thank you for your support"
+        ],
+        "responses": [
+          "No problem!",
+          "I'm glad I could help"
         ]
       }
     ]
