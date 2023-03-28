@@ -7,7 +7,6 @@ import config
 import json
 api_key = config.api_key
 
-base_url = "https://api.openweathermap.org/data/2.5/weather?"
 base_url_geo = "http://api.openweathermap.org/geo/1.0/direct?"
 base_url_onecall = "https://api.openweathermap.org/data/2.5/onecall?"
 
@@ -23,34 +22,13 @@ def get_location_from_city(city_name):
             return response[0]["lat"], response[0]["lon"]
         return None
 
-"""Funkcja używa weather API i printuje aktualną temperaturę dla danego miasta"""
-def get_currentWeather(city_name):
-    complete_url = base_url+"appid="+api_key+"&q="+city_name+"&limit=1"
-
-    response = requests.get(complete_url)
-    x = response.json()
-    if x["cod"] != "404":
-        y = x["main"]
-        current_temperature = y["temp"]
-        # here we can get more things to describe weather
-        print("Current temperature at "+city_name, ": ",
-                round((kelvin_to_celcius(current_temperature)), 2), "(in celsius)")
-    else:
-        print("City not found")
-
-"""funkcja przyjmuje date (rok, miesiąc, dzień) i zwraca date w formacie UNIX timestamp (defaultowo dla
-godziny 12"""
 #util function to get unixTime
 def get_unixTime(year, month, day):
 
     data = datetime.datetime(year, month, day, 12)
     unixtime = int(data.timestamp())
     return unixtime
-    # unix_time = datetime.datetime(year, month, day,0)
-    # # return unix_time.timestamp()
-    # return time.mktime(unix_time.timetuple())
 
-"""Funkcja przyjmuje nazwe miasta i zwraca aktualną pogodę (wersja 2: na podany dzień i godzinę)"""
 
 # function to get current weather in given city
 def get_weather(city_name):
@@ -62,13 +40,12 @@ def get_weather(city_name):
         str(lat)+"&lon="+str(lon) + \
         "&exclude=minutely,hourly"+"&appid="+api_key
     response = requests.get(complete_url).json()
-    print(response)
 
     print(f"Current temperature in {city_name}: {round(kelvin_to_celcius(response['current']['temp']))} (in celcius)")
     print(f"Wind speed: {response['current']['wind_speed']} m/s")
     print(f"Weather description: {response['current']['weather'][0]['description']}")
 
-
+# function to get weather based on city name and date (can print data up to one week)
 def get_weatherFromDate(city_name,year,month,day):
     if(get_location_from_city(city_name) is None):
         print("The city with given name may not exist\n")
@@ -83,13 +60,21 @@ def get_weatherFromDate(city_name,year,month,day):
         "&exclude=hourly,minutely,alerts"+"&appid="+api_key+"&dt="+unixTime
 
     response = requests.get(complete_url).json()
-    print(response)
-    print(f"Current temperature in {city_name}: {round(kelvin_to_celcius(response['current']['temp']))} (in celcius)")
-    print(f"Wind speed: {response['current']['wind_speed']} m/s")
+    found = False
+    for day_ in response['daily']:
+        if day_['dt'] == int(unixTime):
+            temp = day_['temp']['day']
+            weather_desc = day_['weather'][0]['description']
+            wind_speed = day_['wind_speed']
+            found = True
+            print(f"Temperature in {city_name} for {day}-{month}-{year}: {round(kelvin_to_celcius(temp))} (in celcius)")
+            print(f"Wind speed: {wind_speed} m/s")
+            print("Weather description: ",weather_desc)
+    if not found:
+        print("Not avaiable data for given date :< (I can give you forcast up week from current date)")
 
-get_weather("Gliwice")
-get_weatherFromDate("Gliwice",2023,3,31)
-print(get_unixTime(2023,3,31))
+
+# get_weatherFromDate("Gliwice",2023,4,4)
 
 
 
