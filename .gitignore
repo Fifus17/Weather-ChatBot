@@ -2,3 +2,4 @@
 /Frontend/node_modules
 /ChatBot/__pycache__
 /ChatBot/config.py
+/ChatBot/.DS_Store

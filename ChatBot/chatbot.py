@@ -53,7 +53,7 @@ while True:
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.8:
+    if prob.item() > 0.5:
         if tag == "weather":
             # TODO
             print("TODO weather")
