@@ -80,3 +80,4 @@ def get_weatherFromDate(city_name,year,month,day):
 # ostatnia pętla bez flagi tylko break/else
 #  string format do url
 # try/except czy jest api key
+# zamiast config.py przejść na config.txt
