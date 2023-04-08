@@ -1,0 +1,27 @@
+.weather-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.weather-tile-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.weather-tile-temperature {
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(47, 57, 65);
+}
+
+.weather-tile-date {
+    font-size: 15px;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(47, 57, 65);
+}

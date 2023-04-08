@@ -1,9 +1,13 @@
 import React from "react";
-import { resourceUsage } from "process";
+import SettingsColorSwatch from "./SettingsColorSwatch";
 
 
 const SettingsView = () => {
-    return <h1>bagno</h1>
+    return (
+    <div>
+        <SettingsColorSwatch/>
+    </div>
+    );
 }
 
 export default SettingsView;

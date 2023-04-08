@@ -4,8 +4,14 @@ import MessageInput from "./MessageInput";
 import Message from "./Message";
 import AwaitingMessage from "./AwaitingMessage";
 import "./Chat.css";
+import CurrentWeather from "./CurrentWeather";
 
-const Chat = (props: { appliedColor: string; setChats: (arg0: (prevState: any) => any) => void; id: any; messages: any[]; }) => {
+const Chat = (props: {
+  appliedColor: string;
+  setChats: (arg0: (prevState: any) => any) => void;
+  id: any;
+  messages: any[];
+}) => {
   // const toScroll = useRef();
   const toScroll = useRef<HTMLSpanElement>(null);
 
@@ -15,7 +21,7 @@ const Chat = (props: { appliedColor: string; setChats: (arg0: (prevState: any) =
   const [message, setMessage] = useState("");
   const [buttonColor, setButtonColor] = useState("#999999");
 
-  const textareaHandler = (event:any) => {
+  const textareaHandler = (event: any) => {
     setMessage(event.target.value);
     if (event.target.value.length > 0) {
       setButtonColor(props.appliedColor);
@@ -26,48 +32,35 @@ const Chat = (props: { appliedColor: string; setChats: (arg0: (prevState: any) =
     }
   };
 
-  const enterPress = (e: { keyCode: number; shiftKey: boolean; preventDefault: () => void; }) => {
+  const enterPress = (e: {
+    keyCode: number;
+    shiftKey: boolean;
+    preventDefault: () => void;
+  }) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       sendMessage();
     }
   };
 
-
-  const sendMessage = () => { // I need to make this change the state of all messages held in layout component
+  const sendMessage = () => {
+    // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    props.setChats((prevState) => (
-          prevState.map( (chat: any, index: any) => ( index == props.id ?  [...chat, {text: message, isUser: true}] : chat
-          ))
+    props.setChats((prevState) =>
+      prevState.map((chat: any, index: any) =>
+        index == props.id
+          ? [...chat, { text: message, isUser: true, type: "message" }]
+          : chat
       )
     );
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");
     console.log("before scroll");
-    if (toScroll.current != null) toScroll.current.scrollIntoView({ behavior: "smooth" });
+    if (toScroll.current != null)
+      toScroll.current.scrollIntoView({ behavior: "smooth" });
   };
   // end of states lifted up from MessageInput
-
-  // local array of messages for testing purposes, later gonna be fetched from the server
-  let [messages, setMessages] = useState([
-    {
-      text: "bagno bagno",
-      isUser: false,
-    },
-    {
-      text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-      isUser: true,
-    },
-    {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
-      isUser: false,
-    },
-    {
-      text: "bagno bagno",
-      isUser: false,
-    },
-  ]);
 
   return (
     <div className="chat-container">
@@ -75,14 +68,29 @@ const Chat = (props: { appliedColor: string; setChats: (arg0: (prevState: any) =
         <div className="chat-message-container">
           {/* indexes will be replaced by id from database */}
           {props.messages.map((message, index) => {
-            return (
-              <Message
-                key={index}
-                text={message.text}
-                isUser={message.isUser}
-                appliedColor={props.appliedColor}
-              />
-            );
+            if (message.type === "message") {
+              return (
+                <Message
+                  key={index}
+                  text={message.text}
+                  isUser={message.isUser}
+                  appliedColor={props.appliedColor}
+                />
+              );
+            } else if (message.type === "currentWeather") {
+              return (
+                <CurrentWeather
+                  weather={message.weather}
+                  temperature={message.temperature}
+                  uv={message.uv}
+                  wind={message.wind}
+                  city={message.city}
+                  region={message.region}
+                  icon={message.icon}
+                  forecast={message.forecast}
+                />
+              );
+            }
           })}
           <AwaitingMessage isUser={false} visible={awaitingMessage} />
           <span ref={toScroll}></span>{" "}

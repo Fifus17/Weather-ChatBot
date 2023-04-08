@@ -3,6 +3,11 @@ declare module '*.png' {
     export default value;
 }
 
+declare module '*.svg' {
+    const value: any;
+    export default value;
+}
+
 declare module '@zendeskgarden/svg-icons/src/26/garden.svg'
 declare module '@zendeskgarden/svg-icons/src/26/chat.svg'
 declare module '@zendeskgarden/svg-icons/src/26/email-fill.svg'

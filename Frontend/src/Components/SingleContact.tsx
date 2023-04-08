@@ -1,6 +1,7 @@
 import React from "react";
 import "./SingleContact.css";
-import { Paragraph, Title, Tooltip } from '@zendeskgarden/react-tooltips'
+import { Tooltip } from '@zendeskgarden/react-tooltips'
+import { Button } from '@zendeskgarden/react-buttons';
 
 const SingleContact = (props: { photo: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; work: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; github: string | undefined; linkedin: string | undefined; portfolio: any; }) => {
   return (
@@ -16,9 +17,9 @@ const SingleContact = (props: { photo: string | undefined; name: string | number
       </div>
       <div className="single-contact-links">
         {/* <Tooltip type="light" size="small" content="My profile on Github"> */}
-        <a href={props.github} target="blank1">
-            <div className="github-logo"></div>
-        </a>
+          <a href={props.github} target="blank1">
+              <div className="github-logo"></div>
+          </a>
         {/* </Tooltip> */}
         <a href={props.linkedin} target="blank2">
             <div className="linkedin-logo"></div>

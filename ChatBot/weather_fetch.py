@@ -60,6 +60,9 @@ def get_weatherFromDate(city_name,year,month,day):
         "&exclude=hourly,minutely,alerts"+"&appid="+api_key+"&dt="+unixTime
 
     response = requests.get(complete_url).json()
+    # print(response)
+    with open('ChatBot/weatherData.json', 'w') as weatherDataJson:
+        json.dump(response, weatherDataJson, indent=4)
     found = False
     for day_ in response['daily']:
         if day_['dt'] == int(unixTime):
@@ -74,7 +77,7 @@ def get_weatherFromDate(city_name,year,month,day):
         print("Not avaiable data for given date :< (I can give you forcast up week from current date)")
 
 
-# get_weatherFromDate("Gliwice",2023,4,4)
+get_weatherFromDate("Bochnia",2023,4,8)
 
 
 # ostatnia pętla bez flagi tylko break/else

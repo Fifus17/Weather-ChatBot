@@ -1,6 +1,5 @@
 import SingleContact from "./SingleContact";
 import "./ContactView.css";
-// import photoFilip from "Frontend/src/Resources/FilipPlaceholder.png";
 import photoFilip from "../Resources/FilipPlaceholder.png";
 import React from "react";
 

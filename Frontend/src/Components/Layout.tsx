@@ -27,12 +27,15 @@ import {
 import Chat from "./Chat";
 import ContactView from "./ContactView";
 import SettingsView from "./SettingsView";
+import { WeatherType } from "../Enums/WeatherType";
+import { WeatherTypeIcons } from "../Enums/WeatherTypeIcons";
+import { WeekDay } from "../Enums/WeekDay";
 
 const Layout = () => {
-  const [nav, setNav] = useState(1);
+  const [nav, setNav] = useState(3);
   const [appliedColor, setAppliedColor] = useState(PALETTE.green[400]);
 
-  const [currentChat, setCurrentChat] = useState(0);
+  const [currentChat, setCurrentChat] = useState(2);
 
   // before I add communication with backend, for testing purposes I'll hold messages in this array
   let [chats, setChats] = useState([
@@ -40,31 +43,91 @@ const Layout = () => {
       {
         text: "bagno bagno",
         isUser: false,
+        type: "message",
       },
       {
         text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
         isUser: true,
+        type: "message",
       },
       {
         text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
         isUser: false,
+        type: "message",
       },
       {
         text: "bagno bagno",
         isUser: false,
+        type: "message",
       },
     ],
     [
       {
         text: "bagno bagno",
         isUser: false,
+        type: "message",
       },
       {
         text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
         isUser: true,
+        type: "message",
       },
     ],
-    [],
+    [
+      {
+        type: "currentWeather",
+        weather: WeatherType.clear_sky,
+        temperature: 20,
+        uv: 5,
+        wind: 10,
+        city: "Bochnia",
+        region: "Małopolskie",
+        icon: WeatherTypeIcons.clear_sky_day,
+        forecast: [
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Tomorrow,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Monday,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Tuesday,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Wednesday,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Thursday,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+          {
+            weather: WeatherType.clear_sky,
+            temperature: 20,
+            date: WeekDay.Friday,
+            icon: WeatherTypeIcons.few_clouds_day,
+          },
+        ]
+      },
+      {
+        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
+        isUser: true,
+        type: "message",
+      },
+    ],
   ]);
 
   const render = (id: string | number) => {
