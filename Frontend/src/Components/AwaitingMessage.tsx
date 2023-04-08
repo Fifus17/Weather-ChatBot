@@ -3,7 +3,7 @@ import React from 'react';
 
 import './AwaitingMessage.css';
 
-const AwaitingMessage = (props) => {
+const AwaitingMessage = (props: { isUser: any; visible: any; }) => {
     let colorText = "black";
     let colorBackground = "white";
 

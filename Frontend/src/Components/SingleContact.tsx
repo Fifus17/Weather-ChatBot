@@ -2,7 +2,7 @@ import React from "react";
 import "./SingleContact.css";
 import { Paragraph, Title, Tooltip } from '@zendeskgarden/react-tooltips'
 
-const SingleContact = (props) => {
+const SingleContact = (props: { photo: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; work: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; github: string | undefined; linkedin: string | undefined; portfolio: any; }) => {
   return (
     <div className="single-contact-container">
       <div className="single-contact-photo-container">

@@ -5,8 +5,9 @@ import Message from "./Message";
 import AwaitingMessage from "./AwaitingMessage";
 import "./Chat.css";
 
-const Chat = (props) => {
-  const toScroll = useRef();
+const Chat = (props: { appliedColor: string; setChats: (arg0: (prevState: any) => any) => void; id: any; messages: any[]; }) => {
+  // const toScroll = useRef();
+  const toScroll = useRef<HTMLSpanElement>(null);
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
 
@@ -14,7 +15,7 @@ const Chat = (props) => {
   const [message, setMessage] = useState("");
   const [buttonColor, setButtonColor] = useState("#999999");
 
-  const textareaHandler = (event) => {
+  const textareaHandler = (event:any) => {
     setMessage(event.target.value);
     if (event.target.value.length > 0) {
       setButtonColor(props.appliedColor);
@@ -25,7 +26,7 @@ const Chat = (props) => {
     }
   };
 
-  const enterPress = (e) => {
+  const enterPress = (e: { keyCode: number; shiftKey: boolean; preventDefault: () => void; }) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       sendMessage();
@@ -36,7 +37,7 @@ const Chat = (props) => {
   const sendMessage = () => { // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
     props.setChats((prevState) => (
-          prevState.map( (chat, index) => ( index == props.id ?  [...chat, {text: message, isUser: true}] : chat
+          prevState.map( (chat: any, index: any) => ( index == props.id ?  [...chat, {text: message, isUser: true}] : chat
           ))
       )
     );
@@ -44,7 +45,7 @@ const Chat = (props) => {
     setButtonColor("#999999");
     setAwaitingMessage("hidden");
     console.log("before scroll");
-    toScroll.current.scrollIntoView({ behavior: "smooth" });
+    if (toScroll.current != null) toScroll.current.scrollIntoView({ behavior: "smooth" });
   };
   // end of states lifted up from MessageInput
 
@@ -90,7 +91,7 @@ const Chat = (props) => {
       </div>
       <div className="chat-wrapper">
         <MessageInput
-          className="chat-message-input"
+          // className="chat-message-input"
           message={message}
           textareaHandler={textareaHandler}
           sendMessage={sendMessage}

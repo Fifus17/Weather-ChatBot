@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 import "./MessageInput.css";
 
-const MessageInput = (props) => {
+const MessageInput = (props: { appliedColor: any; message: string | number | readonly string[] | undefined; textareaHandler: React.ChangeEventHandler<HTMLTextAreaElement> | undefined; enterPress: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined; sendMessage: React.MouseEventHandler<HTMLButtonElement> | undefined; buttonColor: string | undefined; }) => {
   const [borderColor, setBorderColor] = useState("1px solid transparent");
 
-  const textareaBorderOn = (event) => {
+  const textareaBorderOn = (event: any) => {
     setBorderColor(`1px solid ${props.appliedColor}`);
   };
 
-  const textareaBorderOff = (event) => {
+  const textareaBorderOff = (event: any) => {
     setBorderColor("1px solid transparent");
   };
 
@@ -19,7 +19,6 @@ const MessageInput = (props) => {
         <div className="message-input-wrapper">
           <textarea
             className="message-input-textarea"
-            type="text"
             value={props.message}
             placeholder="Send message"
             style={{ border: borderColor }}

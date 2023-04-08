@@ -23,12 +23,13 @@ import {
   SubNavItemText,
   SkipNav,
 } from "@zendeskgarden/react-chrome";
+
 import Chat from "./Chat";
 import ContactView from "./ContactView";
 import SettingsView from "./SettingsView";
 
 const Layout = () => {
-  const [nav, setNav] = useState("nav-1");
+  const [nav, setNav] = useState(1);
   const [appliedColor, setAppliedColor] = useState(PALETTE.green[400]);
 
   const [currentChat, setCurrentChat] = useState(0);
@@ -66,7 +67,7 @@ const Layout = () => {
     [],
   ]);
 
-  const render = (id) => {
+  const render = (id: string | number) => {
     if (id === chats.length + 1) {
       return <ContactView />;
     } else if (id === chats.length + 2) {
@@ -78,7 +79,7 @@ const Layout = () => {
           messages={chats[currentChat]}
           setChats={setChats}
           id={currentChat}
-          chats={chats}
+          // chats={chats}
         />
       );
     }

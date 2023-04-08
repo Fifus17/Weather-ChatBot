@@ -2,7 +2,7 @@ import { PALETTE } from "@zendeskgarden/react-theming"
 import "./Message.css";
 import React from "react";
 
-const Message = (props) => {
+const Message = (props: { isUser: any; appliedColor: string; text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => {
 
     // need some state to keep track of message alignment (user right, bot left)
     // need some variable to keep track who sent the message that implies the alignment and colors
