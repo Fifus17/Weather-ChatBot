@@ -16,11 +16,11 @@ const SingleContact = (props: { photo: string | undefined; name: string | number
         {/* <h6 className="single-contact-email">{props.email}</h6> */}
       </div>
       <div className="single-contact-links">
-        {/* <Tooltip type="light" size="small" content="My profile on Github"> */}
+        <Tooltip type="light" size="small" content="My profile on Github">
           <a href={props.github} target="blank1">
               <div className="github-logo"></div>
           </a>
-        {/* </Tooltip> */}
+        </Tooltip>
         <a href={props.linkedin} target="blank2">
             <div className="linkedin-logo"></div>
         </a>

@@ -86,7 +86,7 @@ const Chat = (props: {
                   wind={message.wind}
                   city={message.city}
                   region={message.region}
-                  icon={message.icon}
+                  day={message.day}
                   forecast={message.forecast}
                 />
               );

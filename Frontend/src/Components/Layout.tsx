@@ -76,49 +76,51 @@ const Layout = () => {
     [
       {
         type: "currentWeather",
-        weather: WeatherType.clear_sky,
+        weather: WeatherType.id800,
         temperature: 20,
         uv: 5,
         wind: 10,
         city: "Bochnia",
         region: "Małopolskie",
-        icon: WeatherTypeIcons.clear_sky_day,
+        icon: WeatherTypeIcons.id800d,
+        day: true,
+        forecastType: "week",
         forecast: [
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id211,
             temperature: 20,
             date: WeekDay.Tomorrow,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id313,
             temperature: 20,
             date: WeekDay.Monday,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id231,
             temperature: 20,
             date: WeekDay.Tuesday,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id521,
             temperature: 20,
             date: WeekDay.Wednesday,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id602,
             temperature: 20,
             date: WeekDay.Thursday,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
           {
-            weather: WeatherType.clear_sky,
+            weather: WeatherType.id701,
             temperature: 20,
             date: WeekDay.Friday,
-            icon: WeatherTypeIcons.few_clouds_day,
+            day: true
           },
         ]
       },
