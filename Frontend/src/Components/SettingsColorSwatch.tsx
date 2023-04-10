@@ -13,28 +13,24 @@ import { PALETTE } from "@zendeskgarden/react-theming";
 import ColorContext from "../States/color-context";
 
 const colors = [
-  { label: "Blue-200", value: PALETTE.blue[200] },
   { label: "Blue-300", value: PALETTE.blue[300] },
   { label: "Blue-400", value: PALETTE.blue[400] },
   { label: "Blue-500", value: PALETTE.blue[500] },
   { label: "Blue-600", value: PALETTE.blue[600] },
   { label: "Blue-700", value: PALETTE.blue[700] },
   { label: "Blue-800", value: PALETTE.blue[800] },
-  { label: "Red-200", value: PALETTE.red[200] },
   { label: "Red-300", value: PALETTE.red[300] },
   { label: "Red-400", value: PALETTE.red[400] },
   { label: "Red-500", value: PALETTE.red[500] },
   { label: "Red-600", value: PALETTE.red[600] },
   { label: "Red-700", value: PALETTE.red[700] },
   { label: "Red-800", value: PALETTE.red[800] },
-  { label: "Yellow-200", value: PALETTE.yellow[200] },
   { label: "Yellow-300", value: PALETTE.yellow[300] },
   { label: "Yellow-400", value: PALETTE.yellow[400] },
   { label: "Yellow-500", value: PALETTE.yellow[500] },
   { label: "Yellow-600", value: PALETTE.yellow[600] },
   { label: "Yellow-700", value: PALETTE.yellow[700] },
   { label: "Yellow-800", value: PALETTE.yellow[800] },
-  { label: "Green-200", value: PALETTE.green[200] },
   { label: "Green-300", value: PALETTE.green[300] },
   { label: "Green-400", value: PALETTE.green[400] },
   { label: "Green-500", value: PALETTE.green[500] },
@@ -43,50 +39,37 @@ const colors = [
   { label: "Green-800", value: PALETTE.green[800] },
 ];
 
-const matrix = convertToMatrix(colors, 7);
+export const matrix = convertToMatrix(colors, 6);
 
 const SettingsColorSwatch = () => {
   const colorContext = React.useContext(ColorContext);
   const [rowIndex, setRowIndex] = useState(colorContext.row);
   const [colIndex, setColIndex] = useState(colorContext.col);
-  const [selectedRowIndex, setSelectedRowIndex] = useState(colorContext.row);
-  const [selectedColIndex, setSelectedColIndex] = useState(colorContext.col);
-  const [currentColor, setCurrentColor] = useState(colorContext.color);
-  const [currentColorName, setCurrentColorName] = useState(colorContext.name);
-  const onChange = (rowIdx: number, colIdx: number) => {
+
+  const setRowAndColHandler = (rowIdx: number, colIdx: number) => {
     setRowIndex(rowIdx);
     setColIndex(colIdx);
-    setCurrentColor(matrix[rowIdx][colIdx].value);
-    setCurrentColorName(matrix[rowIdx][colIdx].label);
   };
-  const onSelect = (rowIdx: number, colIdx: number) => {
-    setSelectedRowIndex(rowIdx);
-    setSelectedColIndex(colIdx);
+
+  const onChangeHandler = (rowIdx: number, colIdx: number) => {
+    colorContext.onChange(rowIdx, colIdx);
+    setRowAndColHandler(rowIdx, colIdx);
   };
 
   return (
-    <ColorContext.Provider
-      value={{
-        color: currentColor,
-        name: currentColorName,
-        row: selectedRowIndex,
-        col: selectedColIndex,
-      }}
-    >
       <Row justifyContent="center">
         <Col size="auto">
           <ColorSwatchDialog
             colors={matrix}
-            onChange={onChange}
-            onSelect={onSelect}
+            onChange={onChangeHandler}
+            onSelect={colorContext.onSelect}
             rowIndex={rowIndex}
             colIndex={colIndex}
-            selectedRowIndex={selectedRowIndex}
-            selectedColIndex={selectedColIndex}
+            selectedRowIndex={colorContext.row}
+            selectedColIndex={colorContext.col}
           />
         </Col>
       </Row>
-    </ColorContext.Provider>
   );
 };
 

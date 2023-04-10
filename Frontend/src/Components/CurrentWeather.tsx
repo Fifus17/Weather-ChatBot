@@ -234,41 +234,45 @@ const CurrentWeather = (props: {
           </Col>
         </Row>
         <hr className="currentWeatherHorizontalLine" />
-        <div className="currentWeatherForecastContainer">
-          {selectedItem === "calendar" ? (
-            <>
-              {props.forecastDay.map((item, index) => {
-                return (
-                  <WeatherTile
-                    weather={item.weather}
-                    temperature={item.temperature}
-                    date={item.date}
-                    day={item.day}
-                    type={WeatherForecastType.day}
-                    icon={getIcon}
-                    key={index}
-                  ></WeatherTile>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {props.forecastHour.map((item, index) => {
-                return (
-                  <WeatherTile
-                    weather={item.weather}
-                    temperature={item.temperature}
-                    date={item.hour + ":" + item.minutes}
-                    day={item.day}
-                    type={WeatherForecastType.hour}
-                    icon={getIcon}
-                    key={index}
-                  ></WeatherTile>
-                );
-              })}
-            </>
-          )}
-        </div>
+        {selectedItem === "calendar" ? (
+          <div className={"currentWeatherForecastContainer"}>
+            {props.forecastDay.map((item, index) => {
+              return (
+                <WeatherTile
+                  weather={item.weather}
+                  temperature={item.temperature}
+                  date={item.date}
+                  day={item.day}
+                  type={WeatherForecastType.day}
+                  icon={getIcon}
+                  key={index}
+                ></WeatherTile>
+              );
+            })}
+          </div>
+        ) : (
+          <div
+            className={
+              selectedItem === "clock"
+                ? " currentWeatherForecastContainer"
+                : "currentWeatherForecastContainer"
+            }
+          >
+            {props.forecastHour.map((item, index) => {
+              return (
+                <WeatherTile
+                  weather={item.weather}
+                  temperature={item.temperature}
+                  date={item.hour + ":" + item.minutes}
+                  day={item.day}
+                  type={WeatherForecastType.hour}
+                  icon={getIcon}
+                  key={index}
+                ></WeatherTile>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
