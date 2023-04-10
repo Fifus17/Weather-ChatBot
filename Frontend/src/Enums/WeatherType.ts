@@ -55,4 +55,6 @@ export enum WeatherType {
     id802 = 802,
     id803 = 803,
     id804 = 804,
+    sunset = 'sunset',
+    sunrise = 'sunrise',
 }

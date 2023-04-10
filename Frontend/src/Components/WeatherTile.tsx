@@ -1,20 +1,22 @@
 import React from "react";
+import { WeatherForecastType } from "../Enums/WeatherForecastType";
 
 import { WeatherType } from "../Enums/WeatherType";
-import { WeatherTypeIcons } from "../Enums/WeatherTypeIcons";
 import { WeekDay } from "../Enums/WeekDay";
 
 import "./WeatherTile.css";
 
 const WeatherTile = (props: {
   weather: WeatherType;
-  icon: WeatherTypeIcons;
+  type: WeatherForecastType;
+  icon: (id: WeatherType, day: boolean) => any;
   temperature: number;
-  date: WeekDay;
+  date: string;
+  day: boolean;
 }) => {
     return (
         <div className="weather-tile">
-            <img className="weather-tile-icon" src={props.icon} />
+            <img className="weather-tile-icon" src={props.icon(props.weather, props.day)} alt="weather icon"/>
             <h1 className="weather-tile-temperature">{props.temperature}°C</h1>
             <h1 className="weather-tile-date">{props.date}</h1>
         </div>

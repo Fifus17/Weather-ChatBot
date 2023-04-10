@@ -48,7 +48,7 @@ const Chat = (props: {
     if (message.length === 0) return;
     props.setChats((prevState) =>
       prevState.map((chat: any, index: any) =>
-        index == props.id
+        index === props.id
           ? [...chat, { text: message, isUser: true, type: "message" }]
           : chat
       )
@@ -87,7 +87,8 @@ const Chat = (props: {
                   city={message.city}
                   region={message.region}
                   day={message.day}
-                  forecast={message.forecast}
+                  forecastDay={message.forecastDay}
+                  forecastHour={message.forecastHour}
                 />
               );
             }

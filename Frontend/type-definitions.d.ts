@@ -8,6 +8,8 @@ declare module '*.svg' {
     export default value;
 }
 
+declare module "*.module.css";
+
 declare module '@zendeskgarden/svg-icons/src/26/garden.svg'
 declare module '@zendeskgarden/svg-icons/src/26/chat.svg'
 declare module '@zendeskgarden/svg-icons/src/26/email-fill.svg'

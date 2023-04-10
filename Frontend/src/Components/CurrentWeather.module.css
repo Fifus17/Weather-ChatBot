@@ -1,0 +1,317 @@
+.currentWeatherWrapper {
+    padding: 2px;
+    /* display: flex;
+    flex-direction: row-reverse; */
+}
+
+.currentWeatherContainer {
+    background-color: white;
+    border-radius: 20px;
+    width: fit-content;
+    width: 60%;
+    max-width: 60%;
+    text-align: left;
+    margin: 0px;
+    padding: 10px 15px;
+    color: rgb(47, 57, 65);
+    /* padding: 2px; */
+}
+
+.currentWeatherCityName {
+    padding: 0px;
+    margin: 0px;
+    padding-left: 15px;
+    color: rgb(47, 57, 65);
+}
+
+.currentWeatherIcon {
+    width: 200px;
+    height: 200px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.currentWeatherTemperature {
+    font-size: 100px;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(47, 57, 65);
+}
+
+.currentWeatherHorizontalLine {
+    border: 1px solid rgba(153, 153, 153, 0.4);
+    border-radius: 0.5px;
+    margin: 5px;
+    padding: 0px;
+}
+
+.currentWeatherForecastContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: scroll;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 10px;
+}
+
+.currentWeatherUvIcon {
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.currentWeatherUv {
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(47, 57, 65);
+}
+
+.currentWeatherCalendarIcon, .currentWeatherClockIcon {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(47, 57, 65);
+    padding: 0px;
+    margin: 0px;
+}
+
+.currentWeatherCalendarIcon {
+    -webkit-mask: url(../Resources/calendar-days-solid.svg) no-repeat center;
+    mask: url(../Resources/calendar-days-solid.svg) no-repeat center;
+}
+
+.currentWeatherClockIcon {
+    -webkit-mask: url(../Resources/clock-solid.svg) no-repeat center;
+    mask: url(../Resources/clock-solid.svg) no-repeat center;
+}
+
+.currentWeatherButtonGroup {
+    margin-top: 5px;
+    margin-right: 15px;
+}
+
+.current-weather-Blue-200 {
+    border-color: #cee2f2 !important;
+}
+
+.current-weather-Blue-300 {
+    border-color: #adcce4 !important;
+}
+
+.current-weather-Blue-400 {
+    border-color: #5293c7 !important;
+}
+
+.current-weather-Blue-500 {
+    border-color: #337fbd !important;
+}
+
+.current-weather-Blue-600 {
+    border-color: #1f73b7 !important;
+}
+
+.current-weather-Blue-700 {
+    border-color: #144a75 !important;
+}
+
+.current-weather-Blue-800 {
+    border-color: #0f3554 !important;
+}
+
+.current-weather-Red-200 {
+    border-color: #f5d5d8 !important;
+}
+
+.current-weather-Red-300 {
+    border-color: #f5b5ba !important;
+}
+
+.current-weather-Red-400 {
+    border-color: #e35b66 !important;
+}
+
+.current-weather-Red-500 {
+    border-color: #d93f4c !important;
+}
+
+.current-weather-Red-600 {
+    border-color: #cc3340 !important;
+}
+
+.current-weather-Red-700 {
+    border-color: #8c232c !important;
+}
+
+.current-weather-Red-800 {
+    border-color: #681219 !important;
+}
+
+.current-weather-Yellow-200 {
+    border-color: #ffeedb !important;
+}
+
+.current-weather-Yellow-300 {
+    border-color: #fed6a8 !important;
+}
+
+.current-weather-Yellow-400 {
+    border-color: #ffb057 !important;
+}
+
+.current-weather-Yellow-500 {
+    border-color: #f79a3e !important;
+}
+
+.current-weather-Yellow-600 {
+    border-color: #ed8f1c !important;
+}
+
+.current-weather-Yellow-700 {
+    border-color: #ad5918 !important;
+}
+
+.current-weather-Yellow-800 {
+    border-color: #703815 !important;
+}
+
+.current-weather-Green-200 {
+    border-color: #d1e8df !important;
+}
+
+.current-weather-Green-300 {
+    border-color: #aecfc2 !important;
+}
+
+.current-weather-Green-400 {
+    border-color: #5eae91 !important;
+}
+
+.current-weather-Green-500 {
+    border-color: #228f67 !important;
+}
+
+.current-weather-Green-600 {
+    border-color: #038153 !important;
+}
+
+.current-weather-Green-700 {
+    border-color: #186146 !important;
+}
+
+.current-weather-Green-800 {
+    border-color: #0b3b29 !important;
+}
+
+.current-weather-Blue-200-selected {
+    border-color: #cee2f2 !important;
+}
+
+.current-weather-Blue-300-selected {
+    border-color: #adcce4 !important;
+}
+
+.current-weather-Blue-400-selected {
+    border-color: #5293c7 !important;
+}
+
+.current-weather-Blue-500-selected {
+    border-color: #337fbd !important;
+}
+
+.current-weather-Blue-600-selected {
+    border-color: #1f73b7 !important;
+}
+
+.current-weather-Blue-700-selected {
+    border-color: #144a75 !important;
+}
+
+.current-weather-Blue-800-selected {
+    border-color: #0f3554 !important;
+}
+
+.current-weather-Red-200-selected {
+    border-color: #f5d5d8 !important;
+}
+
+.current-weather-Red-300-selected {
+    border-color: #f5b5ba !important;
+}
+
+.current-weather-Red-400-selected {
+    border-color: #e35b66 !important;
+}
+
+.current-weather-Red-500-selected {
+    border-color: #d93f4c !important;
+}
+
+.current-weather-Red-600-selected {
+    border-color: #cc3340 !important;
+}
+
+.current-weather-Red-700-selected {
+    border-color: #8c232c !important;
+}
+
+.current-weather-Red-800-selected {
+    border-color: #681219 !important;
+}
+
+.current-weather-Yellow-200-selected {
+    border-color: #ffeedb !important;
+}
+
+.current-weather-Yellow-300-selected {
+    border-color: #fed6a8 !important;
+}
+
+.current-weather-Yellow-400-selected {
+    border-color: #ffb057 !important;
+}
+
+.current-weather-Yellow-500-selected {
+    border-color: #f79a3e !important;
+}
+
+.current-weather-Yellow-600-selected {
+    border-color: #ed8f1c !important;
+}
+
+.current-weather-Yellow-700-selected {
+    border-color: #ad5918 !important;
+}
+
+.current-weather-Yellow-800-selected {
+    border-color: #703815 !important;
+}
+
+.current-weather-Green-200-selected {
+    border-color: #d1e8df !important;
+}
+
+.current-weather-Green-300-selected {
+    border-color: #aecfc2 !important;
+}
+
+.current-weather-Green-400-selected {
+    border-color: #5eae91 !important;
+}
+
+.current-weather-Green-500-selected {
+    border-color: #228f67 !important;
+}
+
+.current-weather-Green-600-selected {
+    border-color: #038153 !important;
+}
+
+.current-weather-Green-700-selected {
+    border-color: #186146 !important;
+}
+
+.current-weather-Green-800-selected {
+    border-color: #0b3b29 !important;
+}
