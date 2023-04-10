@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import ColorContext from "../States/color-context";
 
 import "./MessageInput.css";
 
-const MessageInput = (props: { appliedColor: any; message: string | number | readonly string[] | undefined; textareaHandler: React.ChangeEventHandler<HTMLTextAreaElement> | undefined; enterPress: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined; sendMessage: React.MouseEventHandler<HTMLButtonElement> | undefined; buttonColor: string | undefined; }) => {
+const MessageInput = (props: {
+  message: string | number | readonly string[] | undefined;
+  textareaHandler: React.ChangeEventHandler<HTMLTextAreaElement> | undefined;
+  enterPress: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined;
+  sendMessage: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  buttonColor: string | undefined;
+}) => {
   const [borderColor, setBorderColor] = useState("1px solid transparent");
 
+  const colorContext = useContext(ColorContext);
+
   const textareaBorderOn = (event: any) => {
-    setBorderColor(`1px solid ${props.appliedColor}`);
+    setBorderColor(`1px solid ${colorContext.color}`);
   };
 
   const textareaBorderOff = (event: any) => {

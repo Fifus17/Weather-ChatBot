@@ -1,13 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 
 import MessageInput from "./MessageInput";
 import Message from "./Message";
 import AwaitingMessage from "./AwaitingMessage";
 import "./Chat.css";
 import CurrentWeather from "./CurrentWeather";
+import ColorContext from "../States/color-context";
 
 const Chat = (props: {
-  appliedColor: string;
   setChats: (arg0: (prevState: any) => any) => void;
   id: any;
   messages: any[];
@@ -21,10 +21,12 @@ const Chat = (props: {
   const [message, setMessage] = useState("");
   const [buttonColor, setButtonColor] = useState("#999999");
 
+  const colorContext = useContext(ColorContext);
+
   const textareaHandler = (event: any) => {
     setMessage(event.target.value);
     if (event.target.value.length > 0) {
-      setButtonColor(props.appliedColor);
+      setButtonColor(colorContext.color);
       setAwaitingMessage("visible");
     } else {
       setButtonColor("#999999");
@@ -63,6 +65,7 @@ const Chat = (props: {
   // end of states lifted up from MessageInput
 
   return (
+    // <ColorContext.Provider value={{ color:  }}>
     <div className="chat-container">
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
@@ -74,7 +77,6 @@ const Chat = (props: {
                   key={index}
                   text={message.text}
                   isUser={message.isUser}
-                  appliedColor={props.appliedColor}
                 />
               );
             } else if (message.type === "currentWeather") {
@@ -106,10 +108,10 @@ const Chat = (props: {
           sendMessage={sendMessage}
           buttonColor={buttonColor}
           enterPress={enterPress}
-          appliedColor={props.appliedColor}
         />
       </div>
     </div>
+    // </ColorContext.Provider>
   );
 };
 

@@ -51,7 +51,7 @@ import sunrise from "../Resources/WeatherAnimatedIcons/sunrise.svg";
 import { WeatherForecastType } from "../Enums/WeatherForecastType";
 import { Button, ButtonGroup } from "@zendeskgarden/react-buttons";
 
-// Parser from weather id to icon
+// Parser from weather id to icon, should be moved to util file
 const getIcon = (id: WeatherType, day: boolean) => {
   switch (id) {
     case 200:

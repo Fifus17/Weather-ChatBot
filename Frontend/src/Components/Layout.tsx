@@ -6,7 +6,6 @@ import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/
 import { ReactComponent as ZendeskIcon } from "@zendeskgarden/svg-icons/src/26/zendesk.svg";
 import { PALETTE } from "@zendeskgarden/react-theming";
 
-
 import {
   Body,
   Chrome,
@@ -26,7 +25,6 @@ import { WeekDay } from "../Enums/WeekDay";
 
 const Layout = () => {
   const [nav, setNav] = useState(3);
-  const [appliedColor, setAppliedColor] = useState(PALETTE.green[400]);
 
   const [currentChat, setCurrentChat] = useState(2);
 
@@ -81,229 +79,229 @@ const Layout = () => {
             weather: WeatherType.id211,
             temperature: 20,
             date: WeekDay.Tomorrow,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id313,
             temperature: 20,
             date: WeekDay.Monday,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id731,
             temperature: 20,
             date: WeekDay.Tuesday,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id521,
             temperature: 20,
             date: WeekDay.Wednesday,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id602,
             temperature: 20,
             date: WeekDay.Thursday,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id701,
             temperature: 20,
             date: WeekDay.Friday,
-            day: true
+            day: true,
           },
           {
             weather: WeatherType.id781,
             temperature: 20,
             date: WeekDay.Saturday,
-            day: true
+            day: true,
           },
         ],
         forecastHour: [
           {
             weather: WeatherType.id202,
             temperature: 20,
-            hour: '13',
-            minutes: '00',
-            day: true
+            hour: "13",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id313,
             temperature: 20,
-            hour: '14',
-            minutes: '00',
-            day: true
+            hour: "14",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id313,
             temperature: 20,
-            hour: '15',
-            minutes: '00',
-            day: true
+            hour: "15",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id521,
             temperature: 20,
-            hour: '16',
-            minutes: '00',
-            day: true
+            hour: "16",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id521,
             temperature: 20,
-            hour: '17',
-            minutes: '00',
-            day: true
+            hour: "17",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '18',
-            minutes: '00',
-            day: true
+            hour: "18",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '19',
-            minutes: '00',
-            day: true
+            hour: "19",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.sunset,
             temperature: 20,
-            hour: '19',
-            minutes: '39',
-            day: true
+            hour: "19",
+            minutes: "39",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '20',
-            minutes: '00',
-            day: false
+            hour: "20",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id602,
             temperature: 20,
-            hour: '21',
-            minutes: '00',
-            day: false
+            hour: "21",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id701,
             temperature: 20,
-            hour: '22',
-            minutes: '00',
-            day: false
+            hour: "22",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id521,
             temperature: 20,
-            hour: '23',
-            minutes: '00',
-            day: false
+            hour: "23",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id521,
             temperature: 20,
-            hour: '24',
-            minutes: '00',
-            day: false
+            hour: "24",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id602,
             temperature: 20,
-            hour: '1',
-            minutes: '00',
-            day: false
+            hour: "1",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id701,
             temperature: 20,
-            hour: '2',
-            minutes: '00',
-            day: false
+            hour: "2",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '3',
-            minutes: '00',
-            day: false
+            hour: "3",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '4',
-            minutes: '00',
-            day: false
+            hour: "4",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '5',
-            minutes: '00',
-            day: false
+            hour: "5",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '6',
-            minutes: '00',
-            day: false
+            hour: "6",
+            minutes: "00",
+            day: false,
           },
           {
             weather: WeatherType.sunrise,
             temperature: 20,
-            hour: '6',
-            minutes: '14',
-            day: true
+            hour: "6",
+            minutes: "14",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '7',
-            minutes: '00',
-            day: true
+            hour: "7",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '8',
-            minutes: '00',
-            day: true
+            hour: "8",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '9',
-            minutes: '00',
-            day: true
+            hour: "9",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '10',
-            minutes: '00',
-            day: true
+            hour: "10",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '11',
-            minutes: '00',
-            day: true
+            hour: "11",
+            minutes: "00",
+            day: true,
           },
           {
             weather: WeatherType.id300,
             temperature: 20,
-            hour: '12',
-            minutes: '00',
-            day: true
+            hour: "12",
+            minutes: "00",
+            day: true,
           },
-        ]
+        ],
       },
       {
         text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
@@ -321,7 +319,6 @@ const Layout = () => {
     } else {
       return (
         <Chat
-          appliedColor={appliedColor}
           messages={chats[currentChat]}
           setChats={setChats}
           id={currentChat}
