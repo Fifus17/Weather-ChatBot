@@ -92,226 +92,226 @@
     margin-right: 15px;
 }
 
-.current-weather-Blue-200 {
+.currentWeather-Blue-200 {
     border-color: #cee2f2 !important;
 }
 
-.current-weather-Blue-300 {
+.currentWeather-Blue-300 {
     border-color: #adcce4 !important;
 }
 
-.current-weather-Blue-400 {
+.currentWeather-Blue-400 {
     border-color: #5293c7 !important;
 }
 
-.current-weather-Blue-500 {
+.currentWeather-Blue-500 {
     border-color: #337fbd !important;
 }
 
-.current-weather-Blue-600 {
+.currentWeather-Blue-600 {
     border-color: #1f73b7 !important;
 }
 
-.current-weather-Blue-700 {
+.currentWeather-Blue-700 {
     border-color: #144a75 !important;
 }
 
-.current-weather-Blue-800 {
+.currentWeather-Blue-800 {
     border-color: #0f3554 !important;
 }
 
-.current-weather-Red-200 {
+.currentWeatherRed200 {
     border-color: #f5d5d8 !important;
 }
 
-.current-weather-Red-300 {
+.currentWeather-Red-300 {
     border-color: #f5b5ba !important;
 }
 
-.current-weather-Red-400 {
+.currentWeather-Red-400 {
     border-color: #e35b66 !important;
 }
 
-.current-weather-Red-500 {
+.currentWeather-Red-500 {
     border-color: #d93f4c !important;
 }
 
-.current-weather-Red-600 {
+.currentWeather-Red-600 {
     border-color: #cc3340 !important;
 }
 
-.current-weather-Red-700 {
+.currentWeather-Red-700 {
     border-color: #8c232c !important;
 }
 
-.current-weather-Red-800 {
+.currentWeather-Red-800 {
     border-color: #681219 !important;
 }
 
-.current-weather-Yellow-200 {
+.currentWeather-Yellow-200 {
     border-color: #ffeedb !important;
 }
 
-.current-weather-Yellow-300 {
+.currentWeather-Yellow-300 {
     border-color: #fed6a8 !important;
 }
 
-.current-weather-Yellow-400 {
+.currentWeather-Yellow-400 {
     border-color: #ffb057 !important;
 }
 
-.current-weather-Yellow-500 {
+.currentWeather-Yellow-500 {
     border-color: #f79a3e !important;
 }
 
-.current-weather-Yellow-600 {
+.currentWeather-Yellow-600 {
     border-color: #ed8f1c !important;
 }
 
-.current-weather-Yellow-700 {
+.currentWeather-Yellow-700 {
     border-color: #ad5918 !important;
 }
 
-.current-weather-Yellow-800 {
+.currentWeather-Yellow-800 {
     border-color: #703815 !important;
 }
 
-.current-weather-Green-200 {
+.currentWeather-Green-200 {
     border-color: #d1e8df !important;
 }
 
-.current-weather-Green-300 {
+.currentWeather-Green-300 {
     border-color: #aecfc2 !important;
 }
 
-.current-weather-Green-400 {
+.currentWeather-Green-400 {
     border-color: #5eae91 !important;
 }
 
-.current-weather-Green-500 {
+.currentWeather-Green-500 {
     border-color: #228f67 !important;
 }
 
-.current-weather-Green-600 {
+.currentWeather-Green-600 {
     border-color: #038153 !important;
 }
 
-.current-weather-Green-700 {
+.currentWeather-Green-700 {
     border-color: #186146 !important;
 }
 
-.current-weather-Green-800 {
+.currentWeather-Green-800 {
     border-color: #0b3b29 !important;
 }
 
-.current-weather-Blue-200-selected {
-    border-color: #cee2f2 !important;
+.currentWeather-Blue-200-selected {
+    background-color: #cee2f2 !important;
 }
 
-.current-weather-Blue-300-selected {
-    border-color: #adcce4 !important;
+.currentWeather-Blue-300-selected {
+    background-color: #adcce4 !important;
 }
 
-.current-weather-Blue-400-selected {
-    border-color: #5293c7 !important;
+.currentWeather-Blue-400-selected {
+    background-color: #5293c7 !important;
 }
 
-.current-weather-Blue-500-selected {
-    border-color: #337fbd !important;
+.currentWeather-Blue-500-selected {
+    background-color: #337fbd !important;
 }
 
-.current-weather-Blue-600-selected {
-    border-color: #1f73b7 !important;
+.currentWeather-Blue-600-selected {
+    background-color: #1f73b7 !important;
 }
 
-.current-weather-Blue-700-selected {
-    border-color: #144a75 !important;
+.currentWeather-Blue-700-selected {
+    background-color: #144a75 !important;
 }
 
-.current-weather-Blue-800-selected {
-    border-color: #0f3554 !important;
+.currentWeather-Blue-800-selected {
+    background-color: #0f3554 !important;
 }
 
-.current-weather-Red-200-selected {
-    border-color: #f5d5d8 !important;
+.currentWeather-Red-200-selected {
+    background-color: #f5d5d8 !important;
 }
 
-.current-weather-Red-300-selected {
-    border-color: #f5b5ba !important;
+.currentWeather-Red-300-selected {
+    background-color: #f5b5ba !important;
 }
 
-.current-weather-Red-400-selected {
-    border-color: #e35b66 !important;
+.currentWeather-Red-400-selected {
+    background-color: #e35b66 !important;
 }
 
-.current-weather-Red-500-selected {
-    border-color: #d93f4c !important;
+.currentWeather-Red-500-selected {
+    background-color: #d93f4c !important;
 }
 
-.current-weather-Red-600-selected {
-    border-color: #cc3340 !important;
+.currentWeather-Red-600-selected {
+    background-color: #cc3340 !important;
 }
 
-.current-weather-Red-700-selected {
-    border-color: #8c232c !important;
+.currentWeather-Red-700-selected {
+    background-color: #8c232c !important;
 }
 
-.current-weather-Red-800-selected {
-    border-color: #681219 !important;
+.currentWeather-Red-800-selected {
+    background-color: #681219 !important;
 }
 
-.current-weather-Yellow-200-selected {
-    border-color: #ffeedb !important;
+.currentWeather-Yellow-200-selected {
+    background-color: #ffeedb !important;
 }
 
-.current-weather-Yellow-300-selected {
-    border-color: #fed6a8 !important;
+.currentWeather-Yellow-300-selected {
+    background-color: #fed6a8 !important;
 }
 
-.current-weather-Yellow-400-selected {
-    border-color: #ffb057 !important;
+.currentWeather-Yellow-400-selected {
+    background-color: #ffb057 !important;
 }
 
-.current-weather-Yellow-500-selected {
-    border-color: #f79a3e !important;
+.currentWeather-Yellow-500-selected {
+    background-color: #f79a3e !important;
 }
 
-.current-weather-Yellow-600-selected {
-    border-color: #ed8f1c !important;
+.currentWeather-Yellow-600-selected {
+    background-color: #ed8f1c !important;
 }
 
-.current-weather-Yellow-700-selected {
-    border-color: #ad5918 !important;
+.currentWeather-Yellow-700-selected {
+    background-color: #ad5918 !important;
 }
 
-.current-weather-Yellow-800-selected {
-    border-color: #703815 !important;
+.currentWeather-Yellow-800-selected {
+    background-color: #703815 !important;
 }
 
-.current-weather-Green-200-selected {
-    border-color: #d1e8df !important;
+.currentWeather-Green-200-selected {
+    background-color: #d1e8df !important;
 }
 
-.current-weather-Green-300-selected {
-    border-color: #aecfc2 !important;
+.currentWeather-Green-300-selected {
+    background-color: #aecfc2 !important;
 }
 
-.current-weather-Green-400-selected {
-    border-color: #5eae91 !important;
+.currentWeather-Green-400-selected {
+    background-color: #5eae91 !important;
 }
 
-.current-weather-Green-500-selected {
-    border-color: #228f67 !important;
+.currentWeather-Green-500-selected {
+    background-color: #228f67 !important;
 }
 
-.current-weather-Green-600-selected {
-    border-color: #038153 !important;
+.currentWeather-Green-600-selected {
+    background-color: #038153 !important;
 }
 
-.current-weather-Green-700-selected {
-    border-color: #186146 !important;
+.currentWeather-Green-700-selected {
+    background-color: #186146 !important;
 }
 
-.current-weather-Green-800-selected {
-    border-color: #0b3b29 !important;
+.currentWeather-Green-800-selected {
+    background-color: #0b3b29 !important;
 }

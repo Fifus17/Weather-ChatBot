@@ -15,6 +15,7 @@ const ContactView = (props: any) => {
         github={"https://github.com/Fifus17"}
         linkedin={"https://www.linkedin.com/in/filip-dziurdzia-3b97031bb/"}
         portfolio
+        cv
       />
       <SingleContact
         photo={photoFilip}
@@ -24,7 +25,8 @@ const ContactView = (props: any) => {
         work={"Neural Network, Weather API"} 
         github={undefined} 
         linkedin={undefined} 
-        portfolio={undefined}      
+        portfolio={undefined} 
+        cv={undefined}     
         />
     </div>
   );

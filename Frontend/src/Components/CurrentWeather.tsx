@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import { Row, Col } from "@zendeskgarden/react-grid";
 
-import styles from "./CurrentWeather.module.css";
+// import styles from "./CurrentWeather.module.css";
+import "./CurrentWeather.css";
 import { WeatherType } from "../Enums/WeatherType";
 import WeatherTile from "./WeatherTile";
 import { WeekDay } from "../Enums/WeekDay";
@@ -50,6 +51,7 @@ import sunrise from "../Resources/WeatherAnimatedIcons/sunrise.svg";
 
 import { WeatherForecastType } from "../Enums/WeatherForecastType";
 import { Button, ButtonGroup } from "@zendeskgarden/react-buttons";
+import ColorContext from "../States/color-context";
 
 // Parser from weather id to icon, should be moved to util file
 const getIcon = (id: WeatherType, day: boolean) => {
@@ -138,8 +140,10 @@ const getIcon = (id: WeatherType, day: boolean) => {
       return id803;
     case 804:
       return id804;
-    case 'sunrise': return sunrise;
-    case 'sunset': return sunset;
+    case "sunrise":
+      return sunrise;
+    case "sunset":
+      return sunset;
   }
 };
 
@@ -156,30 +160,51 @@ const CurrentWeather = (props: {
     temperature: number;
     date: WeekDay;
     day: boolean;
-  }[]
+  }[];
   forecastHour: {
     weather: WeatherType;
     temperature: number;
     hour: string;
     minutes: string;
     day: boolean;
-  }[]
+  }[];
 }) => {
   const [selectedItem, setSelectedItem] = useState("calendar");
+  const colorContext = useContext(ColorContext);
 
   return (
-    <div className={styles.currentWeatherWrapper}>
-      <div className={styles.currentWeatherContainer}>
+    <div className="currentWeatherWrapper">
+      <div className="currentWeatherContainer">
         <Row justifyContent="between">
-          <h1 className={styles.currentWeatherCityName}>
+          <h1 className="currentWeatherCityName">
             {props.city}, {props.region}
           </h1>
-          <ButtonGroup className={styles.currentWeatherButtonGroup} selectedItem={selectedItem} onSelect={setSelectedItem}>
-            <Button className={styles.currentWeatherForecastTypeButton} size="small" value="calendar">
-              <div className={styles.currentWeatherCalendarIcon}></div>
+          <ButtonGroup
+            className="currentWeatherButtonGroup"
+            selectedItem={selectedItem}
+            onSelect={setSelectedItem}
+          >
+            <Button
+              className={
+                selectedItem === "calendar"
+                  ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
+                  : `currentWeather-${colorContext.name}`
+              }
+              size="small"
+              value="calendar"
+            >
+              <div className="currentWeatherCalendarIcon"></div>
             </Button>
-            <Button className={styles.currentWeatherForecastTypeButton} size="small" value="clock">
-              <div className={styles.currentWeatherClockIcon}></div>
+            <Button
+              className={
+                selectedItem === "clock"
+                  ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
+                  : `currentWeather-${colorContext.name}`
+              }
+              size="small"
+              value="clock"
+            >
+              <div className="currentWeatherClockIcon"></div>
             </Button>
           </ButtonGroup>
         </Row>
@@ -187,7 +212,7 @@ const CurrentWeather = (props: {
           <Col>
             <Row justifyContent="center">
               <img
-                className={styles.currentWeatherIcon}
+                className="currentWeatherIcon"
                 src={getIcon(props.weather, props.day)}
                 alt="current-weather-icon"
               />
@@ -195,8 +220,9 @@ const CurrentWeather = (props: {
           </Col>
           <Col>
             <Row>
-              <h1 className={styles.currentWeatherTemperature}>
-                {props.temperature}°C {/*{props.degrees (C, F, K) to pewnie będzie jakiś stan tak jak kolor i potencjalnie font}*/}
+              <h1 className="currentWeatherTemperature">
+                {props.temperature}°C{" "}
+                {/*{props.degrees (C, F, K) to pewnie będzie jakiś stan tak jak kolor i potencjalnie font}*/}
               </h1>
             </Row>
             {/* <Row >
@@ -207,34 +233,41 @@ const CurrentWeather = (props: {
               </Row> */}
           </Col>
         </Row>
-        <hr className={styles.currentWeatherHorizontalLine} />
-        <div className={styles.currentWeatherForecastContainer}>
-          {selectedItem === 'calendar' ? 
-          <>{props.forecastDay.map((item, index) => {
-            return (
-              <WeatherTile
-                weather={item.weather}
-                temperature={item.temperature}
-                date={item.date}
-                day={item.day}
-                type={WeatherForecastType.day}
-                icon={getIcon}
-                key={index}
-              ></WeatherTile>
-            );
-          })}</> : <>{props.forecastHour.map((item, index) => {
-            return (
-              <WeatherTile
-                weather={item.weather}
-                temperature={item.temperature}
-                date={item.hour + ":" + item.minutes}
-                day={item.day}
-                type={WeatherForecastType.hour}
-                icon={getIcon}
-                key={index}
-              ></WeatherTile>
-            );
-          })}</>}
+        <hr className="currentWeatherHorizontalLine" />
+        <div className="currentWeatherForecastContainer">
+          {selectedItem === "calendar" ? (
+            <>
+              {props.forecastDay.map((item, index) => {
+                return (
+                  <WeatherTile
+                    weather={item.weather}
+                    temperature={item.temperature}
+                    date={item.date}
+                    day={item.day}
+                    type={WeatherForecastType.day}
+                    icon={getIcon}
+                    key={index}
+                  ></WeatherTile>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {props.forecastHour.map((item, index) => {
+                return (
+                  <WeatherTile
+                    weather={item.weather}
+                    temperature={item.temperature}
+                    date={item.hour + ":" + item.minutes}
+                    day={item.day}
+                    type={WeatherForecastType.hour}
+                    icon={getIcon}
+                    key={index}
+                  ></WeatherTile>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
     </div>

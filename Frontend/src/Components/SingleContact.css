@@ -35,6 +35,12 @@
     background-color: rgb(47, 57, 65);
 }
 
+.single-contact-links img {
+    height: 30px;
+    width: 30px;
+    margin: 15px 6px;
+}
+
 .github-logo {
     -webkit-mask: url(../Resources/github.svg) no-repeat center;
     mask: url(../Resources/github.svg) no-repeat center;
@@ -46,8 +52,8 @@
 }
 
 .portfolio-logo {
-    -webkit-mask: url(../Resources/portfolio.svg) no-repeat center;
-    mask: url(../Resources/portfolio.svg) no-repeat center;
+    -webkit-mask: url(../Resources/online-resume.png) no-repeat center;
+    mask: url(../Resources/online-resume.png) no-repeat center;
 }
 
 .mail-logo {

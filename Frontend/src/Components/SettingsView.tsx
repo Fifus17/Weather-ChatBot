@@ -1,13 +1,10 @@
 import React from "react";
 import SettingsColorSwatch from "./SettingsColorSwatch";
 
-
 const SettingsView = () => {
-    return (
-    <div>
-        <SettingsColorSwatch/>
-    </div>
-    );
-}
+  return (
+    <SettingsColorSwatch />
+  );
+};
 
 export default SettingsView;

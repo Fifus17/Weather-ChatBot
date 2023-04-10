@@ -22,6 +22,7 @@ import ContactView from "./ContactView";
 import SettingsView from "./SettingsView";
 import { WeatherType } from "../Enums/WeatherType";
 import { WeekDay } from "../Enums/WeekDay";
+import SettingsColorSwatch from "./SettingsColorSwatch";
 
 const Layout = () => {
   const [nav, setNav] = useState(3);
