@@ -1,0 +1,28 @@
+.layout-nav-item-color-swatch {
+    -webkit-box-pack: end !important;
+}
+
+.layout-github {
+    margin-top: 0px !important;
+    -webkit-box-pack: end !important;
+}
+
+.layout-divider {
+    margin-top: auto !important;
+}
+
+.layout-top-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.layout-top-logo h2 {
+    margin: 0px;
+}
+
+.layout-top-logo-icon {
+    width: 50px !important;
+    height: 50px !important;
+}

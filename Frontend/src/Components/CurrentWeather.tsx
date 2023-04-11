@@ -254,7 +254,7 @@ const CurrentWeather = (props: {
           <div
             className={
               selectedItem === "clock"
-                ? " currentWeatherForecastContainer"
+                ? "currentWeatherScrollAnimation currentWeatherForecastContainer"
                 : "currentWeatherForecastContainer"
             }
           >

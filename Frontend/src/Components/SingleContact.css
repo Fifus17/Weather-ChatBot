@@ -39,6 +39,7 @@
     height: 30px;
     width: 30px;
     margin: 15px 6px;
+    filter: invert(19%) sepia(8%) saturate(1392%) hue-rotate(165deg) brightness(91%) contrast(88%);
 }
 
 .github-logo {

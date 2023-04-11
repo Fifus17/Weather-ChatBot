@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { ReactComponent as ProductIcon } from "@zendeskgarden/svg-icons/src/26/garden.svg";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
-import { ReactComponent as ZendeskIcon } from "@zendeskgarden/svg-icons/src/26/zendesk.svg";
+import { ReactComponent as PersonIcon } from "@zendeskgarden/svg-icons/src/26/person.svg";
 import { PALETTE } from "@zendeskgarden/react-theming";
+
+import "./Layout.css";
 
 import {
   Body,
@@ -22,7 +23,11 @@ import ContactView from "./ContactView";
 import SettingsView from "./SettingsView";
 import { WeatherType } from "../Enums/WeatherType";
 import { WeekDay } from "../Enums/WeekDay";
+import LoginView from "./LoginView";
 import SettingsColorSwatch from "./SettingsColorSwatch";
+
+import github from "../Resources/github.svg";
+import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg"
 
 const Layout = () => {
   const [nav, setNav] = useState(3);
@@ -332,10 +337,10 @@ const Layout = () => {
   return (
     <Chrome isFluid hue={PALETTE.blue[800]}>
       <Nav isExpanded={true} aria-label="chrome navigation example nav">
-        <NavItem hasLogo>
+        <NavItem hasLogo className="layout-top-logo">
+          <h2>Stormy</h2> {/* TODO change font */}
           <NavItemIcon>
-            {/* TODO add name / name and logo of our chatbot */}
-            <ProductIcon style={{ color: PALETTE.green[400] }} />
+            <img src={storm} alt="stormy logo" style={{width: '50px', height: '50px'}}/>
           </NavItemIcon>
         </NavItem>
         {chats.map((chat, index) => (
@@ -354,8 +359,18 @@ const Layout = () => {
           </NavItem>
         ))}
         <NavItem
+          className="layout-divider"
           isCurrent={nav === chats.length + 1}
           onClick={() => setNav(chats.length + 1)}
+        >
+          <NavItemIcon>
+            <PersonIcon/>
+          </NavItemIcon>
+          <NavItemText>Log in</NavItemText>
+        </NavItem>
+        <NavItem
+          isCurrent={nav === chats.length + 2}
+          onClick={() => setNav(chats.length + 2)}
         >
           <NavItemIcon>
             <EmailIcon />
@@ -363,17 +378,17 @@ const Layout = () => {
           <NavItemText>Contact</NavItemText>
         </NavItem>
         <NavItem
-          isCurrent={nav === chats.length + 2}
-          onClick={() => setNav(chats.length + 2)}
+          isCurrent={nav === chats.length + 3}
+          onClick={() => setNav(chats.length + 3)}
         >
           <NavItemIcon>
             <SettingsIcon />
           </NavItemIcon>
           <NavItemText>Settings</NavItemText>
         </NavItem>
-        <NavItem hasBrandmark title="Zendesk">
+        <NavItem hasBrandmark title="github" className="layout-github" style={{paddingTop: '0px'}}>
           <NavItemIcon>
-            <ZendeskIcon />
+            <img src={storm} style={{width: '50px', height: '50px'}}/>
           </NavItemIcon>
         </NavItem>
       </Nav>

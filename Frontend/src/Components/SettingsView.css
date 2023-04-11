@@ -1,0 +1,12 @@
+.settings-view-color-swatch h2{
+    padding-right: 20px;
+    margin: 0px;
+}
+
+.settings-view-color-swatch {
+    margin-top: 50px;
+    margin-left: 80px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}

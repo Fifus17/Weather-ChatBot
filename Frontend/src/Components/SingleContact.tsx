@@ -41,12 +41,12 @@ const SingleContact = (props: {
         </a>
         {props.portfolio ? (
           <a href="https://github.com/Fifus17" target="blank">
-            <div className="portfolio-logo"></div>
+            <img src={portfolio}/>
           </a>
         ) : null}
         {props.cv ? (
           <a href="https://github.com/Fifus17" target="blank">
-            <img src={cv}></img>
+            <img src={cv}/>
           </a>
         ) : null}
         <div className="mail-logo"></div>
