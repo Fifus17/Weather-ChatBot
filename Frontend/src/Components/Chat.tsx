@@ -7,6 +7,8 @@ import "./Chat.css";
 import CurrentWeather from "./CurrentWeather";
 import ColorContext from "../States/color-context";
 
+import handlesubmit from "../Handles/handlesubmit";
+
 const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
   id: any;
@@ -48,6 +50,7 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
+    handlesubmit(message);
     props.setChats((prevState) =>
       prevState.map((chat: any, index: any) =>
         index === props.id
@@ -58,7 +61,6 @@ const Chat = (props: {
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");
-    console.log("before scroll");
     if (toScroll.current != null)
       toScroll.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -82,6 +84,7 @@ const Chat = (props: {
             } else if (message.type === "currentWeather") {
               return (
                 <CurrentWeather
+                  key={index}
                   weather={message.weather}
                   temperature={message.temperature}
                   uv={message.uv}

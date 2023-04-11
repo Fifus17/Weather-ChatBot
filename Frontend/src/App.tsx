@@ -7,6 +7,20 @@ import React, { Component, useState } from "react";
 import { matrix } from "./Components/SettingsColorSwatch";
 import ColorContext from "./States/color-context";
 
+import "firebase/firestore";
+import firebase from "firebase/app";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { firestore } from "./FirebaseSetup/firebase";
+import {
+  collection,
+  CollectionReference,
+  DocumentData,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import UserChatsContext from "./States/user-chats-context";
+
 function App() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(3);
   const [selectedColIndex, setSelectedColIndex] = useState(1);
@@ -22,22 +36,51 @@ function App() {
     setSelectedColIndex(colIdx);
   };
 
+  const messagesRef: CollectionReference<DocumentData> = collection(
+    firestore,
+    "data_collection",
+    "data",
+    "users",
+    "cPWUPEJlgUiW8hj8vGag", // user id
+    "chats"
+  );
+
+  // const messagesQuery = query(messagesRef, orderBy("date"));
+
+  const [messages, messagesLoading, messagesError] = useCollectionData(messagesRef);
+
   return (
     <div className="App">
-      <ColorContext.Provider
+      <UserChatsContext.Provider
         value={{
-          color: currentColor,
-          name: currentColorName,
-          row: selectedRowIndex,
-          col: selectedColIndex,
-          onChange: onChange,
-          onSelect: onSelect,
+          userChats: messages,
+          [Symbol.iterator]: function* () {
+            if (messages !== undefined) {
+              for (const chat of messages) {
+                yield messages;
+              }
+            }
+            else {
+              yield [{messages: []}];
+            }
+          },
         }}
       >
-        <ThemeProvider>
-          <Layout />
-        </ThemeProvider>
-      </ColorContext.Provider>
+        <ColorContext.Provider
+          value={{
+            color: currentColor,
+            name: currentColorName,
+            row: selectedRowIndex,
+            col: selectedColIndex,
+            onChange: onChange,
+            onSelect: onSelect,
+          }}
+        >
+          <ThemeProvider>
+            <Layout />
+          </ThemeProvider>
+        </ColorContext.Provider>
+      </UserChatsContext.Provider>
     </div>
   );
 }

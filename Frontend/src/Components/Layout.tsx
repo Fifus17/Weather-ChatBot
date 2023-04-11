@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
@@ -27,49 +27,19 @@ import LoginView from "./LoginView";
 import SettingsColorSwatch from "./SettingsColorSwatch";
 
 import github from "../Resources/github.svg";
-import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg"
+import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg";
+import UserChatsContext from "../States/user-chats-context";
 
 const Layout = () => {
-  const [nav, setNav] = useState(3);
+  const [nav, setNav] = useState(1);
 
-  const [currentChat, setCurrentChat] = useState(2);
+  const [currentChat, setCurrentChat] = useState(0);
+
+  const [chatsContext] = useContext(UserChatsContext);
+  console.log(chatsContext);
 
   // before I add communication with backend, for testing purposes I'll hold messages in this array
   let [chats, setChats] = useState([
-    [
-      {
-        text: "bagno bagno",
-        isUser: false,
-        type: "message",
-      },
-      {
-        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-        isUser: true,
-        type: "message",
-      },
-      {
-        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore omnis, quam voluptatum quaerat voluptatem libero voluptatibus officiis porro labore odit voluptas distinctio saepe nulla? Alias assumenda provident magni quam ratione.",
-        isUser: false,
-        type: "message",
-      },
-      {
-        text: "bagno bagno",
-        isUser: false,
-        type: "message",
-      },
-    ],
-    [
-      {
-        text: "bagno bagno",
-        isUser: false,
-        type: "message",
-      },
-      {
-        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-        isUser: true,
-        type: "message",
-      },
-    ],
     [
       {
         type: "currentWeather",
@@ -318,17 +288,18 @@ const Layout = () => {
   ]);
 
   const render = (id: string | number) => {
-    if (id === chats.length + 1) {
+    if (id === -1) {
       return <ContactView />;
-    } else if (id === chats.length + 2) {
+    } else if (id === -2) {
       return <SettingsView />;
+    } else if (id === -3) {
+      return <LoginView />;
     } else {
       return (
         <Chat
-          messages={chats[currentChat]}
+          messages={chatsContext[currentChat].messages}
           setChats={setChats}
           id={currentChat}
-          // chats={chats}
         />
       );
     }
@@ -340,10 +311,14 @@ const Layout = () => {
         <NavItem hasLogo className="layout-top-logo">
           <h2>Stormy</h2> {/* TODO change font */}
           <NavItemIcon>
-            <img src={storm} alt="stormy logo" style={{width: '50px', height: '50px'}}/>
+            <img
+              src={storm}
+              alt="stormy logo"
+              style={{ width: "50px", height: "50px" }}
+            />
           </NavItemIcon>
         </NavItem>
-        {chats.map((chat, index) => (
+        {chatsContext.map((_chat: any, index: number) => (
           <NavItem
             isCurrent={nav === index + 1}
             onClick={() => {
@@ -358,19 +333,11 @@ const Layout = () => {
             <NavItemText>Chat {index + 1}</NavItemText>
           </NavItem>
         ))}
+        
         <NavItem
           className="layout-divider"
-          isCurrent={nav === chats.length + 1}
-          onClick={() => setNav(chats.length + 1)}
-        >
-          <NavItemIcon>
-            <PersonIcon/>
-          </NavItemIcon>
-          <NavItemText>Log in</NavItemText>
-        </NavItem>
-        <NavItem
-          isCurrent={nav === chats.length + 2}
-          onClick={() => setNav(chats.length + 2)}
+          isCurrent={nav === -1}
+          onClick={() => setNav(-1)}
         >
           <NavItemIcon>
             <EmailIcon />
@@ -378,17 +345,31 @@ const Layout = () => {
           <NavItemText>Contact</NavItemText>
         </NavItem>
         <NavItem
-          isCurrent={nav === chats.length + 3}
-          onClick={() => setNav(chats.length + 3)}
+          isCurrent={nav === -3}
+          onClick={() => setNav(-3)}
+        >
+          <NavItemIcon>
+            <PersonIcon />
+          </NavItemIcon>
+          <NavItemText>Log in</NavItemText>
+        </NavItem>
+        <NavItem
+          isCurrent={nav === -2}
+          onClick={() => setNav(-2)}
         >
           <NavItemIcon>
             <SettingsIcon />
           </NavItemIcon>
           <NavItemText>Settings</NavItemText>
         </NavItem>
-        <NavItem hasBrandmark title="github" className="layout-github" style={{paddingTop: '0px'}}>
+        <NavItem
+          hasBrandmark
+          title="github"
+          className="layout-github"
+          style={{ paddingTop: "0px" }}
+        >
           <NavItemIcon>
-            <img src={storm} style={{width: '50px', height: '50px'}}/>
+            <img src={storm} style={{ width: "50px", height: "50px" }} />
           </NavItemIcon>
         </NavItem>
       </Nav>
