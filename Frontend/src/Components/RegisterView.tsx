@@ -1,12 +1,11 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useContext, useReducer, useState } from "react";
 import { auth } from "../FirebaseSetup/firebase";
 import ColorContext from "../States/color-context";
 
 import "./LoginView.css";
 
-const LoginView = (props: any) => {
-
+const RegisterView = (props: any) => {
   // Styling
   const [loginBorderColor, setLoginBorderColor] = useState(
     "1px solid transparent"
@@ -35,27 +34,24 @@ const LoginView = (props: any) => {
 
   // Logic
 
-  const [login, setLogin] = useState({login: "", password: ""});
+  const [login, setLogin] = useState({ login: "", password: "" });
 
   const checkLogin: () => boolean = () => {
-    if (login.login.includes('@') && login.password.length >= 8) return true;
+    if (login.login.includes("@") && login.password.length >= 8)
+      return true;
     else return false;
-  }
+  };
 
-  const loginHandler = async (event: any) => {
+  const registerHandler = async (event: any) => {
     event.preventDefault();
     if (checkLogin()) {
-      signInWithEmailAndPassword(auth, login.login, login.password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            props.changeView(1);
-            console.log(user);
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
+      await createUserWithEmailAndPassword(auth, login.login, login.password).then((userCredential) => {
+        const user = userCredential.user;
+        props.changeView(-3);
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
         });
     }
   };
@@ -70,7 +66,9 @@ const LoginView = (props: any) => {
           style={{ border: loginBorderColor }}
           onFocus={loginBorderOn}
           onBlur={loginBorderOff}
-          onChange={(event) => setLogin({login: event.target.value, password: login.password})}
+          onChange={(event) =>
+            setLogin({ login: event.target.value, password: login.password })
+          }
         />
         <input
           className="login-view-textarea-password"
@@ -79,22 +77,17 @@ const LoginView = (props: any) => {
           style={{ border: passwordBorderColor }}
           onFocus={passwordBorderOn}
           onBlur={passwordBorderOff}
-          onChange={(event) => setLogin({login: login.login, password: event.target.value})}
+          onChange={(event) =>
+            setLogin({ login: login.login, password: event.target.value })
+          }
           type="password"
         />
       </div>
       <div className="login-view-buttons">
         <button
-          className="login-view-button-login"
-          style={{ backgroundColor: colorContext.color }}
-          onClick={loginHandler}
-        >
-          Login
-        </button>
-        <button
           style={{ backgroundColor: colorContext.color }}
           className="login-view-button-register"
-          onClick={() => props.changeView(-5)}
+          onClick={registerHandler}
         >
           Register
         </button>
@@ -103,4 +96,4 @@ const LoginView = (props: any) => {
   );
 };
 
-export default LoginView;
+export default RegisterView;

@@ -1,12 +1,23 @@
-.settings-view-color-swatch h2{
-    padding-right: 20px;
-    margin: 0px;
+.settings-view-color-swatch h2 {
+  padding-right: 20px;
+  margin: 0px;
 }
 
 .settings-view-color-swatch {
-    margin-top: 50px;
-    margin-left: 80px;
-    display: flex;
-    align-items: center;
-    height: 60px;
+  margin-top: 50px;
+  margin-left: 80px;
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.settings-view-logout button {
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  margin: 0px 20px;
 }

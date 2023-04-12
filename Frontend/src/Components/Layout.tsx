@@ -29,13 +29,20 @@ import SettingsColorSwatch from "./SettingsColorSwatch";
 import github from "../Resources/github.svg";
 import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg";
 import UserChatsContext from "../States/user-chats-context";
+import { addDoc, serverTimestamp } from "firebase/firestore";
+import RegisterView from "./RegisterView";
+import { UserContext } from "../States/user-context";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../FirebaseSetup/firebase";
 
-const Layout = () => {
+const Layout = (props: {addChat: () => void}) => {
   const [nav, setNav] = useState(1);
 
   const [currentChat, setCurrentChat] = useState(0);
 
   const [chatsContext] = useContext(UserChatsContext);
+
+  const [user] = useAuthState(auth);
 
   // before I add communication with backend, for testing purposes I'll hold messages in this array
   let [chats, setChats] = useState([
@@ -292,8 +299,10 @@ const Layout = () => {
     } else if (id === -2) {
       return <SettingsView />;
     } else if (id === -3) {
-      return <LoginView />;
-    } else {
+      return <LoginView changeView={setNav}/>;
+    } else if (id === -5) {
+      return <RegisterView changeView={setNav}/>;
+    }else {
       return (
         <Chat
           messages={chatsContext[currentChat].messages}
@@ -332,7 +341,19 @@ const Layout = () => {
             <NavItemText>Chat {index + 1}</NavItemText>
           </NavItem>
         ))}
-        
+        <NavItem
+          isCurrent={nav === -4}
+          onClick={() => {
+            setNav(chatsContext.length);
+            setCurrentChat(chatsContext.length - 1);
+            props.addChat();
+          }}
+        >
+          <NavItemIcon>
+            <ChatIcon />
+          </NavItemIcon>
+          <NavItemText>New Chat</NavItemText>
+        </NavItem>
         <NavItem
           className="layout-divider"
           isCurrent={nav === -1}
@@ -343,19 +364,13 @@ const Layout = () => {
           </NavItemIcon>
           <NavItemText>Contact</NavItemText>
         </NavItem>
-        <NavItem
-          isCurrent={nav === -3}
-          onClick={() => setNav(-3)}
-        >
+        {user ? null :<NavItem isCurrent={nav === -3} onClick={() => setNav(-3)}>
           <NavItemIcon>
             <PersonIcon />
           </NavItemIcon>
           <NavItemText>Log in</NavItemText>
-        </NavItem>
-        <NavItem
-          isCurrent={nav === -2}
-          onClick={() => setNav(-2)}
-        >
+        </NavItem>}
+        <NavItem isCurrent={nav === -2} onClick={() => setNav(-2)}>
           <NavItemIcon>
             <SettingsIcon />
           </NavItemIcon>
