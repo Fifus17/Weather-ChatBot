@@ -7,7 +7,10 @@ import "./Chat.css";
 import CurrentWeather from "./CurrentWeather";
 import ColorContext from "../States/color-context";
 
-import handlesubmit from "../Handles/handlesubmit";
+import { firestore } from "../FirebaseSetup/firebase";
+import { arrayUnion, doc, FieldValue, serverTimestamp, updateDoc } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import firebase from "firebase/app";
 
 const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
@@ -16,6 +19,18 @@ const Chat = (props: {
 }) => {
   // const toScroll = useRef();
   const toScroll = useRef<HTMLSpanElement>(null);
+
+  const docRef = doc(
+    firestore,
+    "data_collection",
+    "data",
+    "users",
+    "cPWUPEJlgUiW8hj8vGag", // user id
+    "chats",
+    "WZ6qCAbSgvdArd1o0eq6"
+  );
+
+  const [messages, messagesLoading, messagesError] = useDocumentData(docRef);
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
 
@@ -50,14 +65,8 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    handlesubmit(message);
-    props.setChats((prevState) =>
-      prevState.map((chat: any, index: any) =>
-        index === props.id
-          ? [...chat, { text: message, isUser: true, type: "message" }]
-          : chat
-      )
-    );
+    updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true}) });
+    
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");

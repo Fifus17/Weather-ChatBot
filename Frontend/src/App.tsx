@@ -8,8 +8,8 @@ import { matrix } from "./Components/SettingsColorSwatch";
 import ColorContext from "./States/color-context";
 
 import "firebase/firestore";
-import firebase from "firebase/app";
-import { useAuthState } from "react-firebase-hooks/auth";
+import firebase, { initializeApp } from "firebase/app";
+import { useAuthState, useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { firestore } from "./FirebaseSetup/firebase";
 import {
@@ -22,6 +22,20 @@ import {
 import UserChatsContext from "./States/user-chats-context";
 
 function App() {
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCWU5mfJAg37GBY961hkCGrmmAUORJmqnw",
+    authDomain: "weather-chatbot-232b8.firebaseapp.com",
+    projectId: "weather-chatbot-232b8",
+    storageBucket: "weather-chatbot-232b8.appspot.com",
+    messagingSenderId: "441816577712",
+    appId: "1:441816577712:web:58487dd5c177f039752d75",
+    measurementId: "G-J3HNL8982M"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
   const [selectedRowIndex, setSelectedRowIndex] = useState(3);
   const [selectedColIndex, setSelectedColIndex] = useState(1);
   const [currentColor, setCurrentColor] = useState(PALETTE.green[400]);
@@ -44,6 +58,8 @@ function App() {
     "cPWUPEJlgUiW8hj8vGag", // user id
     "chats"
   );
+
+  console.log(messagesRef);
 
   // const messagesQuery = query(messagesRef, orderBy("date"));
 

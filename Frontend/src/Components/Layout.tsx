@@ -36,7 +36,6 @@ const Layout = () => {
   const [currentChat, setCurrentChat] = useState(0);
 
   const [chatsContext] = useContext(UserChatsContext);
-  console.log(chatsContext);
 
   // before I add communication with backend, for testing purposes I'll hold messages in this array
   let [chats, setChats] = useState([
