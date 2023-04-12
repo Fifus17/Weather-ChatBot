@@ -7,28 +7,32 @@ import "./Chat.css";
 import CurrentWeather from "./CurrentWeather";
 import ColorContext from "../States/color-context";
 
-import { firestore } from "../FirebaseSetup/firebase";
+import { auth, firestore } from "../FirebaseSetup/firebase";
 import { arrayUnion, doc, FieldValue, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import firebase from "firebase/app";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
   id: any;
-  messages: any[];
+  messages: any[] | undefined;
 }) => {
   // const toScroll = useRef();
   const toScroll = useRef<HTMLSpanElement>(null);
 
-  const docRef = doc(
+  const [user] = useAuthState(auth);
+
+  let docRef = doc(
     firestore,
     "data_collection",
     "data",
     "users",
-    "cPWUPEJlgUiW8hj8vGag", // user id
+    user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
     "chats",
-    "WZ6qCAbSgvdArd1o0eq6"
+    "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
   );
+  
 
   const [messages, messagesLoading, messagesError] = useDocumentData(docRef);
 
@@ -65,7 +69,7 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true}) });
+    updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
     
     setMessage("");
     setButtonColor("#999999");
@@ -81,7 +85,7 @@ const Chat = (props: {
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
           {/* indexes will be replaced by id from database */}
-          {props.messages.map((message, index) => {
+          {props.messages ? props.messages.map((message, index) => {
             if (message.type === "message") {
               return (
                 <Message
@@ -106,7 +110,7 @@ const Chat = (props: {
                 />
               );
             }
-          })}
+          }) : null}
           <AwaitingMessage isUser={false} visible={awaitingMessage} />
           <span ref={toScroll}></span>{" "}
           {/* this is for scrolling to the bottom of the chat, needs some tweaking TODO*/}

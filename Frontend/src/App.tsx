@@ -57,12 +57,12 @@ function App() {
     setSelectedColIndex(colIdx);
   };
 
-  const messagesRef = collection(
+  let messagesRef = collection(
     firestore,
     "data_collection",
     "data",
     "users",
-    "cPWUPEJlgUiW8hj8vGag", // user id z context'u
+    user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id z context'u
     "chats"
   );
 

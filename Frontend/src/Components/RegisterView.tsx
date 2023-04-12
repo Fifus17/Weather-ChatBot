@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import React, { useContext, useReducer, useState } from "react";
-import { auth } from "../FirebaseSetup/firebase";
+import { auth, firestore } from "../FirebaseSetup/firebase";
 import ColorContext from "../States/color-context";
 
 import "./LoginView.css";
@@ -45,8 +46,10 @@ const RegisterView = (props: any) => {
   const registerHandler = async (event: any) => {
     event.preventDefault();
     if (checkLogin()) {
-      await createUserWithEmailAndPassword(auth, login.login, login.password).then((userCredential) => {
+      await createUserWithEmailAndPassword(auth, login.login, login.password).then(async (userCredential) => {
         const user = userCredential.user;
+        const docRef = await addDoc(collection(firestore, "data_collection", "data", "users", user.uid, "chats"), {date: serverTimestamp()});
+        // const docRef2 = await addCollection(doc(firestore, "data_collection", "data", "users", user.uid, "chats"), {});
         props.changeView(-3);
       }).catch((error) => {
         const errorCode = error.code;

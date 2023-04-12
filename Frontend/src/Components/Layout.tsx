@@ -35,7 +35,7 @@ import { UserContext } from "../States/user-context";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../FirebaseSetup/firebase";
 
-const Layout = (props: {addChat: () => void}) => {
+const Layout = (props: { addChat: () => void }) => {
   const [nav, setNav] = useState(1);
 
   const [currentChat, setCurrentChat] = useState(0);
@@ -299,13 +299,13 @@ const Layout = (props: {addChat: () => void}) => {
     } else if (id === -2) {
       return <SettingsView />;
     } else if (id === -3) {
-      return <LoginView changeView={setNav}/>;
+      return <LoginView changeView={setNav} />;
     } else if (id === -5) {
-      return <RegisterView changeView={setNav}/>;
-    }else {
+      return <RegisterView changeView={setNav} />;
+    } else {
       return (
         <Chat
-          messages={chatsContext[currentChat].messages}
+          messages={chatsContext[currentChat].messages!}
           setChats={setChats}
           id={currentChat}
         />
@@ -326,34 +326,38 @@ const Layout = (props: {addChat: () => void}) => {
             />
           </NavItemIcon>
         </NavItem>
-        {chatsContext.map((_chat: any, index: number) => (
+        <div className="layout-chats-container">
+          {chatsContext.map((_chat: any, index: number) => (
+            <NavItem
+              style={{ width: "100%" }}
+              isCurrent={nav === index + 1}
+              onClick={() => {
+                setNav(index + 1);
+                setCurrentChat(index);
+              }}
+              key={index}
+            >
+              <NavItemIcon>
+                <ChatIcon />
+              </NavItemIcon>
+              <NavItemText>Chat {index + 1}</NavItemText>
+            </NavItem>
+          ))}
           <NavItem
-            isCurrent={nav === index + 1}
+            style={{ width: "100%" }}
+            isCurrent={nav === -4}
             onClick={() => {
-              setNav(index + 1);
-              setCurrentChat(index);
+              setNav(chatsContext.length + 1);
+              setCurrentChat(chatsContext.length);
+              props.addChat();
             }}
-            key={index}
           >
             <NavItemIcon>
               <ChatIcon />
             </NavItemIcon>
-            <NavItemText>Chat {index + 1}</NavItemText>
+            <NavItemText>New Chat</NavItemText>
           </NavItem>
-        ))}
-        <NavItem
-          isCurrent={nav === -4}
-          onClick={() => {
-            setNav(chatsContext.length);
-            setCurrentChat(chatsContext.length - 1);
-            props.addChat();
-          }}
-        >
-          <NavItemIcon>
-            <ChatIcon />
-          </NavItemIcon>
-          <NavItemText>New Chat</NavItemText>
-        </NavItem>
+        </div>
         <NavItem
           className="layout-divider"
           isCurrent={nav === -1}
@@ -364,12 +368,14 @@ const Layout = (props: {addChat: () => void}) => {
           </NavItemIcon>
           <NavItemText>Contact</NavItemText>
         </NavItem>
-        {user ? null :<NavItem isCurrent={nav === -3} onClick={() => setNav(-3)}>
-          <NavItemIcon>
-            <PersonIcon />
-          </NavItemIcon>
-          <NavItemText>Log in</NavItemText>
-        </NavItem>}
+        {user ? null : (
+          <NavItem isCurrent={nav === -3} onClick={() => setNav(-3)}>
+            <NavItemIcon>
+              <PersonIcon />
+            </NavItemIcon>
+            <NavItemText>Log in</NavItemText>
+          </NavItem>
+        )}
         <NavItem isCurrent={nav === -2} onClick={() => setNav(-2)}>
           <NavItemIcon>
             <SettingsIcon />
