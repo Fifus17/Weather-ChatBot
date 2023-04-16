@@ -13,7 +13,9 @@ const SingleContact = (props: {
   github: string | undefined;
   linkedin: string | undefined;
   portfolio: boolean | undefined;
+  portfolioLink?: any;
   cv: boolean | undefined;
+  cvPath?: string | undefined;
 }) => {
 
   const [mailTooltip, setMailTooltip] = useState("Copy e-mail address");
@@ -21,6 +23,10 @@ const SingleContact = (props: {
   const copyMail = () => {
     navigator.clipboard.writeText(props.mail ? props.mail : "XD");
     setMailTooltip("E-mail copied!");
+  };
+
+  const openCV = () => {
+    window.open(props.cvPath, "_blank");
   };
   
   return (
@@ -58,9 +64,9 @@ const SingleContact = (props: {
         ) : null}
         {props.cv ? (
         <Tooltip type="light" size="small" placement="bottom" content="Open CV">
-          <a href="https://github.com/Fifus17" target="blank">
-            <img src={cv}/>
-          </a>
+          {/* <a href="https://github.com/Fifus17" target="blank"> */}
+            <img src={cv} className="single-contact-cv" onClick={openCV}/>
+          {/* </a> */}
         </Tooltip>
         ) : null}
         <Tooltip type="light" size="small" placement="bottom" content={mailTooltip}>

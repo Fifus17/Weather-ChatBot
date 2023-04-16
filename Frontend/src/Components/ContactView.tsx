@@ -1,6 +1,7 @@
 import SingleContact from "./SingleContact";
 import "./ContactView.css";
 import photoFilip from "../Resources/FilipPlaceholder.png";
+import cv from "../Resources/placeholder.pdf";
 import React from "react";
 
 const ContactView = (props: any) => {
@@ -15,7 +16,9 @@ const ContactView = (props: any) => {
         mail={"filipdziurdzia2002@gmail.com"}
         github={"https://github.com/Fifus17"}
         linkedin={"https://www.linkedin.com/in/filip-dziurdzia-3b97031bb/"}
+        portfolioLink=""
         portfolio
+        cvPath={cv}
         cv
       />
       <SingleContact

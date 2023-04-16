@@ -66,3 +66,7 @@
     mask: url(../Resources/mail.svg) no-repeat center;
     cursor: pointer;
 }
+
+.single-contact-cv {
+    cursor: pointer;
+}
