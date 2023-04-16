@@ -58,6 +58,7 @@ const LoginView = (props: any) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage)
+            setBackgroundColor('rgb(245, 181, 186)');
         });
     }
     else setBackgroundColor('rgb(245, 181, 186)');

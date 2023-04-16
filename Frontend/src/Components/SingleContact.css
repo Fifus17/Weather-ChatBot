@@ -28,7 +28,11 @@
     display: flex;
 }
 
-.single-contact-links div {
+.single-contact-links a {
+    height: 52px;
+}
+
+.single-contact-links-div {
     height: 30px;
     width: 30px;
     margin: 15px 6px;
@@ -60,4 +64,5 @@
 .mail-logo {
     -webkit-mask: url(../Resources/mail.svg) no-repeat center;
     mask: url(../Resources/mail.svg) no-repeat center;
+    cursor: pointer;
 }
