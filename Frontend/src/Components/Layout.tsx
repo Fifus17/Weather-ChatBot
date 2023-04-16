@@ -35,7 +35,12 @@ import { UserContext } from "../States/user-context";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../FirebaseSetup/firebase";
 
-const Layout = (props: { addChat: () => void }) => {
+const Layout = (props: {
+  addChat: () => void;
+  localStorageData: any;
+  setLocalStorageData: any;
+  messages: any;
+}) => {
   const [nav, setNav] = useState(1);
 
   const [currentChat, setCurrentChat] = useState(0);
@@ -305,9 +310,15 @@ const Layout = (props: { addChat: () => void }) => {
     } else {
       return (
         <Chat
-          messages={chatsContext[currentChat].messages!}
+          messages={
+            user && props.messages
+              ? props.messages[currentChat]!
+              : props.localStorageData[currentChat]!.messages
+          }
+          // docID={chatsContext[currentChat].docID!}
           setChats={setChats}
           id={currentChat}
+          setLocalStorageData={props.setLocalStorageData}
         />
       );
     }
@@ -327,28 +338,53 @@ const Layout = (props: { addChat: () => void }) => {
           </NavItemIcon>
         </NavItem>
         <div className="layout-chats-container">
-          {chatsContext.map((_chat: any, index: number) => (
-            <NavItem
-              style={{ width: "100%" }}
-              isCurrent={nav === index + 1}
-              onClick={() => {
-                setNav(index + 1);
-                setCurrentChat(index);
-              }}
-              key={index}
-            >
-              <NavItemIcon>
-                <ChatIcon />
-              </NavItemIcon>
-              <NavItemText>Chat {index + 1}</NavItemText>
-            </NavItem>
-          ))}
+          {user && props.messages
+            ? props.messages.map((_chat: any, index: number) => (
+                <NavItem
+                  style={{ width: "100%" }}
+                  isCurrent={nav === index + 1}
+                  onClick={() => {
+                    setNav(index + 1);
+                    setCurrentChat(index);
+                  }}
+                  key={index}
+                >
+                  <NavItemIcon>
+                    <ChatIcon />
+                  </NavItemIcon>
+                  <NavItemText>Chat {index + 1}</NavItemText>
+                </NavItem>
+              ))
+            : props.localStorageData.map((_chat: any, index: number) => (
+                <NavItem
+                  style={{ width: "100%" }}
+                  isCurrent={nav === index + 1}
+                  onClick={() => {
+                    setNav(index + 1);
+                    setCurrentChat(index);
+                  }}
+                  key={index}
+                >
+                  <NavItemIcon>
+                    <ChatIcon />
+                  </NavItemIcon>
+                  <NavItemText>Chat {index + 1}</NavItemText>
+                </NavItem>
+              ))}
           <NavItem
             style={{ width: "100%" }}
             isCurrent={nav === -4}
             onClick={() => {
-              setNav(chatsContext.length + 1);
-              setCurrentChat(chatsContext.length);
+              setNav(
+                user
+                  ? props.messages.length + 1
+                  : props.localStorageData.length + 1
+              );
+              setCurrentChat(
+                user
+                  ? props.messages.length
+                  : props.localStorageData.length
+              );
               props.addChat();
             }}
           >

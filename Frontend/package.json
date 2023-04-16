@@ -7,6 +7,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@pubnub/react-chat-components": "^0.20.0",
+    "@react-query-firebase/analytics": "^0.1.2-alpha.0",
+    "@react-query-firebase/firestore": "^1.0.0-dev.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

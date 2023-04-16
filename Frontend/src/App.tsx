@@ -12,37 +12,89 @@ import {
   useCreateUserWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { firestore } from "./FirebaseSetup/firebase";
+import { app, auth, firestore } from "./FirebaseSetup/firebase";
 import {
   addDoc,
   collection,
   CollectionReference,
   DocumentData,
+  DocumentReference,
   orderBy,
   query,
   serverTimestamp,
 } from "firebase/firestore";
+// import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import UserChatsContext from "./States/user-chats-context";
 import { getAuth } from "firebase/auth";
 import { UserContext } from "./States/user-context";
 
 function App() {
-  const firebaseConfig = {
-    apiKey: "AIzaSyCWU5mfJAg37GBY961hkCGrmmAUORJmqnw",
-    authDomain: "weather-chatbot-232b8.firebaseapp.com",
-    projectId: "weather-chatbot-232b8",
-    storageBucket: "weather-chatbot-232b8.appspot.com",
-    messagingSenderId: "441816577712",
-    appId: "1:441816577712:web:58487dd5c177f039752d75",
-    measurementId: "G-J3HNL8982M",
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
+  // Initialize Firebase states
   const [user] = useAuthState(auth);
+  const [collectionRef, setCollectionRef] = useState<
+    CollectionReference<DocumentData>
+  >(
+    collection(
+      firestore,
+      "data_collection",
+      "data",
+      "users",
+      "cPWUPEJlgUiW8hj8vGag",
+      "chats"
+    )
+  );
+  const [localStorageData, setLocalStorageData] = useState([{messages: []}]);
+  // const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    if (user) {
+      var messagesRef = collection(
+        firestore,
+        "data_collection",
+        "data",
+        "users",
+        user!.uid, // user id z context'u
+        "chats"
+      );
+    } else {
+      var messagesRef = collection(
+        firestore,
+        "data_collection",
+        "data",
+        "users",
+        "cPWUPEJlgUiW8hj8vGag",
+        "chats"
+      );
+
+      let items = JSON.parse(localStorage.getItem("chats")!);
+      if (items !== undefined && items !== null) {
+        setLocalStorageData(items);
+      } else {
+        localStorage.setItem(
+          "chats",
+          JSON.stringify([
+            {
+              date: new Date(),
+              messages: [{ text: "bagno", isUser: true, type: "message" }],
+            },
+          ])
+        );
+        let items = JSON.parse(localStorage.getItem("chats")!);
+        setLocalStorageData(items);
+      }
+    }
+    setCollectionRef(messagesRef);
+  }, [user]);
+
+  // const [messages, messagesLoading, messagesError] = useCollectionData(query(collectionRef!, orderBy("date")));
+  // let messages: DocumentData[] | undefined;
+  // let messagesLoading: boolean;
+  // let messagesError: Error | undefined;
+  let [messages, messagesLoading, messagesError] = useCollectionData(
+    query(collectionRef!, orderBy("date"))
+  );
+
+  // Choosing global color state in Settings View (Color Swatch)
   const [selectedRowIndex, setSelectedRowIndex] = useState(3);
   const [selectedColIndex, setSelectedColIndex] = useState(1);
   const [currentColor, setCurrentColor] = useState(PALETTE.green[400]);
@@ -57,37 +109,17 @@ function App() {
     setSelectedColIndex(colIdx);
   };
 
-  let messagesRef = collection(
-    firestore,
-    "data_collection",
-    "data",
-    "users",
-    user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id z context'u
-    "chats"
-  );
-
-  const sortedQuery = query(messagesRef, orderBy("date"));
-
-  const [messages, messagesLoading, messagesError] =
-    useCollectionData(sortedQuery);
-
-  const getDocumentIds = async () => {
-    // try {
-    //   const querySnapshot = await messagesRef.get();
-    //   const ids: any[] = [];
-    //   querySnapshot.forEach((doc: { id: any; }) => {
-    //     ids.push(doc.id);
-    //   });
-    //   console.log(ids);
-    // } catch (error) {
-    //   console.log("Error getting documents: ", error);
-    // }
-  };
-
-  getDocumentIds();
-
   const newChat = () => {
-    addDoc(messagesRef, { date: serverTimestamp(), messages: [] });
+    if (user) addDoc(collectionRef!, { date: serverTimestamp(), messages: [] });
+    else {
+      const items = JSON.parse(localStorage.getItem("chats")!);
+      items.push({
+        date: new Date(),
+        messages: [{ text: "bagno", isUser: true, type: "message" }],
+      });
+      localStorage.setItem("chats", JSON.stringify(items));
+      setLocalStorageData(items);
+    }
   };
 
   return (
@@ -95,15 +127,25 @@ function App() {
       <UserContext.Provider value={{ user: user }}>
         <UserChatsContext.Provider
           value={{
-            chatsCollectionRef: messagesRef,
-            userChats: messages,
+            chatsCollectionRef: collectionRef!,
+            userChats: user ? messages : localStorageData,
             [Symbol.iterator]: function* () {
-              if (messages !== undefined) {
-                for (const chat of messages) {
-                  yield messages;
+              if (user) {
+                if (messages !== undefined) {
+                  for (const chat of messages) {
+                    yield messages;
+                  }
+                } else {
+                  yield [{ messages: [] }];
                 }
               } else {
-                yield [{ messages: [] }];
+                if (localStorageData !== undefined) {
+                  for (const chat of localStorageData) {
+                    yield localStorageData;
+                  }
+                } else {
+                  yield [{ messages: [] }];
+                }
               }
             },
           }}
@@ -119,7 +161,12 @@ function App() {
             }}
           >
             <ThemeProvider>
-              <Layout addChat={newChat} />
+              <Layout
+                addChat={newChat}
+                localStorageData={localStorageData}
+                setLocalStorageData={setLocalStorageData}
+                messages={messages}
+              />
             </ThemeProvider>
           </ColorContext.Provider>
         </UserChatsContext.Provider>

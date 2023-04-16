@@ -17,6 +17,8 @@ const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
   id: any;
   messages: any[] | undefined;
+  docID?: any;
+  setLocalStorageData: (arg0: any) => void;
 }) => {
   // const toScroll = useRef();
   const toScroll = useRef<HTMLSpanElement>(null);
@@ -30,11 +32,13 @@ const Chat = (props: {
     "users",
     user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
     "chats",
-    "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
+    props.docID ? props.docID! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
   );
   
 
-  const [messages, messagesLoading, messagesError] = useDocumentData(docRef);
+  // const [messages, messagesLoading, messagesError] = useDocumentData(docRef);
+
+  // console.log(props.messages);
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
 
@@ -69,7 +73,13 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
+    if(user) updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
+    else {
+      const items = JSON.parse(localStorage.getItem("chats")!);
+      items[props.id].messages.push({text: message, type: 'message', isUser: true, id: Date.now()});
+      localStorage.setItem("chats", JSON.stringify(items));
+      props.setLocalStorageData(items);
+    }
     
     setMessage("");
     setButtonColor("#999999");
@@ -85,7 +95,7 @@ const Chat = (props: {
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
           {/* indexes will be replaced by id from database */}
-          {props.messages ? props.messages.map((message, index) => {
+          {props.messages! && props.messages.length > 0 ? props.messages!.map((message, index) => {
             if (message.type === "message") {
               return (
                 <Message
