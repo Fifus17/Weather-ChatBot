@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 
 import MessageInput from "./MessageInput";
 import Message from "./Message";
@@ -8,10 +8,10 @@ import CurrentWeather from "./CurrentWeather";
 import ColorContext from "../States/color-context";
 
 import { auth, firestore } from "../FirebaseSetup/firebase";
-import { arrayUnion, doc, FieldValue, serverTimestamp, updateDoc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import firebase from "firebase/app";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { WeatherType } from "../Enums/WeatherType";
+import { WeekDay } from "../Enums/WeekDay";
 
 const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
@@ -25,20 +25,28 @@ const Chat = (props: {
 
   const [user] = useAuthState(auth);
 
-  let docRef = doc(
+  useEffect(() => {
+    let docRef = doc(
+      firestore,
+      "data_collection",
+      "data",
+      "users",
+      user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
+      "chats",
+      props.docID[props.id] ? props.docID[props.id]! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
+    );
+    setDocRef(docRef);
+  }, [props.docID, user]);
+
+  const [docRef, setDocRef] = useState(doc(
     firestore,
     "data_collection",
     "data",
     "users",
     user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
     "chats",
-    props.docID ? props.docID! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
-  );
-  
-
-  // const [messages, messagesLoading, messagesError] = useDocumentData(docRef);
-
-  // console.log(props.messages);
+    props.docID[props.id] ? props.docID[props.id]! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
+  ));
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
 
@@ -73,7 +81,9 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    if(user) updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
+    if(user) {
+      updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
+    }
     else {
       const items = JSON.parse(localStorage.getItem("chats")!);
       items[props.id].messages.push({text: message, type: 'message', isUser: true, id: Date.now()});
@@ -87,15 +97,38 @@ const Chat = (props: {
     if (toScroll.current != null)
       toScroll.current.scrollIntoView({ behavior: "smooth" });
   };
-  // end of states lifted up from MessageInput
 
   return (
-    // <ColorContext.Provider value={{ color:  }}>
     <div className="chat-container">
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
-          {/* indexes will be replaced by id from database */}
-          {props.messages! && props.messages.length > 0 ? props.messages!.map((message, index) => {
+          {!user ? props.messages!.map((message, index) => {
+            if (message.type === "message") {
+              return (
+                <Message
+                  key={index}
+                  text={message.text}
+                  isUser={message.isUser}
+                />
+              );
+            } else if (message.type === "currentWeather") {
+              return (
+                <CurrentWeather
+                  key={index}
+                  weather={message.weather}
+                  temperature={message.temperature}
+                  uv={message.uv}
+                  wind={message.wind}
+                  city={message.city}
+                  region={message.region}
+                  day={message.day}
+                  forecastDay={message.forecastDay}
+                  forecastHour={message.forecastHour}
+                />
+              );
+            }
+          }) : null}
+          {user && props.messages !== undefined && props.messages[props.id] !== undefined ? props.messages[props.id].messages.map((message: { type: string; text: string; isUser: any; weather: WeatherType; temperature: number; uv: number; wind: number; city: string; region: string; day: boolean; forecastDay: { weather: WeatherType; temperature: number; date: WeekDay; day: boolean; }[]; forecastHour: { weather: WeatherType; temperature: number; hour: string; minutes: string; day: boolean; }[]; }, index: React.Key | null | undefined) => {
             if (message.type === "message") {
               return (
                 <Message
@@ -128,7 +161,6 @@ const Chat = (props: {
       </div>
       <div className="chat-wrapper">
         <MessageInput
-          // className="chat-message-input"
           message={message}
           textareaHandler={textareaHandler}
           sendMessage={sendMessage}
@@ -137,7 +169,6 @@ const Chat = (props: {
         />
       </div>
     </div>
-    // </ColorContext.Provider>
   );
 };
 

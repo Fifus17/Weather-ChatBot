@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
@@ -24,14 +24,9 @@ import SettingsView from "./SettingsView";
 import { WeatherType } from "../Enums/WeatherType";
 import { WeekDay } from "../Enums/WeekDay";
 import LoginView from "./LoginView";
-import SettingsColorSwatch from "./SettingsColorSwatch";
 
-import github from "../Resources/github.svg";
 import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg";
-import UserChatsContext from "../States/user-chats-context";
-import { addDoc, serverTimestamp } from "firebase/firestore";
 import RegisterView from "./RegisterView";
-import { UserContext } from "../States/user-context";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../FirebaseSetup/firebase";
 
@@ -40,12 +35,11 @@ const Layout = (props: {
   localStorageData: any;
   setLocalStorageData: any;
   messages: any;
+  ids: string[];
 }) => {
   const [nav, setNav] = useState(1);
 
   const [currentChat, setCurrentChat] = useState(0);
-
-  const [chatsContext] = useContext(UserChatsContext);
 
   const [user] = useAuthState(auth);
 
@@ -311,13 +305,13 @@ const Layout = (props: {
       return (
         <Chat
           messages={
-            user && props.messages
-              ? props.messages[currentChat]!
+            user && user !== null
+              ? props.messages
               : props.localStorageData[currentChat]!.messages
           }
-          // docID={chatsContext[currentChat].docID!}
           setChats={setChats}
           id={currentChat}
+          docID={props.ids}
           setLocalStorageData={props.setLocalStorageData}
         />
       );
@@ -425,7 +419,7 @@ const Layout = (props: {
           style={{ paddingTop: "0px" }}
         >
           <NavItemIcon>
-            <img src={storm} style={{ width: "50px", height: "50px" }} />
+            <img src={storm} alt="storm" style={{ width: "50px", height: "50px" }} />
           </NavItemIcon>
         </NavItem>
       </Nav>

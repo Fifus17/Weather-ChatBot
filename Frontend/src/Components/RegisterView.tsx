@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
-import React, { useContext, useReducer, useState } from "react";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import React, { useContext, useState } from "react";
 import { auth, firestore } from "../FirebaseSetup/firebase";
 import ColorContext from "../States/color-context";
 
@@ -33,6 +33,8 @@ const RegisterView = (props: any) => {
     setPasswordBorderColor("1px solid transparent");
   };
 
+  const [backgroundColor, setBackgroundColor] = useState('rgb(228, 233, 240)');
+
   // Logic
 
   const [login, setLogin] = useState({ login: "", password: "" });
@@ -40,7 +42,7 @@ const RegisterView = (props: any) => {
   const checkLogin: () => boolean = () => {
     if (login.login.includes("@") && login.password.length >= 8)
       return true;
-    else return false;
+    return false;
   };
 
   const registerHandler = async (event: any) => {
@@ -48,15 +50,16 @@ const RegisterView = (props: any) => {
     if (checkLogin()) {
       await createUserWithEmailAndPassword(auth, login.login, login.password).then(async (userCredential) => {
         const user = userCredential.user;
-        const docRef = await addDoc(collection(firestore, "data_collection", "data", "users", user.uid, "chats"), {date: serverTimestamp()});
-        // const docRef2 = await addCollection(doc(firestore, "data_collection", "data", "users", user.uid, "chats"), {});
+        await addDoc(collection(firestore, "data_collection", "data", "users", user.uid, "chats"), {date: serverTimestamp(), messages: []});
         props.changeView(-3);
       }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
         });
+      signOut(auth);
     }
+    else setBackgroundColor('rgb(245, 181, 186)');
   };
 
   return (
@@ -66,7 +69,7 @@ const RegisterView = (props: any) => {
           className="login-view-textarea-login"
           placeholder="E-mail"
           value={login.login}
-          style={{ border: loginBorderColor }}
+          style={{ border: loginBorderColor, background: backgroundColor }}
           onFocus={loginBorderOn}
           onBlur={loginBorderOff}
           onChange={(event) =>
@@ -77,7 +80,7 @@ const RegisterView = (props: any) => {
           className="login-view-textarea-password"
           placeholder="Password"
           value={login.password}
-          style={{ border: passwordBorderColor }}
+          style={{ border: passwordBorderColor, background: backgroundColor }}
           onFocus={passwordBorderOn}
           onBlur={passwordBorderOff}
           onChange={(event) =>

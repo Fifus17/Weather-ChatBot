@@ -1,31 +1,28 @@
 import "./App.css";
 import Layout from "./Components/Layout";
 import { PALETTE, ThemeProvider } from "@zendeskgarden/react-theming";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { matrix } from "./Components/SettingsColorSwatch";
 import ColorContext from "./States/color-context";
 
 import "firebase/firestore";
-import firebase, { initializeApp } from "firebase/app";
 import {
   useAuthState,
-  useCreateUserWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { app, auth, firestore } from "./FirebaseSetup/firebase";
+import { auth, firestore } from "./FirebaseSetup/firebase";
 import {
   addDoc,
   collection,
   CollectionReference,
   DocumentData,
-  DocumentReference,
+  getDocs,
   orderBy,
+  Query,
   query,
   serverTimestamp,
 } from "firebase/firestore";
-// import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import UserChatsContext from "./States/user-chats-context";
-import { getAuth } from "firebase/auth";
 import { UserContext } from "./States/user-context";
 
 function App() {
@@ -39,12 +36,12 @@ function App() {
       "data_collection",
       "data",
       "users",
-      "cPWUPEJlgUiW8hj8vGag",
+      "6pOjJIpLpLLcN3dbhVwE",
       "chats"
     )
   );
-  const [localStorageData, setLocalStorageData] = useState([{messages: []}]);
-  // const [messages, setMessages] = useState([]);
+  const [documentsIDS, setDocumentsIDS] = useState<string[]>([]);
+  const [localStorageData, setLocalStorageData] = useState([{ messages: [] }]);
 
   useEffect(() => {
     if (user) {
@@ -56,13 +53,16 @@ function App() {
         user!.uid, // user id z context'u
         "chats"
       );
+      console.log("user is logged in");
+      getDocumentsIDS(messagesRef).then((data) => {setDocumentsIDS(data);});
     } else {
+      // eslint-disable-next-line
       var messagesRef = collection(
         firestore,
         "data_collection",
         "data",
         "users",
-        "cPWUPEJlgUiW8hj8vGag",
+        "6pOjJIpLpLLcN3dbhVwE",
         "chats"
       );
 
@@ -75,7 +75,13 @@ function App() {
           JSON.stringify([
             {
               date: new Date(),
-              messages: [{ text: "bagno", isUser: true, type: "message" }],
+              messages: [
+                {
+                  text: "Hello, my name is Stormy and I can be your weather forecasting friend! Just ask me about a date and place you are interested in and I will fetch needed data for you. If you are interested in the project, feel free to ask me about the authors or details.",
+                  isUser: false,
+                  type: "message",
+                },
+              ],
             },
           ])
         );
@@ -86,13 +92,16 @@ function App() {
     setCollectionRef(messagesRef);
   }, [user]);
 
-  // const [messages, messagesLoading, messagesError] = useCollectionData(query(collectionRef!, orderBy("date")));
-  // let messages: DocumentData[] | undefined;
-  // let messagesLoading: boolean;
-  // let messagesError: Error | undefined;
+  // eslint-disable-next-line
   let [messages, messagesLoading, messagesError] = useCollectionData(
     query(collectionRef!, orderBy("date"))
   );
+
+  const getDocumentsIDS = async (collectionRef: Query<unknown>) => {
+    const collectionSnapshot = await getDocs(query(collectionRef!, orderBy("date")));
+    const collectionData = collectionSnapshot.docs.map((doc) => doc.id);
+    return collectionData;
+  };
 
   // Choosing global color state in Settings View (Color Swatch)
   const [selectedRowIndex, setSelectedRowIndex] = useState(3);
@@ -109,13 +118,16 @@ function App() {
     setSelectedColIndex(colIdx);
   };
 
-  const newChat = () => {
-    if (user) addDoc(collectionRef!, { date: serverTimestamp(), messages: [] });
+  const newChat = async () => {
+    if (user) {
+      addDoc(collectionRef!, { date: serverTimestamp(), messages: [] });
+      setDocumentsIDS(await getDocumentsIDS(collectionRef!));
+    }
     else {
       const items = JSON.parse(localStorage.getItem("chats")!);
       items.push({
         date: new Date(),
-        messages: [{ text: "bagno", isUser: true, type: "message" }],
+        messages: [],
       });
       localStorage.setItem("chats", JSON.stringify(items));
       setLocalStorageData(items);
@@ -132,22 +144,15 @@ function App() {
             [Symbol.iterator]: function* () {
               if (user) {
                 if (messages !== undefined) {
+                  // eslint-disable-next-line
                   for (const chat of messages) {
                     yield messages;
                   }
                 } else {
                   yield [{ messages: [] }];
                 }
-              } else {
-                if (localStorageData !== undefined) {
-                  for (const chat of localStorageData) {
-                    yield localStorageData;
-                  }
-                } else {
-                  yield [{ messages: [] }];
-                }
-              }
-            },
+          
+            }},
           }}
         >
           <ColorContext.Provider
@@ -166,6 +171,7 @@ function App() {
                 localStorageData={localStorageData}
                 setLocalStorageData={setLocalStorageData}
                 messages={messages}
+                ids={documentsIDS}
               />
             </ThemeProvider>
           </ColorContext.Provider>
