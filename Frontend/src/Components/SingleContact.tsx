@@ -58,15 +58,13 @@ const SingleContact = (props: {
         {props.portfolio ? (
         <Tooltip type="light" size="small" placement="bottom" content="Go to my website!">
           <a href="https://github.com/Fifus17" target="blank">
-            <img src={portfolio}/>
+            <img src={portfolio} alt="portfolio link"/>
           </a>
         </Tooltip>
         ) : null}
         {props.cv ? (
         <Tooltip type="light" size="small" placement="bottom" content="Open CV">
-          {/* <a href="https://github.com/Fifus17" target="blank"> */}
-            <img src={cv} className="single-contact-cv" onClick={openCV}/>
-          {/* </a> */}
+            <img src={cv} alt="cv" className="single-contact-cv" onClick={openCV}/>
         </Tooltip>
         ) : null}
         <Tooltip type="light" size="small" placement="bottom" content={mailTooltip}>
