@@ -38,17 +38,20 @@ const Chat = (props: {
     setDocRef(docRef);
   }, [props.docID, user]);
 
-  const [docRef, setDocRef] = useState(doc(
-    firestore,
-    "data_collection",
-    "data",
-    "users",
-    user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
-    "chats",
-    props.docID[props.id] ? props.docID[props.id]! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
-  ));
+  const [docRef, setDocRef] = useState(
+    doc(
+      firestore,
+      "data_collection",
+      "data",
+      "users",
+      user ? user!.uid : "cPWUPEJlgUiW8hj8vGag", // user id
+      "chats",
+      props.docID[props.id] ? props.docID[props.id]! : "WZ6qCAbSgvdArd1o0eq6" // chat id to be passed as props
+    )
+  );
 
   const [awaitingMessage, setAwaitingMessage] = useState("hidden");
+  const [responseReceived, setResponseReceived] = useState(true);
 
   // states lifted up from MessageInput
   const [message, setMessage] = useState("");
@@ -81,89 +84,165 @@ const Chat = (props: {
   const sendMessage = () => {
     // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
-    if(user) {
-      updateDoc(docRef, { messages: arrayUnion({text: message, type: 'message', isUser: true, id: Date.now()}) });
-    }
-    else {
+    if (user) {
+      updateDoc(docRef, {
+        messages: arrayUnion({
+          text: message,
+          type: "message",
+          isUser: true,
+          id: Date.now(),
+        }),
+      });
+    } else {
       const items = JSON.parse(localStorage.getItem("chats")!);
-      items[props.id].messages.push({text: message, type: 'message', isUser: true, id: Date.now()});
+      items[props.id].messages.push({
+        text: message,
+        type: "message",
+        isUser: true,
+        id: Date.now(),
+      });
       localStorage.setItem("chats", JSON.stringify(items));
       props.setLocalStorageData(items);
     }
-    
+
     setMessage("");
     setButtonColor("#999999");
     setAwaitingMessage("hidden");
-    if (toScroll.current != null) toScroll.current.scrollIntoView({ behavior: "smooth" });
-    fetch('http://127.0.0.1:8000/chatbot/chat/', {
-      method: 'POST',
+    if (toScroll.current != null)
+      toScroll.current.scrollIntoView({ behavior: "smooth" });
+    fetch("http://127.0.0.1:8000/chatbot/chat/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: 'Hello'
-      })
+        message: message,
+      }),
     })
-    .then(response => response.json())
-    .then(data => console.log(data));
+      .then((response) => {
+        if (response.ok) {
+          setResponseReceived(true);
+        } else setResponseReceived(false);
+        return response.json();
+      })
+      .then((data) => {
+        if (responseReceived) {
+          console.log(data);
+          if (user)
+            updateDoc(docRef, {
+              messages: arrayUnion({
+                text: data.response.text,
+                type: data.response.type,
+                isUser: false,
+                id: Date.now(),
+              }),
+            });
+          else {
+            const items = JSON.parse(localStorage.getItem("chats")!);
+            items[props.id].messages.push({
+              text: data.response.text,
+              type: data.response.type,
+              isUser: false,
+              id: Date.now(),
+            });
+            localStorage.setItem("chats", JSON.stringify(items));
+            props.setLocalStorageData(items);
+          }
+        }
+      });
   };
 
   return (
     <div className="chat-container">
       <div className="chat-message-container-padding">
         <div className="chat-message-container">
-          {!user ? props.messages!.map((message, index) => {
-            if (message.type === "message") {
-              return (
-                <Message
-                  key={index}
-                  text={message.text}
-                  isUser={message.isUser}
-                />
-              );
-            } else if (message.type === "currentWeather") {
-              return (
-                <CurrentWeather
-                  key={index}
-                  weather={message.weather}
-                  temperature={message.temperature}
-                  uv={message.uv}
-                  wind={message.wind}
-                  city={message.city}
-                  region={message.region}
-                  day={message.day}
-                  forecastDay={message.forecastDay}
-                  forecastHour={message.forecastHour}
-                />
-              );
-            }
-          }) : null}
-          {user && props.messages !== undefined && props.messages[props.id] !== undefined ? props.messages[props.id].messages.map((message: { type: string; text: string; isUser: any; weather: WeatherType; temperature: number; uv: number; wind: number; city: string; region: string; day: boolean; forecastDay: { weather: WeatherType; temperature: number; date: WeekDay; day: boolean; }[]; forecastHour: { weather: WeatherType; temperature: number; hour: string; minutes: string; day: boolean; }[]; }, index: React.Key | null | undefined) => {
-            if (message.type === "message") {
-              return (
-                <Message
-                  key={index}
-                  text={message.text}
-                  isUser={message.isUser}
-                />
-              );
-            } else if (message.type === "currentWeather") {
-              return (
-                <CurrentWeather
-                  key={index}
-                  weather={message.weather}
-                  temperature={message.temperature}
-                  uv={message.uv}
-                  wind={message.wind}
-                  city={message.city}
-                  region={message.region}
-                  day={message.day}
-                  forecastDay={message.forecastDay}
-                  forecastHour={message.forecastHour}
-                />
-              );
-            }
-          }) : null}
+          {!user
+            ? props.messages!.map((message, index) => {
+                if (message.type === "message") {
+                  return (
+                    <Message
+                      key={index}
+                      text={message.text}
+                      isUser={message.isUser}
+                    />
+                  );
+                } else if (message.type === "currentWeather") {
+                  return (
+                    <CurrentWeather
+                      key={index}
+                      weather={message.weather}
+                      temperature={message.temperature}
+                      uv={message.uv}
+                      wind={message.wind}
+                      city={message.city}
+                      region={message.region}
+                      day={message.day}
+                      forecastDay={message.forecastDay}
+                      forecastHour={message.forecastHour}
+                    />
+                  );
+                }
+              })
+            : null}
+          {user &&
+          props.messages !== undefined &&
+          props.messages[props.id] !== undefined
+            ? props.messages[props.id].messages.map(
+                (
+                  message: {
+                    type: string;
+                    text: string;
+                    isUser: any;
+                    weather: WeatherType;
+                    temperature: number;
+                    uv: number;
+                    wind: number;
+                    city: string;
+                    region: string;
+                    day: boolean;
+                    forecastDay: {
+                      weather: WeatherType;
+                      temperature: number;
+                      date: WeekDay;
+                      day: boolean;
+                    }[];
+                    forecastHour: {
+                      weather: WeatherType;
+                      temperature: number;
+                      hour: string;
+                      minutes: string;
+                      day: boolean;
+                    }[];
+                  },
+                  index: React.Key | null | undefined
+                ) => {
+                  if (message.type === "message") {
+                    return (
+                      <Message
+                        key={index}
+                        text={message.text}
+                        isUser={message.isUser}
+                      />
+                    );
+                  } else if (message.type === "currentWeather") {
+                    return (
+                      <CurrentWeather
+                        key={index}
+                        weather={message.weather}
+                        temperature={message.temperature}
+                        uv={message.uv}
+                        wind={message.wind}
+                        city={message.city}
+                        region={message.region}
+                        day={message.day}
+                        forecastDay={message.forecastDay}
+                        forecastHour={message.forecastHour}
+                      />
+                    );
+                  }
+                }
+              )
+            : null}
           <AwaitingMessage isUser={false} visible={awaitingMessage} />
           <span ref={toScroll}></span>{" "}
           {/* this is for scrolling to the bottom of the chat, needs some tweaking TODO*/}

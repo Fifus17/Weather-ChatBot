@@ -3,8 +3,8 @@ import json
 
 import torch
 
-from NeuralNet import NeuralNet
-from utilities import bagOfWords, tokenize
+from .NeuralNet import NeuralNet
+from .utilities import bagOfWords, tokenize
 
 
 

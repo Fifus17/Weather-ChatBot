@@ -48,241 +48,243 @@ const Layout = (props: {
     [
       {
         type: "currentWeather",
-        weather: WeatherType.id202,
-        temperature: 20,
-        uv: 5, // currently not using but might add later
-        wind: 10, // currently not using but might add later
-        city: "Bochnia",
-        region: "Małopolskie",
-        day: true,
-        forecastDay: [
-          {
-            weather: WeatherType.id211,
-            temperature: 20,
-            date: WeekDay.Tomorrow,
-            day: true,
-          },
-          {
-            weather: WeatherType.id313,
-            temperature: 20,
-            date: WeekDay.Monday,
-            day: true,
-          },
-          {
-            weather: WeatherType.id731,
-            temperature: 20,
-            date: WeekDay.Tuesday,
-            day: true,
-          },
-          {
-            weather: WeatherType.id521,
-            temperature: 20,
-            date: WeekDay.Wednesday,
-            day: true,
-          },
-          {
-            weather: WeatherType.id602,
-            temperature: 20,
-            date: WeekDay.Thursday,
-            day: true,
-          },
-          {
-            weather: WeatherType.id701,
-            temperature: 20,
-            date: WeekDay.Friday,
-            day: true,
-          },
-          {
-            weather: WeatherType.id781,
-            temperature: 20,
-            date: WeekDay.Saturday,
-            day: true,
-          },
-        ],
-        forecastHour: [
-          {
-            weather: WeatherType.id202,
-            temperature: 20,
-            hour: "13",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id313,
-            temperature: 20,
-            hour: "14",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id313,
-            temperature: 20,
-            hour: "15",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id521,
-            temperature: 20,
-            hour: "16",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id521,
-            temperature: 20,
-            hour: "17",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "18",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "19",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.sunset,
-            temperature: 20,
-            hour: "19",
-            minutes: "39",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "20",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id602,
-            temperature: 20,
-            hour: "21",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id701,
-            temperature: 20,
-            hour: "22",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id521,
-            temperature: 20,
-            hour: "23",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id521,
-            temperature: 20,
-            hour: "24",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id602,
-            temperature: 20,
-            hour: "1",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id701,
-            temperature: 20,
-            hour: "2",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "3",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "4",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "5",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "6",
-            minutes: "00",
-            day: false,
-          },
-          {
-            weather: WeatherType.sunrise,
-            temperature: 20,
-            hour: "6",
-            minutes: "14",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "7",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "8",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "9",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "10",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "11",
-            minutes: "00",
-            day: true,
-          },
-          {
-            weather: WeatherType.id300,
-            temperature: 20,
-            hour: "12",
-            minutes: "00",
-            day: true,
-          },
-        ],
+        data: {
+          weather: WeatherType.id202,
+          temperature: 20,
+          uv: 5, // currently not using but might add later
+          wind: 10, // currently not using but might add later
+          city: "Bochnia",
+          region: "Małopolskie",
+          day: true,
+          forecastDay: [
+            {
+              weather: WeatherType.id211,
+              temperature: 20,
+              date: WeekDay.Tomorrow,
+              day: true,
+            },
+            {
+              weather: WeatherType.id313,
+              temperature: 20,
+              date: WeekDay.Monday,
+              day: true,
+            },
+            {
+              weather: WeatherType.id731,
+              temperature: 20,
+              date: WeekDay.Tuesday,
+              day: true,
+            },
+            {
+              weather: WeatherType.id521,
+              temperature: 20,
+              date: WeekDay.Wednesday,
+              day: true,
+            },
+            {
+              weather: WeatherType.id602,
+              temperature: 20,
+              date: WeekDay.Thursday,
+              day: true,
+            },
+            {
+              weather: WeatherType.id701,
+              temperature: 20,
+              date: WeekDay.Friday,
+              day: true,
+            },
+            {
+              weather: WeatherType.id781,
+              temperature: 20,
+              date: WeekDay.Saturday,
+              day: true,
+            },
+          ],
+          forecastHour: [
+            {
+              weather: WeatherType.id202,
+              temperature: 20,
+              hour: "13",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id313,
+              temperature: 20,
+              hour: "14",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id313,
+              temperature: 20,
+              hour: "15",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id521,
+              temperature: 20,
+              hour: "16",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id521,
+              temperature: 20,
+              hour: "17",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "18",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "19",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.sunset,
+              temperature: 20,
+              hour: "19",
+              minutes: "39",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "20",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id602,
+              temperature: 20,
+              hour: "21",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id701,
+              temperature: 20,
+              hour: "22",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id521,
+              temperature: 20,
+              hour: "23",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id521,
+              temperature: 20,
+              hour: "24",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id602,
+              temperature: 20,
+              hour: "1",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id701,
+              temperature: 20,
+              hour: "2",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "3",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "4",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "5",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "6",
+              minutes: "00",
+              day: false,
+            },
+            {
+              weather: WeatherType.sunrise,
+              temperature: 20,
+              hour: "6",
+              minutes: "14",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "7",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "8",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "9",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "10",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "11",
+              minutes: "00",
+              day: true,
+            },
+            {
+              weather: WeatherType.id300,
+              temperature: 20,
+              hour: "12",
+              minutes: "00",
+              day: true,
+            },
+          ],
+        },
       },
       {
         text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
@@ -375,9 +377,7 @@ const Layout = (props: {
                   : props.localStorageData.length + 1
               );
               setCurrentChat(
-                user
-                  ? props.messages.length
-                  : props.localStorageData.length
+                user ? props.messages.length : props.localStorageData.length
               );
               props.addChat();
             }}
@@ -419,7 +419,11 @@ const Layout = (props: {
           style={{ paddingTop: "0px" }}
         >
           <NavItemIcon>
-            <img src={storm} alt="storm" style={{ width: "50px", height: "50px" }} />
+            <img
+              src={storm}
+              alt="storm"
+              style={{ width: "50px", height: "50px" }}
+            />
           </NavItemIcon>
         </NavItem>
       </Nav>
