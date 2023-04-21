@@ -12,4 +12,5 @@ def chat(request):
         # Process the message and generate a response
         
         response = processMessage(message)
-        return JsonResponse({'response': response})
+        if(response != None): 
+            return JsonResponse({'response': response})

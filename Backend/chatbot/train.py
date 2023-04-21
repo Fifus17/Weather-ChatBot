@@ -8,7 +8,7 @@ from utilities import tokenize, stem, bagOfWords
 from NeuralNet import NeuralNet
 
 # Reading intents from json and saving them in variable intents
-with open('ChatBot/intents.json', 'r') as file:
+with open('Backend/chatbot/intents.json', 'r') as file:
     intents = json.load(file)
 
 # Creating arrays for holding data from preprocessing
@@ -54,7 +54,7 @@ yTrain = np.array(yTrain)
 # TRAINING
 
 # Parameters
-noEpochs = 1000
+noEpochs = 100000
 batchSize = 8
 learningRate = 0.001
 inputSize = len(xTrain[0])
@@ -122,7 +122,7 @@ data = {
 "tags": tags
 }
 
-FILE = "ChatBot/data.pth"
+FILE = "Backend/chatbot/data.pth"
 torch.save(data, FILE)
 
 print(f'training complete. file saved to {FILE}')

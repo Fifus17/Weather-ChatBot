@@ -6,9 +6,7 @@ import { matrix } from "./Components/SettingsColorSwatch";
 import ColorContext from "./States/color-context";
 
 import "firebase/firestore";
-import {
-  useAuthState,
-} from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, firestore } from "./FirebaseSetup/firebase";
 import {
@@ -24,6 +22,7 @@ import {
 } from "firebase/firestore";
 import UserChatsContext from "./States/user-chats-context";
 import { UserContext } from "./States/user-context";
+import CoordinatesContext from "./States/coordinates-context";
 
 function App() {
   // Initialize Firebase states
@@ -42,6 +41,7 @@ function App() {
   );
   const [documentsIDS, setDocumentsIDS] = useState<string[]>([]);
   const [localStorageData, setLocalStorageData] = useState([{ messages: [] }]);
+  const [coordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
 
   useEffect(() => {
     if (user) {
@@ -54,7 +54,9 @@ function App() {
         "chats"
       );
       console.log("user is logged in");
-      getDocumentsIDS(messagesRef).then((data) => {setDocumentsIDS(data);});
+      getDocumentsIDS(messagesRef).then((data) => {
+        setDocumentsIDS(data);
+      });
     } else {
       // eslint-disable-next-line
       var messagesRef = collection(
@@ -90,6 +92,15 @@ function App() {
       }
     }
     setCollectionRef(messagesRef);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCoordinates({ latitude, longitude });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }, [user]);
 
   // eslint-disable-next-line
@@ -98,7 +109,9 @@ function App() {
   );
 
   const getDocumentsIDS = async (collectionRef: Query<unknown>) => {
-    const collectionSnapshot = await getDocs(query(collectionRef!, orderBy("date")));
+    const collectionSnapshot = await getDocs(
+      query(collectionRef!, orderBy("date"))
+    );
     const collectionData = collectionSnapshot.docs.map((doc) => doc.id);
     return collectionData;
   };
@@ -122,8 +135,7 @@ function App() {
     if (user) {
       addDoc(collectionRef!, { date: serverTimestamp(), messages: [] });
       setDocumentsIDS(await getDocumentsIDS(collectionRef!));
-    }
-    else {
+    } else {
       const items = JSON.parse(localStorage.getItem("chats")!);
       items.push({
         date: new Date(),
@@ -136,47 +148,54 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider value={{ user: user }}>
-        <UserChatsContext.Provider
-          value={{
-            chatsCollectionRef: collectionRef!,
-            userChats: user ? messages : localStorageData,
-            [Symbol.iterator]: function* () {
-              if (user) {
-                if (messages !== undefined) {
-                  // eslint-disable-next-line
-                  for (const chat of messages) {
-                    yield messages;
-                  }
-                } else {
-                  yield [{ messages: [] }];
-                }
-          
-            }},
-          }}
-        >
-          <ColorContext.Provider
+      <CoordinatesContext.Provider
+        value={{
+          longitude: coordinates.longitude,
+          latitude: coordinates.latitude,
+        }}
+      >
+        <UserContext.Provider value={{ user: user }}>
+          <UserChatsContext.Provider
             value={{
-              color: currentColor,
-              name: currentColorName,
-              row: selectedRowIndex,
-              col: selectedColIndex,
-              onChange: onChange,
-              onSelect: onSelect,
+              chatsCollectionRef: collectionRef!,
+              userChats: user ? messages : localStorageData,
+              [Symbol.iterator]: function* () {
+                if (user) {
+                  if (messages !== undefined) {
+                    // eslint-disable-next-line
+                    for (const chat of messages) {
+                      yield messages;
+                    }
+                  } else {
+                    yield [{ messages: [] }];
+                  }
+                }
+              },
             }}
           >
-            <ThemeProvider>
-              <Layout
-                addChat={newChat}
-                localStorageData={localStorageData}
-                setLocalStorageData={setLocalStorageData}
-                messages={messages}
-                ids={documentsIDS}
-              />
-            </ThemeProvider>
-          </ColorContext.Provider>
-        </UserChatsContext.Provider>
-      </UserContext.Provider>
+            <ColorContext.Provider
+              value={{
+                color: currentColor,
+                name: currentColorName,
+                row: selectedRowIndex,
+                col: selectedColIndex,
+                onChange: onChange,
+                onSelect: onSelect,
+              }}
+            >
+              <ThemeProvider>
+                <Layout
+                  addChat={newChat}
+                  localStorageData={localStorageData}
+                  setLocalStorageData={setLocalStorageData}
+                  messages={messages}
+                  ids={documentsIDS}
+                />
+              </ThemeProvider>
+            </ColorContext.Provider>
+          </UserChatsContext.Provider>
+        </UserContext.Provider>
+      </CoordinatesContext.Provider>
     </div>
   );
 }

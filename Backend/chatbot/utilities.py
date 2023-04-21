@@ -31,10 +31,10 @@ def bagOfWords(sentence, allWords):
     return bag
 
 # Testing
-tokenizedSentence = tokenize("create creator creating universe universal")
-print(tokenizedSentence)
+# tokenizedSentence = tokenize("create creator creating universe universal")
+# print(tokenizedSentence)
 
-print([stem(word) for word in tokenizedSentence])
+# print([stem(word) for word in tokenizedSentence])
 
-allWords = ['creat', 'home', 'you', 'not', 'univers', 'you']
-print(bagOfWords(tokenizedSentence, allWords))
+# allWords = ['creat', 'home', 'you', 'not', 'univers', 'you']
+# print(bagOfWords(tokenizedSentence, allWords))

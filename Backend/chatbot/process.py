@@ -10,6 +10,9 @@ from .utilities import bagOfWords, tokenize
 
 def processMessage(inputSentence):
 
+    if(inputSentence == 'ok' or inputSentence == 'okey'):
+        return None
+
     # Checking for gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -46,7 +49,7 @@ def processMessage(inputSentence):
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.5:
+    if prob.item() > 0.8:
         if tag == "weather":
             # TODO
             # print("TODO weather")

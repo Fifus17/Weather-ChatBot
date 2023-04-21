@@ -12,6 +12,7 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { WeatherType } from "../Enums/WeatherType";
 import { WeekDay } from "../Enums/WeekDay";
+import CoordinatesContext from "../States/coordinates-context";
 
 const Chat = (props: {
   setChats: (arg0: (prevState: any) => any) => void;
@@ -58,6 +59,7 @@ const Chat = (props: {
   const [buttonColor, setButtonColor] = useState("#999999");
 
   const colorContext = useContext(ColorContext);
+  const coordinatesContext = useContext(CoordinatesContext);
 
   const textareaHandler = (event: any) => {
     setMessage(event.target.value);
@@ -117,6 +119,8 @@ const Chat = (props: {
       },
       body: JSON.stringify({
         message: message,
+        lat: coordinatesContext.latitude,
+        lon: coordinatesContext.longitude
       }),
     })
       .then((response) => {
