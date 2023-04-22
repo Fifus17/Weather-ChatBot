@@ -4,7 +4,7 @@ import json
 import torch
 
 from .NeuralNet import NeuralNet
-from .utilities import bagOfWords, tokenize
+from .utilities import bagOfWords, tokenize, checkBagOfWords
 
 
 
@@ -38,6 +38,11 @@ def processMessage(inputSentence):
 
     inputSentence = tokenize(inputSentence)
     X = bagOfWords(inputSentence, allWords)
+    if(checkBagOfWords(X)):
+        return {
+            "type": "message",
+            "text": "Sorry, I don't understand..."
+        }
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
 
@@ -49,13 +54,67 @@ def processMessage(inputSentence):
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.8:
-        if tag == "weather":
-            # TODO
-            # print("TODO weather")
+    # print(prob.item())
+    if prob.item() > 0.50:
+        if tag == "raining-later-that-day":
             return {
                 'type': "message",
-                'text': "Weather functionality will be available soon"
+                'text': tag
+            }
+        if tag == "raining-this-week":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "snowing-later-that-day":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "snowing-this-week":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "sunny-later-that-day":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "sunny-this-week":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "thunderstorms-later-that-day":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "thunderstorms-this-week":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "windy-later-that-day":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "windy-this-week":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "temperature-later-that-day":
+            return {
+                'type': "message",
+                'text': tag
+            }
+        if tag == "temperature-this-week":
+            return {
+                'type': "message",
+                'text': tag
             }
         else:
             for intent in intents['intents']:

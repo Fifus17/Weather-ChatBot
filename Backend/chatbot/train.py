@@ -3,6 +3,7 @@ import json
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
+import time
 
 from utilities import tokenize, stem, bagOfWords
 from NeuralNet import NeuralNet
@@ -54,8 +55,8 @@ yTrain = np.array(yTrain)
 # TRAINING
 
 # Parameters
-noEpochs = 100000
-batchSize = 8
+noEpochs = 250000
+batchSize = 50
 learningRate = 0.001
 inputSize = len(xTrain[0])
 hiddenSize = 8
@@ -90,6 +91,8 @@ model = NeuralNet(inputSize, hiddenSize, outputSize).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learningRate)
 
+start = time.time()
+
 # Train the model
 for epoch in range(noEpochs):
     for (words, labels) in train_loader:
@@ -108,10 +111,11 @@ for epoch in range(noEpochs):
         optimizer.step()
         
     if (epoch+1) % 100 == 0:
-        print (f'Epoch [{epoch+1}/{noEpochs}], Loss: {loss.item():.4f}')
+        print (f'Epoch [{epoch+1}/{noEpochs}], Loss: {loss.item():.4f}, Current time: {time.time()-start}, Estimated time: {(noEpochs-epoch)*((time.time()-start)/epoch)}')
 
-
-print(f'final loss: {loss.item():.4f}')
+end = time.time()
+print(f'Final loss: {loss.item():.4f}')
+print(f'Total time: {end - start}')
 
 data = {
 "model_state": model.state_dict(),
@@ -125,4 +129,4 @@ data = {
 FILE = "Backend/chatbot/data.pth"
 torch.save(data, FILE)
 
-print(f'training complete. file saved to {FILE}')
+print(f'Training complete. File saved to {FILE}')

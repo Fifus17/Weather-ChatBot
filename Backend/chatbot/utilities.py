@@ -30,6 +30,9 @@ def bagOfWords(sentence, allWords):
 
     return bag
 
+def checkBagOfWords(bag):
+    return 1 not in bag
+
 # Testing
 # tokenizedSentence = tokenize("create creator creating universe universal")
 # print(tokenizedSentence)
