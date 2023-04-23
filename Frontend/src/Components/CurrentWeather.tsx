@@ -148,28 +148,28 @@ const getIcon = (id: WeatherType, day: boolean) => {
 };
 
 const CurrentWeather = (props: {
-  weather: WeatherType;
-  temperature: number;
-  uv: number;
-  wind: number;
-  city: string;
-  region: string;
-  day: boolean;
+  forecast: any;
+  weather: number; // openweatherapi weather id
+  temperature: number; // in celsius for now, later might add option to change between C and F (change made in frontend)
+  uv?: number; // currently not used, but might add this information in the future
+  wind?: number; // currently not used, but might add this information in the future
+  city: string; // name of the city
+  region?: string; // name of the region if provided
+  day: boolean; // day or night, icons styling depends on that
   forecastDay: {
-    weather: WeatherType;
-    temperature: number;
-    date: WeekDay;
-    day: boolean;
+    weather: number; // openweatherapi weather id
+    temperature: number; // in celsius for now, later might add option to change between C and F (change made in frontend)
+    date: string; // "enum" {Today, Tomorrow, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
   }[];
   forecastHour: {
-    weather: WeatherType;
-    temperature: number;
-    hour: string;
-    minutes: string;
-    day: boolean;
+    weather: number; // openweatherapi weather id
+    temperature: number; // in celsius for now, later might add option to change between C and F (change made in frontend)
+    hour: string; // hour in string XX 24 hours format i.e. '07', '22'
+    minutes: string; // minutes in string XX fromat i.e. '03', '38'
+    day: boolean; // day or night, icons styling depends on that
   }[];
 }) => {
-  const [selectedItem, setSelectedItem] = useState("calendar");
+  const [selectedItem, setSelectedItem] = useState(props.forecast);
   const colorContext = useContext(ColorContext);
 
   return (
@@ -222,15 +222,8 @@ const CurrentWeather = (props: {
             <Row>
               <h1 className="currentWeatherTemperature">
                 {props.temperature}°C{" "}
-                {/*{props.degrees (C, F, K) to pewnie będzie jakiś stan tak jak kolor i potencjalnie font}*/}
               </h1>
             </Row>
-            {/* <Row >
-                <Col>
-                  <img src="https://raw.githubusercontent.com/basmilius/weather-icons/0985c712ee2e07b269053ff6ffd86ef79c016e3a/production/line/svg/uv-index.svg" alt="uv" className="current-weather-uv-icon"/>
-                  <h1 className="current-weather-uv">{props.uv}</h1>
-                </Col>
-              </Row> */}
           </Col>
         </Row>
         <hr className="currentWeatherHorizontalLine" />
@@ -242,7 +235,6 @@ const CurrentWeather = (props: {
                   weather={item.weather}
                   temperature={item.temperature}
                   date={item.date}
-                  day={item.day}
                   type={WeatherForecastType.day}
                   icon={getIcon}
                   key={index}

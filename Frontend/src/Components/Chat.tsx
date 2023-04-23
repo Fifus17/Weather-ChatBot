@@ -120,7 +120,7 @@ const Chat = (props: {
       body: JSON.stringify({
         message: message,
         lat: coordinatesContext.latitude,
-        lon: coordinatesContext.longitude
+        lon: coordinatesContext.longitude,
       }),
     })
       .then((response) => {
@@ -131,26 +131,50 @@ const Chat = (props: {
       })
       .then((data) => {
         if (responseReceived) {
-          console.log(data);
-          if (user)
-            updateDoc(docRef, {
-              messages: arrayUnion({
+          if (user) {
+            if (data.response.type === "message") {
+              updateDoc(docRef, {
+                messages: arrayUnion({
+                  text: data.response.text,
+                  type: data.response.type,
+                  isUser: false,
+                  id: Date.now(),
+                }),
+              });
+            } else {
+              updateDoc(docRef, {
+                messages: arrayUnion({
+                  data: data.response.data,
+                  type: data.response.type,
+                  isUser: false,
+                  id: Date.now(),
+                  forecast: data.response.data.forecast,
+                }),
+              });
+            }
+          } else {
+            if (data.response.type === "message") {
+              const items = JSON.parse(localStorage.getItem("chats")!);
+              items[props.id].messages.push({
                 text: data.response.text,
                 type: data.response.type,
                 isUser: false,
                 id: Date.now(),
-              }),
-            });
-          else {
-            const items = JSON.parse(localStorage.getItem("chats")!);
-            items[props.id].messages.push({
-              text: data.response.text,
-              type: data.response.type,
-              isUser: false,
-              id: Date.now(),
-            });
-            localStorage.setItem("chats", JSON.stringify(items));
-            props.setLocalStorageData(items);
+              });
+              localStorage.setItem("chats", JSON.stringify(items));
+              props.setLocalStorageData(items);
+            } else {
+              const items = JSON.parse(localStorage.getItem("chats")!);
+              items[props.id].messages.push({
+                data: data.response.data,
+                type: data.response.type,
+                isUser: false,
+                id: Date.now(),
+                forecast: data.response.data.forecast,
+              });
+              localStorage.setItem("chats", JSON.stringify(items));
+              props.setLocalStorageData(items);
+            }
           }
         }
       });
@@ -171,18 +195,18 @@ const Chat = (props: {
                     />
                   );
                 } else if (message.type === "currentWeather") {
+                  console.log(message)
                   return (
                     <CurrentWeather
                       key={index}
-                      weather={message.weather}
-                      temperature={message.temperature}
-                      uv={message.uv}
-                      wind={message.wind}
-                      city={message.city}
-                      region={message.region}
-                      day={message.day}
-                      forecastDay={message.forecastDay}
-                      forecastHour={message.forecastHour}
+                      forecast={message.data.forecast}
+                      weather={message.data.weather}
+                      temperature={message.data.temperature}
+                      city={message.data.city}
+                      region={message.data.region}
+                      day={message.data.day}
+                      forecastDay={message.data.forecastDay}
+                      forecastHour={message.data.forecastHour}
                     />
                   );
                 }
@@ -192,34 +216,7 @@ const Chat = (props: {
           props.messages !== undefined &&
           props.messages[props.id] !== undefined
             ? props.messages[props.id].messages.map(
-                (
-                  message: {
-                    type: string;
-                    text: string;
-                    isUser: any;
-                    weather: WeatherType;
-                    temperature: number;
-                    uv: number;
-                    wind: number;
-                    city: string;
-                    region: string;
-                    day: boolean;
-                    forecastDay: {
-                      weather: WeatherType;
-                      temperature: number;
-                      date: WeekDay;
-                      day: boolean;
-                    }[];
-                    forecastHour: {
-                      weather: WeatherType;
-                      temperature: number;
-                      hour: string;
-                      minutes: string;
-                      day: boolean;
-                    }[];
-                  },
-                  index: React.Key | null | undefined
-                ) => {
+                (message: any, index: React.Key | null | undefined) => {
                   if (message.type === "message") {
                     return (
                       <Message
@@ -232,15 +229,14 @@ const Chat = (props: {
                     return (
                       <CurrentWeather
                         key={index}
-                        weather={message.weather}
-                        temperature={message.temperature}
-                        uv={message.uv}
-                        wind={message.wind}
-                        city={message.city}
-                        region={message.region}
-                        day={message.day}
-                        forecastDay={message.forecastDay}
-                        forecastHour={message.forecastHour}
+                        forecast={message.data.forecast}
+                        weather={message.data.weather}
+                        temperature={message.data.temperature}
+                        city={message.data.city}
+                        region={message.data.region}
+                        day={message.data.day}
+                        forecastDay={message.data.forecastDay}
+                        forecastHour={message.data.forecastHour}
                       />
                     );
                   }

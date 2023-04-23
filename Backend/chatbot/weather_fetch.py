@@ -1,20 +1,24 @@
 """set of functions needed to fetch the weather from API"""
 import datetime
+import math
 import time
 
 import requests
-import config
+from .config import api_key
 import json
-api_key = config.api_key
+from geopy.geocoders import Nominatim
+api_key = api_key
+
+geolocator = Nominatim(user_agent="weather_chatbot") # for getting geolocation form the address
 
 base_url_geo = "http://api.openweathermap.org/geo/1.0/direct?"
 base_url_onecall = "https://api.openweathermap.org/data/2.5/onecall?"
 
-#util function for converting units
+# util function for converting units
 def kelvin_to_celcius(temp):
     return temp-273.15
 
-#function to get longitude and latitude based on name of the city
+# function to get longitude and latitude based on name of the city
 def get_location_from_city(city_name):
         complete_url = base_url_geo+"&q="+city_name+"&limit=1"+"&appid="+api_key
         response = requests.get(complete_url).json()
@@ -22,13 +26,47 @@ def get_location_from_city(city_name):
             return response[0]["lat"], response[0]["lon"]
         return None
 
-#util function to get unixTime
+# util function to get unixTime
 def get_unixTime(year, month, day):
 
     data = datetime.datetime(year, month, day, 12)
     unixtime = int(data.timestamp())
     return unixtime
 
+def get_weekday_date():
+    pass
+
+def get_weather_geoloc(latitude, longitude, isHourly):
+    if(longitude == 0 and latitude == 0): return None
+    complete_url = base_url_onecall+"lat=" + \
+        str(latitude)+"&lon="+str(longitude) +"&appid="+api_key
+    response = requests.get(complete_url).json()
+    print(f'latitude: {latitude}')
+    print(f'longitude: {longitude}')
+    location = geolocator.reverse((latitude, longitude))
+    return {
+        "weather": response['current']['weather'][0]['id'],
+        "temperature": math.ceil(kelvin_to_celcius(response['current']["temp"])),
+        "city": location.raw['address'].get('city') or location.raw['address'].get('town'),
+        "region": location.raw['address'].get('state'),
+        "forecast": "clock" if isHourly else "calendar",
+        "forecastDay": [
+            {
+                "weather": weather['weather'][0]['id'],
+                "temperature": math.ceil(kelvin_to_celcius(weather['temp']['day'])),
+                "date": "Tomorrow" if index == 1 else datetime.datetime.fromtimestamp(weather['dt']).strftime("%A")
+            } for index, weather in enumerate(response['daily']) if index > 0
+        ] ,
+        "forecastHour": [
+            {
+                "weather": weather['weather'][0]['id'],
+                "temperature": math.ceil(kelvin_to_celcius(weather['temp'])),
+                "hour": f'{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour}' if datetime.datetime.fromtimestamp(response["current"]["dt"]).hour > 9 else f'0{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour}',
+                "minutes": f'{datetime.datetime.fromtimestamp(weather["dt"]).minute}' if datetime.datetime.fromtimestamp(weather["dt"]).minute > 9 else f'0{datetime.datetime.fromtimestamp(weather["dt"]).minute}',
+                "day": True if (weather['dt'] < response['current']['sunset'] and weather['dt'] > response['current']['sunrise']) else False
+            } for weather in response['hourly']
+        ]
+    }
 
 # function to get current weather in given city
 def get_weather(city_name):
@@ -77,7 +115,7 @@ def get_weatherFromDate(city_name,year,month,day):
         print("Not avaiable data for given date :< (I can give you forcast up week from current date)")
 
 
-get_weatherFromDate("Bochnia",2023,4,8)
+# get_weatherFromDate("Bochnia",2023,4,8)
 
 
 # ostatnia pętla bez flagi tylko break/else

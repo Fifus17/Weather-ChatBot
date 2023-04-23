@@ -5,10 +5,10 @@ import torch
 
 from .NeuralNet import NeuralNet
 from .utilities import bagOfWords, tokenize, checkBagOfWords
+from .weather_fetch import get_weather_geoloc
 
 
-
-def processMessage(inputSentence):
+def processMessage(inputSentence, latitude, longitude):
 
     if(inputSentence == 'ok' or inputSentence == 'okey'):
         return None
@@ -52,70 +52,24 @@ def processMessage(inputSentence):
 
     tag = tags[predicted.item()]
 
+    weatherTags = ["raining-later-that-day", "raining-this-week", "snowing-later-that-day", "snowing-this-week", "sunny-later-that-day", "sunny-this-week", "thunderstorms-later-that-day", "thunderstorms-this-week", "windy-later-that-day", "windy-this-week", "temperature-later-that-day", "temperature-this-week"]
+    dailyForecastTags = ["raining-this-week", "snowing-this-week", "sunny-this-week", "thunderstorms-this-week", "windy-this-week", "temperature-this-week"]
+
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    # print(prob.item())
-    if prob.item() > 0.50:
-        if tag == "raining-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "raining-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "snowing-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "snowing-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "sunny-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "sunny-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "thunderstorms-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "thunderstorms-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "windy-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "windy-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "temperature-later-that-day":
-            return {
-                'type': "message",
-                'text': tag
-            }
-        if tag == "temperature-this-week":
-            return {
-                'type': "message",
-                'text': tag
-            }
+    if prob.item() > 0.70:
+        if tag in weatherTags:
+            print(tag)
+            if tag in dailyForecastTags:
+                return {
+                    'type': "currentWeather",
+                    'data': get_weather_geoloc(latitude, longitude, False)
+                }
+            else:
+                return {
+                    'type': "currentWeather",
+                    'data': get_weather_geoloc(latitude, longitude, True)
+                }
         else:
             for intent in intents['intents']:
                 if tag == intent['tag']:

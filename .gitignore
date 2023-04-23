@@ -5,3 +5,4 @@
 /ChatBot/.DS_Store
 /Frontend/src/FirebaseSetup
 /Backend/Backend/settings.py
+Backend/chatbot/config.py
