@@ -12,3 +12,9 @@
 .awaiting-message-wrapper {
     padding: 2px;
 }
+
+.awaiting-message-wrapper-is-user {
+    padding: 2px;
+    display: flex;
+    flex-direction: row-reverse;
+}

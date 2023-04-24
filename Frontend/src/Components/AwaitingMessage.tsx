@@ -1,20 +1,20 @@
 import { Dots } from '@zendeskgarden/react-loaders';
-import React from 'react';
+import React, { useContext } from 'react';
+import ColorContext from '../States/color-context';
 
 import './AwaitingMessage.css';
 
 const AwaitingMessage = (props: { isUser: any; visible: any; }) => {
     let colorText = "black";
-    let colorBackground = "white";
+    const colorContext = useContext(ColorContext)
 
     if(props.isUser){
         colorText = "white";
-        colorBackground = "#2563eb";
     }
     
     return(
-        <div className="awaiting-message-wrapper" style={{visibility: props.visible}}>
-            <div className="awaiting-message-dots-wrapper" style={{backgroundColor: colorBackground}}>
+        <div className={props.isUser ? "awaiting-message-wrapper-is-user" : "awaiting-message-wrapper"} style={{visibility: props.visible}}>
+            <div className="awaiting-message-dots-wrapper" style={{backgroundColor: colorContext.color}}>
                 <Dots color={colorText}/>
             </div>
         </div>

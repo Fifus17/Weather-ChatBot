@@ -14,6 +14,11 @@ geolocator = Nominatim(user_agent="weather_chatbot") # for getting geolocation f
 base_url_geo = "http://api.openweathermap.org/geo/1.0/direct?"
 base_url_onecall = "https://api.openweathermap.org/data/2.5/onecall?"
 
+# util function for getting coordinates of the address
+def find_cords(address):
+    location = geolocator.geocode(address[0])
+    return [location.latitude, location.longitude]
+
 # util function for converting units
 def kelvin_to_celcius(temp):
     return temp-273.15
@@ -33,10 +38,110 @@ def get_unixTime(year, month, day):
     unixtime = int(data.timestamp())
     return unixtime
 
-def get_weekday_date():
+rainIDs = [200, 201, 202, 230, 231, 232, 300, 301, 302, 310, 311, 312, 313, 314, 321, 500, 501, 502, 503, 504, 511, 520, 521, 522, 531, 615, 616]
+snowIDs = [600, 601, 602, 611, 612, 613, 615, 616, 620, 621, 622]
+sunnyIDs = [800, 801, 802]
+thunderstormsIDs = [200, 201, 202, 210, 211, 212, 221, 230, 231, 232]
+
+def printDays(days):
+    
     pass
 
-def get_weather_geoloc(latitude, longitude, isHourly):
+def returnMessage(response, tag):
+    if tag == "raining-later-that-day":
+        rain = False
+        weather = 0
+        for hourlyWeather in response['hourly']:
+            if hourlyWeather['weather'][0]['id'] in rainIDs:
+                rain = True
+                weather = hourlyWeather
+                break
+        if rain:
+            return f'There propably will be {weather["weather"][0]["description"]} starting around {datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour)}:{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute)}.'
+        return "It shouldn't rain in the next 24 hours"
+    elif tag == "raining-this-week":
+        rain = False
+        days = []
+        for index, dailyWeather in enumerate(response['daily']):
+            if dailyWeather['weather'][0]['id'] in rainIDs and index > 0:
+                rain = True
+                days.append("tomorrow" if index == 1 else datetime.datetime.fromtimestamp(dailyWeather['dt']).strftime("%A"))
+        if rain:
+            return f'In the next week, it should rain {days[0] + " and " if days[0] == "tomorrow" else ""} on {", ".join(days) if days[0] != "tomorrow" else ", ".join(days[1:-1])}{ " and " + days[-1] if days[-1] != "tomorrow" else ""}.'
+        return "Luckily, it shouldn't rain this week"
+    elif tag == "snowing-later-that-day":
+        snow = False
+        weather = 0
+        for hourlyWeather in response['hourly']:
+            if hourlyWeather['weather'][0]['id'] in snowIDs:
+                snow = True
+                weather = hourlyWeather
+                break
+        if snow:
+            return f'There propably will be {weather["weather"][0]["description"]} starting around {datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour)}:{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute)}.'
+        return "It shouldn't snow in the next 24 hours."
+    elif tag == "snowing-this-week":
+        snow = False
+        days = []
+        for index, dailyWeather in enumerate(response['daily']):
+            if dailyWeather['weather'][0]['id'] in snowIDs and index > 0:
+                snow = True
+                days.append("tomorrow" if index == 1 else datetime.datetime.fromtimestamp(dailyWeather['dt']).strftime("%A"))
+        if snow:
+            return f'In the next week, it should snow {days[0] + " and " if days[0] == "tomorrow" else ""} on {", ".join(days) if days[0] != "tomorrow" else ", ".join(days[1:-1])}{ " and " + days[-1] if days[-1] != "tomorrow" else ""}.'
+        return "It shouldn't snow this week."
+    elif tag == "sunny-later-that-day":
+        sunny = False
+        weather = 0
+        for hourlyWeather in response['hourly']:
+            if hourlyWeather['weather'][0]['id'] in sunnyIDs:
+                sunny = True
+                weather = hourlyWeather
+                break
+        if sunny:
+            return f'There propably will be {weather["weather"][0]["description"]} starting around {datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour)}:{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute)} so we will see some sun!.'
+        return "We won't see much sun in the next 24 hours."
+    elif tag == "sunny-this-week":
+        sunny = False
+        days = []
+        for index, dailyWeather in enumerate(response['daily']):
+            if dailyWeather['weather'][0]['id'] in sunnyIDs and index > 0:
+                sunny = True
+                days.append("tomorrow" if index == 1 else datetime.datetime.fromtimestamp(dailyWeather['dt']).strftime("%A"))
+        if sunny:
+            return f'In the next week, it should be sunny {days[0] + " and " if days[0] == "tomorrow" else ""} on {", ".join(days) if days[0] != "tomorrow" else ", ".join(days[1:-1])}{ " and " + days[-1] if days[-1] != "tomorrow" else ""}.'
+        return "Unluckily, we won't see much sun in the upcoming week"
+    elif tag == "thunderstorms-later-that-day":
+        storm = False
+        weather = 0
+        for hourlyWeather in response['hourly']:
+            if hourlyWeather['weather'][0]['id'] in thunderstormsIDs:
+                storm = True
+                weather = hourlyWeather
+                break
+        if storm:
+            return f'There propably will be {weather["weather"][0]["description"]} starting around {datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour)}:{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute if datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute > 9 else "0" + str(datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).minute)}. Be careful!'
+        return "We shouldn't see any lightnings on the sky in the next 24 hours."
+    elif tag == "thunderstorms-this-week":
+        storm = False
+        days = []
+        for index, dailyWeather in enumerate(response['daily']):
+            if dailyWeather['weather'][0]['id'] in thunderstormsIDs and index > 0:
+                storm = True
+                days.append("tomorrow" if index == 1 else datetime.datetime.fromtimestamp(dailyWeather['dt']).strftime("%A"))
+        if storm:
+            return f'In the next week, we will observe some storms {days[0] + " and " if days[0] == "tomorrow" else ""} on {", ".join(days) if days[0] != "tomorrow" else ", ".join(days[1:-1])}{ " and " + days[-1] if days[-1] != "tomorrow" else ""}.'
+        return "Upcoming week should be free of storms!"
+    elif tag == "windy-later-that-day":
+        return "I'm sorry, I cannot answer to that yet. Try asking me another time!"
+    elif tag == "windy-this-week":
+        return "I'm sorry, I cannot answer to that yet. Try asking me another time!"
+    elif tag == "temperature-later-that-day":
+        return "Here's the forecast for the next 24 hours."
+    elif tag == "temperature-this-week":
+        return "Here's the forecast for the next week."
+
+def get_weather_geoloc(latitude, longitude, isHourly, tag):
     if(longitude == 0 and latitude == 0): return None
     complete_url = base_url_onecall+"lat=" + \
         str(latitude)+"&lon="+str(longitude) +"&appid="+api_key
@@ -45,6 +150,7 @@ def get_weather_geoloc(latitude, longitude, isHourly):
     print(f'longitude: {longitude}')
     location = geolocator.reverse((latitude, longitude))
     return {
+        "text": returnMessage(response, tag),
         "weather": response['current']['weather'][0]['id'],
         "temperature": math.ceil(kelvin_to_celcius(response['current']["temp"])),
         "city": location.raw['address'].get('city') or location.raw['address'].get('town'),
@@ -64,7 +170,7 @@ def get_weather_geoloc(latitude, longitude, isHourly):
                 "hour": f'{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour}' if datetime.datetime.fromtimestamp(response["current"]["dt"]).hour > 9 else f'0{datetime.datetime.fromtimestamp(weather["dt"] + response["timezone_offset"]).hour}',
                 "minutes": f'{datetime.datetime.fromtimestamp(weather["dt"]).minute}' if datetime.datetime.fromtimestamp(weather["dt"]).minute > 9 else f'0{datetime.datetime.fromtimestamp(weather["dt"]).minute}',
                 "day": True if (weather['dt'] < response['current']['sunset'] and weather['dt'] > response['current']['sunrise']) else False
-            } for weather in response['hourly']
+            } for index, weather in enumerate(response['hourly']) if index < 24
         ]
     }
 

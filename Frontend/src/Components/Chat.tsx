@@ -151,6 +151,14 @@ const Chat = (props: {
                   forecast: data.response.data.forecast,
                 }),
               });
+              updateDoc(docRef, {
+                messages: arrayUnion({
+                  text: data.response.data.text,
+                  type: 'message',
+                  isUser: false,
+                  id: Date.now(),
+                }),
+              });
             }
           } else {
             if (data.response.type === "message") {
@@ -172,6 +180,12 @@ const Chat = (props: {
                 id: Date.now(),
                 forecast: data.response.data.forecast,
               });
+              items[props.id].messages.push({
+                text: data.response.data.text,
+                type: 'message',
+                isUser: false,
+                id: Date.now()
+              })
               localStorage.setItem("chats", JSON.stringify(items));
               props.setLocalStorageData(items);
             }
@@ -195,7 +209,6 @@ const Chat = (props: {
                     />
                   );
                 } else if (message.type === "currentWeather") {
-                  console.log(message)
                   return (
                     <CurrentWeather
                       key={index}
@@ -243,7 +256,7 @@ const Chat = (props: {
                 }
               )
             : null}
-          <AwaitingMessage isUser={false} visible={awaitingMessage} />
+          <AwaitingMessage isUser={true} visible={awaitingMessage} />
           <span ref={toScroll}></span>{" "}
           {/* this is for scrolling to the bottom of the chat, needs some tweaking TODO*/}
         </div>
