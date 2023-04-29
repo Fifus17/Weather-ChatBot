@@ -234,6 +234,7 @@ const CurrentWeather = (props: {
           </ButtonGroup> */}
           <div
             className={`currentWeatherButtonGroup currentWeather-${colorContext.name}`}
+            style={mobileContext.isMobile ? {borderRadius: '5px', border: '1px solid'} : {}}
           >
             <div
               className={
@@ -241,7 +242,7 @@ const CurrentWeather = (props: {
                   ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
                   : `currentWeather-${colorContext.name}`
               }
-              style={mobileContext.isMobile ? {margin: '0px', borderRight: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderRight: "none", padding: "10px", cursor: 'pointer' }}
+              style={mobileContext.isMobile ? {margin: '0px', borderRight: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderRight: "none", padding: "8px", cursor: 'pointer' }}
               onClick={() => setSelectedItem("calendar")}
             >
               <div
@@ -259,7 +260,7 @@ const CurrentWeather = (props: {
                   ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
                   : `currentWeather-${colorContext.name}`
               }
-              style={mobileContext.isMobile ? {margin: '0px', borderLeft: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderLeft: "none", padding: "10px", cursor: 'pointer' }}
+              style={mobileContext.isMobile ? {margin: '0px', borderLeft: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderLeft: "none", padding: "8px", cursor: 'pointer' }}
               onClick={() => setSelectedItem("clock")}
             >
               <div
