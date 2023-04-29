@@ -14,6 +14,6 @@ def chat(request):
         lon = json.loads(request.body)['lon']
         # Process the message and generate a response
         response = processMessage(message, lat, lon)
-        print(response)
+        # print(response)
         if(response != None): 
             return JsonResponse({'response': response})

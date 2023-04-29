@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
 import { ReactComponent as PersonIcon } from "@zendeskgarden/svg-icons/src/26/person.svg";
+import { ReactComponent as OpenNavIcon } from "@zendeskgarden/svg-icons/src/26/arrange-content.svg";
 import { PALETTE } from "@zendeskgarden/react-theming";
 
 import "./Layout.css";
@@ -29,6 +30,7 @@ import storm from "../Resources/WeatherAnimatedIcons/thunderstorms.svg";
 import RegisterView from "./RegisterView";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../FirebaseSetup/firebase";
+import MobileContext from "../States/mobile-context";
 
 const Layout = (props: {
   addChat: () => void;
@@ -39,260 +41,13 @@ const Layout = (props: {
 }) => {
   const [nav, setNav] = useState(1);
 
+  const mobileContext = useContext(MobileContext);
+
   const [currentChat, setCurrentChat] = useState(0);
 
-  const [user] = useAuthState(auth);
+  const [isNavOpened, setIsNavOpened] = useState(!mobileContext.isMobile);
 
-  // before I add communication with backend, for testing purposes I'll hold messages in this array
-  let [chats, setChats] = useState([
-    [
-      {
-        type: "currentWeather",
-        data: {
-          weather: 202,
-          temperature: 20,
-          uv: 5, // currently not using but might add later
-          wind: 10, // currently not using but might add later
-          city: "Bochnia",
-          region: "Małopolskie",
-          day: true,
-          forecastDay: [
-            {
-              weather: 211,
-              temperature: 20,
-              date: WeekDay.Tomorrow,
-              day: true,
-            },
-            {
-              weather: 313,
-              temperature: 20,
-              date: WeekDay.Monday,
-              day: true,
-            },
-            {
-              weather: 731,
-              temperature: 20,
-              date: WeekDay.Tuesday,
-              day: true,
-            },
-            {
-              weather: 521,
-              temperature: 20,
-              date: WeekDay.Wednesday,
-              day: true,
-            },
-            {
-              weather: 602,
-              temperature: 20,
-              date: WeekDay.Thursday,
-              day: true,
-            },
-            {
-              weather: 701,
-              temperature: 20,
-              date: WeekDay.Friday,
-              day: true,
-            },
-            {
-              weather: 781,
-              temperature: 20,
-              date: WeekDay.Saturday,
-              day: true,
-            },
-          ],
-          forecastHour: [
-            {
-              weather: 202,
-              temperature: 20,
-              hour: "13",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 313,
-              temperature: 20,
-              hour: "14",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 313,
-              temperature: 20,
-              hour: "15",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 521,
-              temperature: 20,
-              hour: "16",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 521,
-              temperature: 20,
-              hour: "17",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "18",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "19",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 'sunset',
-              temperature: 20,
-              hour: "19",
-              minutes: "39",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "20",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 602,
-              temperature: 20,
-              hour: "21",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 701,
-              temperature: 20,
-              hour: "22",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 521,
-              temperature: 20,
-              hour: "23",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 521,
-              temperature: 20,
-              hour: "24",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 602,
-              temperature: 20,
-              hour: "1",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 701,
-              temperature: 20,
-              hour: "2",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "3",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "4",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "5",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "6",
-              minutes: "00",
-              day: false,
-            },
-            {
-              weather: 'sunrise',
-              temperature: 20,
-              hour: "6",
-              minutes: "14",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "7",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "8",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "9",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "10",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "11",
-              minutes: "00",
-              day: true,
-            },
-            {
-              weather: 300,
-              temperature: 20,
-              hour: "12",
-              minutes: "00",
-              day: true,
-            },
-          ],
-        },
-      },
-      {
-        text: "bagno bagno bhidsabhoadsbbhsadbhasdhbadoboaisdidsa bdsabohasdbadbaobhsd",
-        isUser: true,
-        type: "message",
-      },
-    ],
-  ]);
+  const [user] = useAuthState(auth);
 
   const render = (id: string | number) => {
     if (id === -1) {
@@ -311,7 +66,6 @@ const Layout = (props: {
               ? props.messages
               : props.localStorageData[currentChat]!.messages
           }
-          setChats={setChats}
           id={currentChat}
           docID={props.ids}
           setLocalStorageData={props.setLocalStorageData}
@@ -322,17 +76,29 @@ const Layout = (props: {
 
   return (
     <Chrome isFluid hue={PALETTE.blue[800]}>
-      <Nav isExpanded={true} aria-label="chrome navigation example nav">
-        <NavItem hasLogo className="layout-top-logo">
-          <h2>Stormy</h2> {/* TODO change font */}
-          <NavItemIcon>
-            <img
-              src={storm}
-              alt="stormy logo"
-              style={{ width: "50px", height: "50px" }}
-            />
-          </NavItemIcon>
-        </NavItem>
+      <Nav isExpanded={isNavOpened} aria-label="chrome navigation example nav">
+        {!mobileContext.isMobile ? (
+          <NavItem hasLogo className="layout-top-logo">
+            <h2>Stormy</h2>
+            <NavItemIcon>
+              <img
+                src={storm}
+                alt="stormy logo"
+                style={{ width: "50px", height: "50px" }}
+              />
+            </NavItemIcon>
+          </NavItem>
+        ) : (
+          <NavItem
+            hasLogo
+            className="layout-mobile-open-nav"
+            onClick={() => setIsNavOpened(!isNavOpened)}
+          >
+            <NavItemIcon>
+              <OpenNavIcon />
+            </NavItemIcon>
+          </NavItem>
+        )}
         <div className="layout-chats-container">
           {user && props.messages
             ? props.messages.map((_chat: any, index: number) => (

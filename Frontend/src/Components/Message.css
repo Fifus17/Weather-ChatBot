@@ -1,14 +1,9 @@
 .message-text-wrapper {
     background-color: #2563eb;
-    /* background-color: white; */
-    border-radius: 20px;
     width: fit-content;
-    max-width: 60%;
     text-align: left;
     margin: 0px;
-    padding: 10px 15px;
     color: white;
-    /* color: black; */
 }
 
 .message-text {
@@ -17,7 +12,6 @@
 
 .message-wrapper {
     padding: 2px;
-    /* margin-left: 100px; */
 }
 
 .message-wrapper-is-user {

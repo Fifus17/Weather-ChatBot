@@ -23,6 +23,7 @@ import {
 import UserChatsContext from "./States/user-chats-context";
 import { UserContext } from "./States/user-context";
 import CoordinatesContext from "./States/coordinates-context";
+import MobileContext from "./States/mobile-context";
 
 function App() {
   // Initialize Firebase states
@@ -44,6 +45,12 @@ function App() {
   const [coordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    setIsMobile(mediaQuery.matches);
+
+    const listener = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+    mediaQuery.addEventListener("change", listener);
+
     if (user) {
       var messagesRef = collection(
         firestore,
@@ -101,7 +108,13 @@ function App() {
         console.log(error);
       }
     );
+    return () => {
+      mediaQuery.removeEventListener("change", listener);
+    };
   }, [user]);
+
+  const [isMobile, setIsMobile] = useState(false);
+
 
   // eslint-disable-next-line
   let [messages, messagesLoading, messagesError] = useCollectionData(
@@ -148,54 +161,60 @@ function App() {
 
   return (
     <div className="App">
-      <CoordinatesContext.Provider
+      <MobileContext.Provider
         value={{
-          longitude: coordinates.longitude,
-          latitude: coordinates.latitude,
+          isMobile: isMobile,
         }}
       >
-        <UserContext.Provider value={{ user: user }}>
-          <UserChatsContext.Provider
-            value={{
-              chatsCollectionRef: collectionRef!,
-              userChats: user ? messages : localStorageData,
-              [Symbol.iterator]: function* () {
-                if (user) {
-                  if (messages !== undefined) {
-                    // eslint-disable-next-line
-                    for (const chat of messages) {
-                      yield messages;
-                    }
-                  } else {
-                    yield [{ messages: [] }];
-                  }
-                }
-              },
-            }}
-          >
-            <ColorContext.Provider
+        <CoordinatesContext.Provider
+          value={{
+            longitude: coordinates.longitude,
+            latitude: coordinates.latitude,
+          }}
+        >
+          <UserContext.Provider value={{ user: user }}>
+            <UserChatsContext.Provider
               value={{
-                color: currentColor,
-                name: currentColorName,
-                row: selectedRowIndex,
-                col: selectedColIndex,
-                onChange: onChange,
-                onSelect: onSelect,
+                chatsCollectionRef: collectionRef!,
+                userChats: user ? messages : localStorageData,
+                [Symbol.iterator]: function* () {
+                  if (user) {
+                    if (messages !== undefined) {
+                      // eslint-disable-next-line
+                      for (const chat of messages) {
+                        yield messages;
+                      }
+                    } else {
+                      yield [{ messages: [] }];
+                    }
+                  }
+                },
               }}
             >
-              <ThemeProvider>
-                <Layout
-                  addChat={newChat}
-                  localStorageData={localStorageData}
-                  setLocalStorageData={setLocalStorageData}
-                  messages={messages}
-                  ids={documentsIDS}
-                />
-              </ThemeProvider>
-            </ColorContext.Provider>
-          </UserChatsContext.Provider>
-        </UserContext.Provider>
-      </CoordinatesContext.Provider>
+              <ColorContext.Provider
+                value={{
+                  color: currentColor,
+                  name: currentColorName,
+                  row: selectedRowIndex,
+                  col: selectedColIndex,
+                  onChange: onChange,
+                  onSelect: onSelect,
+                }}
+              >
+                <ThemeProvider>
+                  <Layout
+                    addChat={newChat}
+                    localStorageData={localStorageData}
+                    setLocalStorageData={setLocalStorageData}
+                    messages={messages}
+                    ids={documentsIDS}
+                  />
+                </ThemeProvider>
+              </ColorContext.Provider>
+            </UserChatsContext.Provider>
+          </UserContext.Provider>
+        </CoordinatesContext.Provider>
+      </MobileContext.Provider>
     </div>
   );
 }

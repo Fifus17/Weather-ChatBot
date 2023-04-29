@@ -1,0 +1,1 @@
+There's a new model in this directory, but it didn't improve while compared to the old one. Old one's flaw is 'thanks' tag and the new one assigns 'will it rain today' to the 'greetings' tag

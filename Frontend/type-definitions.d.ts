@@ -22,4 +22,5 @@ declare module '@zendeskgarden/svg-icons/src/26/settings-fill.svg'
 declare module '@zendeskgarden/svg-icons/src/26/zendesk.svg'
 declare module '@zendeskgarden/svg-icons/src/26/person.svg'
 declare module '@zendeskgarden/svg-icons/src/26/plus-fill.svg';
+declare module '@zendeskgarden/svg-icons/src/26/arrange-content.svg'
 declare module 'FirebaseSetup/firebase'

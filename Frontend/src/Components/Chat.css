@@ -19,8 +19,12 @@
     overflow: scroll;
 }
 
-.chat-message-container-padding {
+.chat-message-container-padding-desktop {
     position: relative;
     width: 80%;
     left: 10%;
+}
+
+.chat-message-container-padding-mobile {
+    width: 100%;
 }

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import ColorContext from "../States/color-context";
+import MobileContext from "../States/mobile-context";
 
 import "./MessageInput.css";
 
@@ -10,6 +11,8 @@ const MessageInput = (props: {
   sendMessage: React.MouseEventHandler<HTMLButtonElement> | undefined;
   buttonColor: string | undefined;
 }) => {
+  const mobileContext = useContext(MobileContext);
+
   const [borderColor, setBorderColor] = useState("1px solid transparent");
 
   const colorContext = useContext(ColorContext);
@@ -23,8 +26,21 @@ const MessageInput = (props: {
   };
 
   return (
-    <div className="message-input-container-background">
-      <div className="message-input-container">
+    <div className="message-input-container-background"
+    style={
+      mobileContext.isMobile
+        ? {}
+        : { width: "100%", position: 'relative'}
+    }>
+    
+      <div
+        className="message-input-container"
+        style={
+          !mobileContext.isMobile
+            ? { width: '80%', left: '10%', position: 'relative' }
+            : {}
+        }
+      >
         <div className="message-input-wrapper">
           <textarea
             className="message-input-textarea"

@@ -13,16 +13,17 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { WeatherType } from "../Enums/WeatherType";
 import { WeekDay } from "../Enums/WeekDay";
 import CoordinatesContext from "../States/coordinates-context";
+import MobileContext from "../States/mobile-context";
 
 const Chat = (props: {
-  setChats: (arg0: (prevState: any) => any) => void;
   id: any;
   messages: any[] | undefined;
   docID?: any;
   setLocalStorageData: (arg0: any) => void;
 }) => {
-  // const toScroll = useRef();
   const toScroll = useRef<HTMLSpanElement>(null);
+
+  const mobileContext = useContext(MobileContext);
 
   const [user] = useAuthState(auth);
 
@@ -84,7 +85,6 @@ const Chat = (props: {
   };
 
   const sendMessage = () => {
-    // I need to make this change the state of all messages held in layout component
     if (message.length === 0) return;
     if (user) {
       updateDoc(docRef, {
@@ -196,7 +196,7 @@ const Chat = (props: {
 
   return (
     <div className="chat-container">
-      <div className="chat-message-container-padding">
+      <div className={mobileContext.isMobile ? "chat-message-container-padding-mobile" : "chat-message-container-padding-desktop"}>
         <div className="chat-message-container">
           {!user
             ? props.messages!.map((message, index) => {

@@ -154,6 +154,7 @@ def get_weather_geoloc(latitude, longitude, isHourly, tag):
         "weather": response['current']['weather'][0]['id'],
         "temperature": math.ceil(kelvin_to_celcius(response['current']["temp"])),
         "city": location.raw['address'].get('city') or location.raw['address'].get('town'),
+        "day": True if (response['current']['dt'] < response['current']['sunset'] and response['current']['dt'] > response['current']['sunrise']) else False,
         "region": location.raw['address'].get('state'),
         "forecast": "clock" if isHourly else "calendar",
         "forecastDay": [

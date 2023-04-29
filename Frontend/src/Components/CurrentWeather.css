@@ -1,15 +1,11 @@
 .currentWeatherWrapper {
     padding: 2px;
-    /* display: flex;
-    flex-direction: row-reverse; */
 }
 
 .currentWeatherContainer {
     background-color: white;
     border-radius: 20px;
     width: fit-content;
-    width: 60%;
-    max-width: 60%;
     text-align: left;
     margin: 0px;
     padding: 10px 15px;
@@ -25,14 +21,11 @@
 }
 
 .currentWeatherIcon {
-    width: 200px;
-    height: 200px;
     margin: 0px;
     padding: 0px;
 }
 
 .currentWeatherTemperature {
-    font-size: 100px;
     margin: 0px;
     padding: 0px;
     color: rgb(47, 57, 65);
@@ -53,19 +46,6 @@
     margin: 0px;
     padding: 0px;
     padding-bottom: 10px;
-}
-
-/* .currentWeatherScrollAnimation > * {
-    animation: scroll 40s linear infinite;
-} */
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-2600%);
-    }
 }
 
 .currentWeatherUvIcon {

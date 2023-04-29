@@ -52,6 +52,7 @@ import sunrise from "../Resources/WeatherAnimatedIcons/sunrise.svg";
 import { WeatherForecastType } from "../Enums/WeatherForecastType";
 import { Button, ButtonGroup } from "@zendeskgarden/react-buttons";
 import ColorContext from "../States/color-context";
+import MobileContext from "../States/mobile-context";
 
 // Parser from weather id to icon, should be moved to util file
 const getIcon = (id: WeatherType, day: boolean) => {
@@ -171,18 +172,26 @@ const CurrentWeather = (props: {
 }) => {
   const [selectedItem, setSelectedItem] = useState(props.forecast);
   const colorContext = useContext(ColorContext);
+  const mobileContext = useContext(MobileContext);
 
   return (
     <div className="currentWeatherWrapper">
-      <div className="currentWeatherContainer">
+      <div
+        className="currentWeatherContainer"
+        style={mobileContext.isMobile ? { width: "80%" } : { width: "60%" }}
+      >
         <Row justifyContent="between">
-          <h1 className="currentWeatherCityName">
+          <h1
+            className="currentWeatherCityName"
+            style={mobileContext.isMobile ? { fontSize: "16px" } : {}}
+          >
             {props.city}, {props.region}
           </h1>
           <ButtonGroup
             className="currentWeatherButtonGroup"
             selectedItem={selectedItem}
             onSelect={setSelectedItem}
+            // style={mobileContext.isMobile ? {width: '80px'} : {}}
           >
             <Button
               className={
@@ -192,8 +201,16 @@ const CurrentWeather = (props: {
               }
               size="small"
               value="calendar"
+              // style={mobileContext.isMobile ? { height: "24px" } : {}}
             >
-              <div className="currentWeatherCalendarIcon"></div>
+              <div
+                className="currentWeatherCalendarIcon"
+                style={
+                  mobileContext.isMobile
+                    ? { height: "10px", width: "10px" }
+                    : {}
+                }
+              ></div>
             </Button>
             <Button
               className={
@@ -203,8 +220,16 @@ const CurrentWeather = (props: {
               }
               size="small"
               value="clock"
+              // style={mobileContext.isMobile ? { height: "24px" } : {}}
             >
-              <div className="currentWeatherClockIcon"></div>
+              <div
+                className="currentWeatherClockIcon"
+                style={
+                  mobileContext.isMobile
+                    ? { height: "10px", width: "10px" }
+                    : {}
+                }
+              ></div>
             </Button>
           </ButtonGroup>
         </Row>
@@ -215,12 +240,24 @@ const CurrentWeather = (props: {
                 className="currentWeatherIcon"
                 src={getIcon(props.weather, props.day)}
                 alt="current-weather-icon"
+                style={
+                  mobileContext.isMobile
+                    ? { width: "80px", height: "80px" }
+                    : { width: "200px", height: "200px" }
+                }
               />
             </Row>
           </Col>
           <Col>
             <Row>
-              <h1 className="currentWeatherTemperature">
+              <h1
+                className="currentWeatherTemperature"
+                style={
+                  mobileContext.isMobile
+                    ? { fontSize: "36px" }
+                    : { fontSize: "100px" }
+                }
+              >
                 {props.temperature}°C{" "}
               </h1>
             </Row>
