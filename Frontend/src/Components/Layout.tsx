@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ReactComponent as ChatIcon } from "@zendeskgarden/svg-icons/src/26/chat.svg";
 import { ReactComponent as EmailIcon } from "@zendeskgarden/svg-icons/src/26/email-fill.svg";
 import { ReactComponent as SettingsIcon } from "@zendeskgarden/svg-icons/src/26/settings-fill.svg";
@@ -48,6 +48,10 @@ const Layout = (props: {
   const [isNavOpened, setIsNavOpened] = useState(!mobileContext.isMobile);
 
   const [user] = useAuthState(auth);
+
+  useEffect(() => {
+    setIsNavOpened(!mobileContext.isMobile);
+  }, [MobileContext])
 
   const render = (id: string | number) => {
     if (id === -1) {

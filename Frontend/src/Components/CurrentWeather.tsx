@@ -7,7 +7,7 @@ import { WeatherType } from "../Enums/WeatherType";
 import WeatherTile from "./WeatherTile";
 import { WeekDay } from "../Enums/WeekDay";
 
-// Weather icons
+// Weather icons, to be moved to utils class with whole function
 import id200d from "../Resources/WeatherAnimatedIcons/thunderstorms-day-rain.svg";
 import id200n from "../Resources/WeatherAnimatedIcons/thunderstorms-night-rain.svg";
 import id201 from "../Resources/WeatherAnimatedIcons/thunderstorms-rain.svg";
@@ -187,13 +187,13 @@ const CurrentWeather = (props: {
           >
             {props.city}, {props.region}
           </h1>
-          <ButtonGroup
+          {/* <ButtonGroup
             className="currentWeatherButtonGroup"
             selectedItem={selectedItem}
             onSelect={setSelectedItem}
             // style={mobileContext.isMobile ? {width: '80px'} : {}}
-          >
-            <Button
+          > */}
+          {/* <Button
               className={
                 selectedItem === "calendar"
                   ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
@@ -211,8 +211,8 @@ const CurrentWeather = (props: {
                     : {}
                 }
               ></div>
-            </Button>
-            <Button
+            </Button> */}
+          {/* <Button
               className={
                 selectedItem === "clock"
                   ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
@@ -231,7 +231,47 @@ const CurrentWeather = (props: {
                 }
               ></div>
             </Button>
-          </ButtonGroup>
+          </ButtonGroup> */}
+          <div
+            className={`currentWeatherButtonGroup currentWeather-${colorContext.name}`}
+          >
+            <div
+              className={
+                selectedItem === "calendar"
+                  ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
+                  : `currentWeather-${colorContext.name}`
+              }
+              style={mobileContext.isMobile ? {margin: '0px', borderRight: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderRight: "none", padding: "10px", cursor: 'pointer' }}
+              onClick={() => setSelectedItem("calendar")}
+            >
+              <div
+                className="currentWeatherCalendarIcon"
+                style={
+                  mobileContext.isMobile
+                    ? { height: "10px", width: "10px" }
+                    : {}
+                }
+              ></div>
+            </div>
+            <div
+              className={
+                selectedItem === "clock"
+                  ? `currentWeather-${colorContext.name} currentWeather-${colorContext.name}-selected`
+                  : `currentWeather-${colorContext.name}`
+              }
+              style={mobileContext.isMobile ? {margin: '0px', borderLeft: 'none', padding: '5px', cursor: 'pointer'} : { margin: "0px", borderLeft: "none", padding: "10px", cursor: 'pointer' }}
+              onClick={() => setSelectedItem("clock")}
+            >
+              <div
+                className="currentWeatherClockIcon"
+                style={
+                  mobileContext.isMobile
+                    ? { height: "10px", width: "10px" }
+                    : {}
+                }
+              ></div>
+            </div>
+          </div>
         </Row>
         <Row>
           <Col>
