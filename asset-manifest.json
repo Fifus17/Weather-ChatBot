@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Weather-Chatbot/static/css/main.9fb4ed34.css",
-    "main.js": "/Weather-Chatbot/static/js/main.058ab2b5.js",
+    "main.css": "/Weather-Chatbot/static/css/main.1d077674.css",
+    "main.js": "/Weather-Chatbot/static/js/main.498d3717.js",
     "static/js/787.7efd31bd.chunk.js": "/Weather-Chatbot/static/js/787.7efd31bd.chunk.js",
     "static/media/FilipPlaceholder.png": "/Weather-Chatbot/static/media/FilipPlaceholder.7aabcd8222d0f6a94ed8.png",
     "static/media/placeholder.pdf": "/Weather-Chatbot/static/media/placeholder.8070983cee3396a287c3.pdf",
@@ -55,13 +55,14 @@
     "static/media/hurricane.svg": "/Weather-Chatbot/static/media/hurricane.36a6a63cb2f8d29640b16cf969d67648.svg",
     "static/media/clock-solid.svg": "/Weather-Chatbot/static/media/clock-solid.6f708ad81d0b5da5e788.svg",
     "static/media/email-fill.svg": "/Weather-Chatbot/static/media/email-fill.0c81678fbe9251dbff3cf501387219d9.svg",
+    "static/media/arrange-content.svg": "/Weather-Chatbot/static/media/arrange-content.ae2607bf9eb453024b9a7e6ab666d6f6.svg",
     "static/media/person.svg": "/Weather-Chatbot/static/media/person.8415b9c7315dbdc4f0e3a5ff49a5f6c8.svg",
-    "main.9fb4ed34.css.map": "/Weather-Chatbot/static/css/main.9fb4ed34.css.map",
-    "main.058ab2b5.js.map": "/Weather-Chatbot/static/js/main.058ab2b5.js.map",
+    "main.1d077674.css.map": "/Weather-Chatbot/static/css/main.1d077674.css.map",
+    "main.498d3717.js.map": "/Weather-Chatbot/static/js/main.498d3717.js.map",
     "787.7efd31bd.chunk.js.map": "/Weather-Chatbot/static/js/787.7efd31bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9fb4ed34.css",
-    "static/js/main.058ab2b5.js"
+    "static/css/main.1d077674.css",
+    "static/js/main.498d3717.js"
   ]
 }
