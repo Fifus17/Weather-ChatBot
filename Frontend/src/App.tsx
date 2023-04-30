@@ -113,7 +113,7 @@ function App() {
     };
   }, [user]);
 
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 787);
 
 
   // eslint-disable-next-line

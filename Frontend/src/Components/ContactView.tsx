@@ -21,7 +21,7 @@ const ContactView = (props: any) => {
         cvPath={cv}
         cv
       />
-      <SingleContact
+      {/* <SingleContact
         photo={photoFilip}
         name={"Natalia Adamiak"}
         // description={"CS Student"}
@@ -32,7 +32,7 @@ const ContactView = (props: any) => {
         linkedin={undefined} 
         portfolio={undefined} 
         cv={undefined}     
-        />
+        /> */}
     </div>
   );
 };

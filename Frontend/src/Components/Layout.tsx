@@ -51,7 +51,7 @@ const Layout = (props: {
 
   useEffect(() => {
     setIsNavOpened(!mobileContext.isMobile);
-  }, [MobileContext])
+  }, [mobileContext])
 
   const render = (id: string | number) => {
     if (id === -1) {
