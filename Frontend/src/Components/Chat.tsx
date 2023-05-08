@@ -112,7 +112,7 @@ const Chat = (props: {
     setAwaitingMessage("hidden");
     if (toScroll.current != null)
       toScroll.current.scrollIntoView({ behavior: "smooth" });
-    fetch("http://127.0.0.1:8000/chatbot/chat/", {
+    fetch("https://weatherchatbot.link/chatbot/chat/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

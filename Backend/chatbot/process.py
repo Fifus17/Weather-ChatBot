@@ -11,18 +11,18 @@ from .weather_fetch import get_weather_geoloc, find_cords
 
 def processMessage(inputSentence, latitude, longitude):
 
-    # if(inputSentence == 'ok' or inputSentence == 'okey'):
-    #     return None
+    if(inputSentence == 'ok' or inputSentence == 'okey'):
+        return None
 
     # Checking for gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Reading json
-    with open('ChatBot/intents.json', 'r') as JSONdata:
+    with open('intents.json', 'r') as JSONdata:
         intents = json.load(JSONdata)
 
     # Training file
-    FILE = "ChatBot/data.pth"
+    FILE = "data.pth"
     data = torch.load(FILE)
 
     # Neural Net parameters
@@ -51,9 +51,10 @@ def processMessage(inputSentence, latitude, longitude):
     print(locations)
     # if there is then find its coordinates
     if (len(locations) > 0):
-        cords = find_cords(locations[0])
+        cords = find_cords(locations)
+        print(cords)
         latitude = cords[0]
-        longitude = cords[0]
+        longitude = cords[1]
 
     X = bagOfWords(inputSentence, allWords)
     if(checkBagOfWords(X)):

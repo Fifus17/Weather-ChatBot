@@ -1,7 +1,7 @@
 import SingleContact from "./SingleContact";
 import "./ContactView.css";
 import photoFilip from "../Resources/FilipPlaceholder.png";
-import cv from "../Resources/placeholder.pdf";
+import cv from "../Resources/DziurdziaFilipCV.pdf";
 import React from "react";
 
 const ContactView = (props: any) => {
@@ -16,23 +16,11 @@ const ContactView = (props: any) => {
         mail={"filipdziurdzia2002@gmail.com"}
         github={"https://github.com/Fifus17"}
         linkedin={"https://www.linkedin.com/in/filip-dziurdzia-3b97031bb/"}
-        portfolioLink=""
-        portfolio
+        // portfolioLink=""
+        portfolio={false}
         cvPath={cv}
         cv
       />
-      {/* <SingleContact
-        photo={photoFilip}
-        name={"Natalia Adamiak"}
-        // description={"CS Student"}
-        // email={"bagnobagno@gmail.com"}
-        work={"Neural Network, Weather API"} 
-        mail={undefined}
-        github={undefined} 
-        linkedin={undefined} 
-        portfolio={undefined} 
-        cv={undefined}     
-        /> */}
     </div>
   );
 };

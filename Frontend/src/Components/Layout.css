@@ -28,5 +28,5 @@
 }
 
 .layout-chats-container {
-    overflow: scroll;
+    overflow: auto;
 }

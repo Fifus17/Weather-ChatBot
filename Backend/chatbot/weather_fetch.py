@@ -16,7 +16,7 @@ base_url_onecall = "https://api.openweathermap.org/data/2.5/onecall?"
 
 # util function for getting coordinates of the address
 def find_cords(address):
-    location = geolocator.geocode(address[0])
+    location = geolocator.geocode(address)
     return [location.latitude, location.longitude]
 
 # util function for converting units
