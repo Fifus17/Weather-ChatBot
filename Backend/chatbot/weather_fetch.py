@@ -191,7 +191,7 @@ def get_weather(city_name):
     print(f"Weather description: {response['current']['weather'][0]['description']}")
 
 # function to get weather based on city name and date (can print data up to one week)
-def get_weatherFromDate(city_name,year,month,day):
+def get_weather_from_date(city_name, year, month, day):
     if(get_location_from_city(city_name) is None):
         print("The city with given name may not exist\n")
         return
@@ -200,32 +200,30 @@ def get_weatherFromDate(city_name,year,month,day):
     #get unixTime from given date
     unixTime = str(int((get_unixTime(year,month,day))))
 
-    complete_url = base_url_onecall+"lat=" + \
-        str(lat)+"&lon="+str(lon) + \
-        "&exclude=hourly,minutely,alerts"+"&appid="+api_key+"&dt="+unixTime
+    complete_url = "{}lat={}&lon={}&exclude=hourly,minutely,alerts&appid={}&dt={}".\
+        format(base_url_onecall, lat, lon,api_key, unixTime)
+    # complete_url = base_url_onecall+"lat=" + \
+    #     str(lat)+"&lon="+str(lon) + \
+    #     "&exclude=hourly,minutely,alerts"+"&appid="+api_key+"&dt="+unixTime
 
     response = requests.get(complete_url).json()
     # print(response)
     with open('ChatBot/weatherData.json', 'w') as weatherDataJson:
         json.dump(response, weatherDataJson, indent=4)
-    found = False
     for day_ in response['daily']:
         if day_['dt'] == int(unixTime):
             temp = day_['temp']['day']
             weather_desc = day_['weather'][0]['description']
             wind_speed = day_['wind_speed']
-            found = True
             print(f"Temperature in {city_name} for {day}-{month}-{year}: {round(kelvin_to_celcius(temp))} (in celcius)")
             print(f"Wind speed: {wind_speed} m/s")
             print("Weather description: ",weather_desc)
-    if not found:
+            break
+    else:
         print("Not avaiable data for given date :< (I can give you forcast up week from current date)")
 
 
-# get_weatherFromDate("Bochnia",2023,4,8)
-
-
-# ostatnia pętla bez flagi tylko break/else
+# get_weather_from_date("Kraków",2023,5,12)
 #  string format do url
 # try/except czy jest api key
-# zamiast config.py przejść na config.txt
+# zamiast config.py.py przejść na config.py.txt
