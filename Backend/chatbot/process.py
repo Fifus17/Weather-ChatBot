@@ -18,11 +18,11 @@ def processMessage(inputSentence, latitude, longitude):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Reading json
-    with open('intents.json', 'r') as JSONdata:
+    with open('chatbot/intents.json', 'r') as JSONdata:
         intents = json.load(JSONdata)
 
     # Training file
-    FILE = "data.pth"
+    FILE = "chatbot/data.pth"
     data = torch.load(FILE)
 
     # Neural Net parameters
