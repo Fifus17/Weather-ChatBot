@@ -5,13 +5,13 @@ import torch
 import nltk
 
 from .NeuralNet import NeuralNet
-from .utilities import bagOfWords, tokenize, checkBagOfWords
+from .utilities import bag_of_words, tokenize, check_bag_of_words
 from .weather_fetch import get_weather_geoloc, find_cords
 
 
-def processMessage(inputSentence, latitude, longitude):
+def process_message(input_sentence, latitude, longitude):
 
-    if(inputSentence == 'ok' or inputSentence == 'okey'):
+    if(input_sentence == 'ok' or input_sentence == 'okey'):
         return None
 
     # Checking for gpu
@@ -26,25 +26,25 @@ def processMessage(inputSentence, latitude, longitude):
     data = torch.load(FILE)
 
     # Neural Net parameters
-    inputSize = data["input_size"]
-    hiddenSize = data["hidden_size"]
-    outputSize = data["output_size"]
-    allWords = data['all_words']
+    input_size = data["input_size"]
+    hidden_size = data["hidden_size"]
+    output_size = data["output_size"]
+    all_words = data['all_words']
     tags = data['tags']
-    modelState = data["model_state"]
+    model_state = data["model_state"]
 
-    model = NeuralNet(inputSize, hiddenSize, outputSize).to(device)
-    model.load_state_dict(modelState)
+    model = NeuralNet(input_size, hidden_size, output_size).to(device)
+    model.load_state_dict(model_state)
     model.eval()
 
-    inputSentence = tokenize(inputSentence)
+    input_sentence = tokenize(input_sentence)
 
     # finding if there's any City in the sentence
-    posTags = nltk.pos_tag(inputSentence)
-    nerTags = nltk.ne_chunk(posTags)
+    pos_tags = nltk.pos_tag(input_sentence)
+    ner_tags = nltk.ne_chunk(pos_tags)
 
     locations = []
-    for tag in nerTags:
+    for tag in ner_tags:
         if hasattr(tag, 'label') and tag.label() == 'GPE':
             locations.append(' '.join(c[0] for c in tag))
 
@@ -56,8 +56,8 @@ def processMessage(inputSentence, latitude, longitude):
         latitude = cords[0]
         longitude = cords[1]
 
-    X = bagOfWords(inputSentence, allWords)
-    if(checkBagOfWords(X)):
+    X = bag_of_words(input_sentence, all_words)
+    if(check_bag_of_words(X)):
         return {
             "type": "message",
             "text": "Sorry, I don't understand..."
@@ -71,20 +71,20 @@ def processMessage(inputSentence, latitude, longitude):
 
     tag = tags[predicted.item()] 
 
-    weatherTags = ["raining-later-that-day", "raining-this-week", "snowing-later-that-day", "snowing-this-week", "sunny-later-that-day", "sunny-this-week", "thunderstorms-later-that-day", "thunderstorms-this-week", "windy-later-that-day", "windy-this-week", "temperature-later-that-day", "temperature-this-week"]
-    dailyForecastTags = ["raining-this-week", "snowing-this-week", "sunny-this-week", "thunderstorms-this-week", "windy-this-week", "temperature-this-week"]
+    weather_tags = ["raining-later-that-day", "raining-this-week", "snowing-later-that-day", "snowing-this-week", "sunny-later-that-day", "sunny-this-week", "thunderstorms-later-that-day", "thunderstorms-this-week", "windy-later-that-day", "windy-this-week", "temperature-later-that-day", "temperature-this-week"]
+    daily_forecast_tags = ["raining-this-week", "snowing-this-week", "sunny-this-week", "thunderstorms-this-week", "windy-this-week", "temperature-this-week"]
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
     if prob.item() > 0.70:
-        if tag in weatherTags:
+        if tag in weather_tags:
             if len(locations) == 0 and latitude == 0 and longitude == 0:
                 return {
                     'type': "message",
                     'text': "You didn't specify the location and blocked your geolocalisation. Please specify city you want a forecast for or allow application to fetch your localisation."
                 }
             print(tag)
-            if tag in dailyForecastTags:
+            if tag in daily_forecast_tags:
                 return {
                     'type': "currentWeather",
                     'data': get_weather_geoloc(latitude, longitude, False, tag)

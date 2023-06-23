@@ -18,7 +18,7 @@ def stem(word):
     return stemmer.stem(word.lower())
 
 # Creating bag of words, returns array of 0's and 1's depending on occurance of word in know words
-def bagOfWords(sentence, allWords):
+def bag_of_words(sentence, allWords):
 
     # Stemming
     givenWords = [stem(word) for word in sentence]
@@ -30,7 +30,7 @@ def bagOfWords(sentence, allWords):
 
     return bag
 
-def checkBagOfWords(bag):
+def check_bag_of_words(bag):
     return 1 not in bag
 
 # Testing
