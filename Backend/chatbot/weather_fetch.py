@@ -128,9 +128,6 @@ def get_weather_from_date(city_name, year, month, day):
     unixTime = str(int((get_unix_time(year, month, day))))
     complete_url = "{}lat={}&lon={}&exclude=hourly,minutely,alerts&appid={}&dt={}".\
         format(base_url_onecall, lat, lon,api_key, unixTime)
-    # complete_url = base_url_onecall+"lat=" + \
-    #     str(lat)+"&lon="+str(lon) + \
-    #     "&exclude=hourly,minutely,alerts"+"&appid="+api_key+"&dt="+unixTime
 
     response = requests.get(complete_url).json()
     # print(response)
@@ -147,6 +144,3 @@ def get_weather_from_date(city_name, year, month, day):
             break
     else:
         print("Not avaiable data for given date :< (I can give you forcast up week from current date)")
-
-# try/except czy jest api key
-# zamiast config.py.py przejść na config.py.txt
