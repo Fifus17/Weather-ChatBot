@@ -9,3 +9,6 @@
 /Backend/chatbot/__pycache__
 /Backend/Backend/__pycache__
 /Backend/Backend/settings.py
+/Backend/venv
+Backend/chatbot/migrations/__pycache__/__init__.cpython-311.pyc
+.vscode/settings.json

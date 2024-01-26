@@ -39,30 +39,22 @@ def get_unix_time(year, month, day):
     return unixtime
 
 def return_message(weather, tag):
-    if tag == "raining-later-that-day":
-        return weather.get_rain_later_message()
-    elif tag == "raining-this-week":
-        return weather.get_rain_this_week_message()
-    elif tag == "snowing-later-that-day":
-        return weather.get_snow_later_message()
-    elif tag == "snowing-this-week":
-        return weather.get_snow_this_week_message()
-    elif tag == "sunny-later-that-day":
-        return weather.get_sunny_later_message()
-    elif tag == "sunny-this-week":
-        return weather.get_sunny_this_week_message()
-    elif tag == "thunderstorms-later-that-day":
-        return weather.get_thunderstorms_later_message()
-    elif tag == "thunderstorms-this-week":
-        return weather.get_thunderstorms_this_week_message()
-    elif tag == "windy-later-that-day":
-        return weather.get_windy_later_message()
-    elif tag == "windy-this-week":
-        return weather.get_windy_this_week_message()
-    elif tag == "temperature-later-that-day":
-        return weather.get_temperature_later_message()
-    elif tag == "temperature-this-week":
-        return weather.get_temperature_this_week_message()
+    tag_to_method = {
+        "raining-later-that-day": weather.get_rain_later_message(),
+        "raining-this-week": weather.get_rain_this_week_message(),
+        "snowing-later-that-day": weather.get_snow_later_message(),
+        "snowing-this-week": weather.get_snow_this_week_message(),
+        "sunny-later-that-day": weather.get_sunny_later_message(),
+        "sunny-this-week": weather.get_sunny_this_week_message(),
+        "thunderstorms-later-that-day": weather.get_thunderstorms_later_message(),
+        "thunderstorms-this-week": weather.get_thunderstorms_this_week_message(),
+        "windy-later-that-day": weather.get_windy_later_message(),
+        "windy-this-week": weather.get_windy_this_week_message(),
+        "temperature-later-that-day": weather.get_temperature_later_message(),
+        "temperature-this-week": weather.get_temperature_this_week_message()
+    }
+
+    return tag_to_method.get(tag)
 
 def get_weather_geoloc(latitude, longitude, isHourly, tag):
     if(longitude == 0 and latitude == 0): return None

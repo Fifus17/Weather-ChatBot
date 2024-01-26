@@ -8,34 +8,34 @@ from .NeuralNet import NeuralNet
 from .utilities import bag_of_words, tokenize, check_bag_of_words
 from .weather_fetch import get_weather_geoloc, find_cords
 
-
-def process_message(input_sentence, latitude, longitude):
-
-    if(input_sentence == 'ok' or input_sentence == 'okey'):
-        return None
+def load_model_and_data():
 
     # Checking for gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    # Reading json
-    with open('chatbot/intents.json', 'r') as JSONdata:
-        intents = json.load(JSONdata)
 
     # Training file
     FILE = "chatbot/data.pth"
     data = torch.load(FILE)
 
-    # Neural Net parameters
-    input_size = data["input_size"]
-    hidden_size = data["hidden_size"]
-    output_size = data["output_size"]
-    all_words = data['all_words']
-    tags = data['tags']
-    model_state = data["model_state"]
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    data = torch.load("chatbot/data.pth")
 
-    model = NeuralNet(input_size, hidden_size, output_size).to(device)
-    model.load_state_dict(model_state)
+    model = NeuralNet(data["input_size"], data["hidden_size"], data["output_size"]).to(device)
+    model.load_state_dict(data["model_state"])
     model.eval()
+
+    return model, data['all_words'], data['tags'], device
+
+def process_message(input_sentence, latitude, longitude):
+
+    if(input_sentence.lower() in ('ok', 'okey')):
+        return None
+
+    # Reading json
+    with open('chatbot/intents.json', 'r') as JSONdata:
+        intents = json.load(JSONdata)
+
+    model, all_words, tags, device = load_model_and_data()
 
     input_sentence = tokenize(input_sentence)
 
@@ -43,10 +43,7 @@ def process_message(input_sentence, latitude, longitude):
     pos_tags = nltk.pos_tag(input_sentence)
     ner_tags = nltk.ne_chunk(pos_tags)
 
-    locations = []
-    for tag in ner_tags:
-        if hasattr(tag, 'label') and tag.label() == 'GPE':
-            locations.append(' '.join(c[0] for c in tag))
+    locations = [' '.join(c[0] for c in tag) for tag in ner_tags if hasattr(tag, 'label') and tag.label() == 'GPE']
 
     print(locations)
     # if there is then find its coordinates

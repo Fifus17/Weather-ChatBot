@@ -15,5 +15,5 @@ def chat(request):
         # Process the message and generate a response
         response = process_message(message, lat, lon)
         # print(response)
-        if(response != None): 
+        if(response): 
             return JsonResponse({'response': response})
